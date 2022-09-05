@@ -25,6 +25,7 @@ public class Usuario {
             if(tarefas.get(i).getId() == id) tarefas.set(i, tarefa);
         }
     }
+
     public void removerTarefa(int id){
         for (Tarefa tarefa : tarefas) {
             if (tarefa.getId() == id) tarefas.remove(tarefa);

@@ -13,8 +13,7 @@ public class Tarefa extends Atividade {
     private boolean urgencia;
     private boolean importancia;
 
-
-    public String getCalcularPrioridade(){
+    public String getCalcularPrioridade() {
         if (urgencia && importancia) {
             return "Fazer Agora";
         } else if (!urgencia && importancia) {
