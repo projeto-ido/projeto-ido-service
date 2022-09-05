@@ -15,21 +15,24 @@ public class Tarefa extends Atividade {
 
 
     public String getCalcularPrioridade(){
-        if(urgencia && importancia){
+        if (urgencia && importancia) {
             return "Fazer Agora";
-        }
-        else if (!urgencia && importancia){
+        } else if (!urgencia && importancia) {
             return "Agendar";
-        } else if(urgencia && !importancia){
+        } else if (urgencia) {
             return "Delegar";
         }
 
         return "Não priorizar";
     }
 
-    public void cadastrarSubTarefa(SubTarefa subTarefa){
-        int lengthSubtarefa = subtarefas.length;
-        subtarefas[lengthSubtarefa] = subTarefa;
+    public void cadastrarSubTarefa(SubTarefa subTarefa) {
+        for (int i = 0; i < subtarefas.length; i++) {
+            if (subtarefas[i] == null) {
+                subtarefas[i] = subTarefa;
+                break;
+            }
+        }
     }
 
     public void removerSubTarefa(int idSubtarefa){
@@ -43,8 +46,12 @@ public class Tarefa extends Atividade {
         }
     }
     public void associarEtiqueta(Etiqueta etiqueta){
-        int lengthEtiqueta = etiquetas.length;
-        etiquetas[lengthEtiqueta] = etiqueta;
+        for (int i = 0; i < etiquetas.length; i++) {
+            if (etiquetas[i] == null) {
+                etiquetas[i] = etiqueta;
+                break;
+            }
+        }
     }
     public void desassociarEtiqueta(int id){
         for (int i = 0; i < etiquetas.length; i++) {
@@ -113,6 +120,6 @@ public class Tarefa extends Atividade {
     }
 
     public void setImportancia(boolean importancia) {
-        importancia = importancia;
+        this.importancia = importancia;
     }
 }
