@@ -2,19 +2,19 @@ package school.sptech.ido;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Usuario {
+public class Usuario implements Ordenavel{
     private int idUsuario;
     private String nome;
     private Date dataNascimento;
     private String email;
-    @JsonIgnore
     private String senha;
     private String bio;
-    private GerenciadorEtiquetas gerenciadorEtiquetas;
-    private List<Tarefa> tarefas;
+    private GerenciadorEtiquetas gerenciadorEtiquetas = new GerenciadorEtiquetas();
+    private List<Tarefa> tarefas = new ArrayList<>();
     private boolean isAutenticado;
 
     public void adicionarTarefa(Tarefa tarefa){
@@ -37,6 +37,35 @@ public class Usuario {
         for (Tarefa tarefa: tarefas) {
             if(tarefa.getId() == id) tarefa.setStatus(tarefaStatus.isStatus());
         }
+    }
+
+    @Override
+    public List ordenar() {
+        List<Tarefa> fazerAgora = new ArrayList();
+        List<Tarefa> agendar = new ArrayList();
+        List<Tarefa> delegar = new ArrayList();
+        List<Tarefa> naoPriorizar = new ArrayList();
+
+        List listaOrdenada = new ArrayList();
+
+        for (Tarefa tarefa : tarefas) {
+            if (tarefa.getCalcularPrioridade().equalsIgnoreCase("Fazer Agora")){
+                fazerAgora.add(tarefa);
+            } else if(tarefa.getCalcularPrioridade().equalsIgnoreCase("Agendar")){
+                agendar.add(tarefa);
+            } else if (tarefa.getCalcularPrioridade().equalsIgnoreCase("Delegar")){
+                delegar.add(tarefa);
+            } else {
+                naoPriorizar.add(tarefa);
+            }
+        }
+
+        listaOrdenada.add(fazerAgora);
+        listaOrdenada.add(agendar);
+        listaOrdenada.add(delegar);
+        listaOrdenada.add(naoPriorizar);
+
+        return listaOrdenada;
     }
 
     public int getIdUsuario() {
@@ -71,7 +100,7 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getSenha() {
+    public String senha() {
         return senha;
     }
 

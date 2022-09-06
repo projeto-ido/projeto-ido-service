@@ -15,32 +15,32 @@ public class TarefaController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/sub")
     public SubTarefa[] listarSubtarefa(){
         return tarefa.getSubtarefas();
     }
 
-    @PostMapping
+    @PostMapping("/sub")
     public void criarSubTarefa(@RequestBody SubTarefa subtarefa){
         tarefa.cadastrarSubTarefa(subtarefa);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/sub/{id}")
     public void atualizarSubtarefa(@PathVariable int id, @RequestBody SubTarefa subtarefa){
         tarefa.editarSubtarefa(id, subtarefa);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/sub/{id}")
     public void removerSubtarefa(@PathVariable int id){
         tarefa.removerSubTarefa(id);
     }
 
-    @PostMapping("/associar")
+    @PostMapping("/etiqueta")
     public void associarEtiqueta(@RequestBody Etiqueta etiqueta){
         tarefa.associarEtiqueta(etiqueta);
     }
 
-    @DeleteMapping("/desassociar/{id}")
+    @DeleteMapping("/etiqueta/{id}")
     public void desassociarEtiqueta(@PathVariable int id){
         tarefa.desassociarEtiqueta(id);
     }

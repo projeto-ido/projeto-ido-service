@@ -1,10 +1,12 @@
 package school.sptech.ido;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class GerenciadorEtiquetas {
+public class GerenciadorEtiquetas  implements Ordenavel{
 
-    private List<Etiqueta>etiquetas;
+    private List<Etiqueta>etiquetas = new ArrayList<>();
 
 
     public void cadastratarEtiqueta(Etiqueta etiqueta){
@@ -21,6 +23,11 @@ public class GerenciadorEtiquetas {
         for (int i = 0; i < etiquetas.size(); i++) {
             if(etiquetas.get(i).getId() == id) etiquetas.set(i, etiquetaAtualizada);
         }
+    }
+
+    @Override
+    public List ordenar() {
+        return etiquetas.stream().sorted().collect(Collectors.toList());
     }
 
     public List<Etiqueta> getEtiquetas() {
