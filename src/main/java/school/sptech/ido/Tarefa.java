@@ -9,7 +9,7 @@ public class Tarefa extends Atividade {
     private Date dataInicio;
     private Date dataFinal;
     private Date dataCriacao;
-    private Etiqueta[] etiquetas = new Etiqueta[4];
+    private Etiqueta[] etiquetas = new Etiqueta[5];
     private boolean urgencia;
     private boolean importancia;
 

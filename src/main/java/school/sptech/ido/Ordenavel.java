@@ -1,6 +1,8 @@
 package school.sptech.ido;
 
+import java.util.List;
+
 public interface Ordenavel {
 
-    public void organizar();
+    List ordenar();
 }

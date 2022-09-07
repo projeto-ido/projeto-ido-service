@@ -1,10 +1,15 @@
 package school.sptech.ido;
 
-public class Etiqueta {
+public class Etiqueta implements Comparable<Etiqueta> {
 
     private int id;
     private String titulo;
     private CorEtiqueta cor;
+
+    @Override
+    public int compareTo(Etiqueta etiqueta) {
+        return this.titulo.toLowerCase().compareTo(etiqueta.getTitulo().toLowerCase());
+    }
 
     public int getId() {
         return id;
@@ -28,4 +33,6 @@ public class Etiqueta {
     public void setCor(CorEtiqueta cor) {
         this.cor = cor;
     }
+
+
 }

@@ -10,27 +10,28 @@ public class  HomeController {
 
     static Usuario usuario;
 
-    @GetMapping
+    @GetMapping("/tarefas")
     public List<Tarefa> listarTarefas(){
         return usuario.getTarefas();
     }
 
-    @PostMapping
-    public void criarTarefa(@RequestBody Tarefa tarefa){
+    @PostMapping("/tarefas")
+    public Tarefa criarTarefa(@RequestBody Tarefa tarefa){
         usuario.adicionarTarefa(tarefa);
+        return tarefa;
     }
 
-    @PutMapping("/id")
+    @PutMapping("/tarefas/id")
     public void alterarTarefa(@PathVariable int id, @RequestBody Tarefa tarefa){
         usuario.editarTarefa(id, tarefa);
     }
 
-    @PatchMapping("/id")
+    @PatchMapping("/tarefas/id")
     public void alterarStatusTarefa(@PathVariable int id, @RequestBody Tarefa tarefa){
         usuario.isConcluido(id, tarefa);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/tarefas/{id}")
     public void removerTarefa(@PathVariable int id){
         usuario.removerTarefa(id);
     }
@@ -41,17 +42,27 @@ public class  HomeController {
     }
 
     @PostMapping("/etiquetas")
-    public void criarEtiqueta(@RequestBody Etiqueta etiqueta){
-        usuario.getGerenciadorEtiquetas().cadastratarEtiqueta(etiqueta);
+    public Etiqueta criarEtiqueta(@RequestBody Etiqueta etiqueta){
+        return usuario.getGerenciadorEtiquetas().cadastratarEtiqueta(etiqueta);
     }
 
     @PutMapping("/etiquetas/{id}")
-    public void alterarEtiqueta(@PathVariable int id, @RequestBody Etiqueta etiqueta){
-        usuario.getGerenciadorEtiquetas().editarEtiqueta(id , etiqueta);
+    public Etiqueta alterarEtiqueta(@PathVariable int id, @RequestBody Etiqueta etiqueta){
+        return usuario.getGerenciadorEtiquetas().editarEtiqueta(id , etiqueta);
     }
 
     @DeleteMapping("/etiquetas/{id}")
     public void removerEtiqueta(@PathVariable int id){
         usuario.getGerenciadorEtiquetas().removerEtiqueta(id);
+    }
+
+    @GetMapping("/tarefas/ordem")
+    public List ordenarListaTarefa(){
+        return usuario.ordenar();
+    }
+
+    @GetMapping("/etiquetas/ordem")
+    public List ordenarListaEtiqueta(){
+        return usuario.getGerenciadorEtiquetas().ordenar();
     }
 }
