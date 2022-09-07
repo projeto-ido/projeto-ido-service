@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
     private final List<Usuario> usuarios = new ArrayList<>();
@@ -47,15 +47,17 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public String logar(@RequestBody Usuario user){
-        if (validarLogin(user)) {
-            user.setAutenticado(true);
+    public Usuario logar(@RequestBody Usuario user){
+        Usuario usuario = validarLogin(user);
+
+        if (usuario != null) {
+            usuario.setAutenticado(true);
             HomeController.usuario = user;
             TarefaController.usuario = user;
-            return "Bem vindo " + user.getNome();
+            return usuario;
         }
 
-        return "Email ou senha incorreta";
+        return null;
     }
 
     @GetMapping("/logoff")
@@ -65,12 +67,12 @@ public class UsuarioController {
         return "Tchau Tchau, volte sempre";
     }
 
-    private boolean validarLogin(Usuario user) {
+    private Usuario validarLogin(Usuario user) {
         for (Usuario usuario: usuarios) {
             if (usuario.getEmail().equals(user.getEmail()) && usuario.getSenha().equals(user.getSenha())) {
-                return true;
+                return usuario;
             }
         }
-        return false;
+        return null;
     }
 }
