@@ -69,7 +69,7 @@ public class UsuarioController {
 
     private Usuario validarLogin(Usuario user) {
         for (Usuario usuario: usuarios) {
-            if (usuario.getEmail().equals(user.getEmail()) && usuario.senha().equals(user.senha())) {
+            if (usuario.getEmail().equals(user.getEmail()) && usuario.getSenha().equals(user.getSenha())) {
                 return usuario;
             }
         }

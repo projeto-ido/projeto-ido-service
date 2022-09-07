@@ -42,13 +42,13 @@ public class  HomeController {
     }
 
     @PostMapping("/etiquetas")
-    public void criarEtiqueta(@RequestBody Etiqueta etiqueta){
-        usuario.getGerenciadorEtiquetas().cadastratarEtiqueta(etiqueta);
+    public Etiqueta criarEtiqueta(@RequestBody Etiqueta etiqueta){
+        return usuario.getGerenciadorEtiquetas().cadastratarEtiqueta(etiqueta);
     }
 
     @PutMapping("/etiquetas/{id}")
-    public void alterarEtiqueta(@PathVariable int id, @RequestBody Etiqueta etiqueta){
-        usuario.getGerenciadorEtiquetas().editarEtiqueta(id , etiqueta);
+    public Etiqueta alterarEtiqueta(@PathVariable int id, @RequestBody Etiqueta etiqueta){
+        return usuario.getGerenciadorEtiquetas().editarEtiqueta(id , etiqueta);
     }
 
     @DeleteMapping("/etiquetas/{id}")

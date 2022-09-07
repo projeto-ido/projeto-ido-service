@@ -1,6 +1,6 @@
 package school.sptech.ido;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +11,7 @@ public class Usuario implements Ordenavel{
     private String nome;
     private Date dataNascimento;
     private String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
     private String bio;
     private GerenciadorEtiquetas gerenciadorEtiquetas = new GerenciadorEtiquetas();
@@ -18,6 +19,7 @@ public class Usuario implements Ordenavel{
     private boolean isAutenticado;
 
     public void adicionarTarefa(Tarefa tarefa){
+        tarefa.setId(tarefas.size() + 1);
         tarefas.add(tarefa);
     }
     public void editarTarefa(int id, Tarefa tarefa){
@@ -32,7 +34,7 @@ public class Usuario implements Ordenavel{
         }
     }
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public void isConcluido(int id , Tarefa tarefaStatus){
         for (Tarefa tarefa: tarefas) {
             if(tarefa.getId() == id) tarefa.setStatus(tarefaStatus.isStatus());
@@ -100,7 +102,7 @@ public class Usuario implements Ordenavel{
         this.email = email;
     }
 
-    public String senha() {
+    public String getSenha() {
         return senha;
     }
 
