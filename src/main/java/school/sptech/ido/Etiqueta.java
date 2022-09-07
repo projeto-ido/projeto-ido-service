@@ -8,7 +8,7 @@ public class Etiqueta implements Comparable<Etiqueta> {
 
     @Override
     public int compareTo(Etiqueta etiqueta) {
-        return this.titulo.compareTo(etiqueta.getTitulo());
+        return this.titulo.toLowerCase().compareTo(etiqueta.getTitulo().toLowerCase());
     }
 
     public int getId() {
