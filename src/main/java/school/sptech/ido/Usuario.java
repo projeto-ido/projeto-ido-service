@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 public class Usuario {
-
     private int idUsuario;
     private String nome;
     private Date dataNascimento;
@@ -16,6 +15,7 @@ public class Usuario {
     private String bio;
     private GerenciadorEtiquetas gerenciadorEtiquetas;
     private List<Tarefa> tarefas;
+    private boolean isAutenticado;
 
     public void adicionarTarefa(Tarefa tarefa){
         tarefas.add(tarefa);
@@ -25,9 +25,10 @@ public class Usuario {
             if(tarefas.get(i).getId() == id) tarefas.set(i, tarefa);
         }
     }
+
     public void removerTarefa(int id){
-        for (int i = 0; i < tarefas.size(); i++) {
-            if(tarefas.get(i).getId() == id) tarefas.remove(i);
+        for (Tarefa tarefa : tarefas) {
+            if (tarefa.getId() == id) tarefas.remove(tarefa);
         }
     }
 
@@ -102,4 +103,11 @@ public class Usuario {
         this.tarefas = tarefas;
     }
 
+    public boolean isAutenticado() {
+        return isAutenticado;
+    }
+
+    public void setAutenticado(boolean autenticado) {
+        isAutenticado = autenticado;
+    }
 }
