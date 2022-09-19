@@ -1,0 +1,22 @@
+{
+  "name": "projeto-ido",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon --exec node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Feito pelos desenvolvedores da Empresa iDo @ São Paulo Tech School",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mssql": "^8.1.0",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.20",
+    "path": "^0.12.7"
+  }
+}
