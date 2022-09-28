@@ -42,13 +42,13 @@ public class Usuario implements Ordenavel{
     }
 
     @Override
-    public List ordenar() {
-        List<Tarefa> fazerAgora = new ArrayList();
-        List<Tarefa> agendar = new ArrayList();
-        List<Tarefa> delegar = new ArrayList();
-        List<Tarefa> naoPriorizar = new ArrayList();
+    public List<List<Tarefa>> ordenar() {
+        List<Tarefa> fazerAgora = new ArrayList<>();
+        List<Tarefa> agendar = new ArrayList<>();
+        List<Tarefa> delegar = new ArrayList<>();
+        List<Tarefa> naoPriorizar = new ArrayList<>();
 
-        List listaOrdenada = new ArrayList();
+        List<List<Tarefa>> listaOrdenada = new ArrayList<>();
 
         for (Tarefa tarefa : tarefas) {
             if (tarefa.getCalcularPrioridade().equalsIgnoreCase("Fazer Agora")){
