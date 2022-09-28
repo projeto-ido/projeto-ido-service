@@ -7,16 +7,15 @@ public class GerenciadorEtiquetas  implements Ordenavel{
     private List<Etiqueta> etiquetas= new ArrayList<>();
 
 
-    public Etiqueta cadastratarEtiqueta(Etiqueta etiqueta){
+    public Etiqueta cadastrarEtiqueta(Etiqueta etiqueta){
         etiqueta.setId(etiquetas.size() + 1);
         etiquetas.add(etiqueta);
-
         return etiqueta;
     }
 
     public void removerEtiqueta(int id){
-        for (int i = 0; i < etiquetas.size(); i++) {
-            if(etiquetas.get(i).getId() == id) etiquetas.remove(i);
+        for (Etiqueta e : etiquetas) {
+            if (e.getId() == id) etiquetas.remove(e);
         }
     }
 
@@ -31,7 +30,7 @@ public class GerenciadorEtiquetas  implements Ordenavel{
     }
 
     @Override
-    public List ordenar() {
+    public List<Etiqueta> ordenar() {
          Collections.sort(etiquetas);
          return etiquetas;
     }

@@ -1,6 +1,7 @@
-package school.sptech.ido;
+package school.sptech.ido.controllers;
 
 import org.springframework.web.bind.annotation.*;
+import school.sptech.ido.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;

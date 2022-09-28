@@ -1,6 +1,10 @@
-package school.sptech.ido;
+package school.sptech.ido.controllers;
 
 import org.springframework.web.bind.annotation.*;
+import school.sptech.ido.Etiqueta;
+import school.sptech.ido.SubTarefa;
+import school.sptech.ido.Tarefa;
+import school.sptech.ido.Usuario;
 
 @RestController
 @RequestMapping("/home/tarefa")
