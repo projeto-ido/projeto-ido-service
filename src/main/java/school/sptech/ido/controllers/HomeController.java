@@ -16,95 +16,83 @@ public class  HomeController {
 
     @GetMapping("/tarefas")
     public ResponseEntity<List<Tarefa>> listarTarefas() {
-        if(usuario.getTarefas().isEmpty()){
-            return ResponseEntity.status(401).build();
-        }
-        return ResponseEntity.ok().body(usuario.getTarefas());
+        List<Tarefa> tarefas = usuario.getTarefas();
+        return tarefas.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok().body(tarefas);
     }
 
     @PostMapping("/tarefas")
     public ResponseEntity<Tarefa> criarTarefa(@RequestBody Tarefa tarefa) {
         usuario.adicionarTarefa(tarefa);
-        return ResponseEntity.ok().body(tarefa);
+        return ResponseEntity.status(201).body(tarefa);
     }
 
     @PutMapping("/tarefas/{id}")
     public ResponseEntity<Tarefa> alterarTarefa(@PathVariable int id, @RequestBody Tarefa tarefa) {
-        if (isIdInvalid(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        usuario.editarTarefa(id, tarefa);
-        return ResponseEntity.ok().body(tarefa);
+        Tarefa tarefaEditada = usuario.editarTarefa(id, tarefa);
+        return tarefaEditada != null ?
+                ResponseEntity.ok().body(tarefaEditada) :
+                ResponseEntity.notFound().build();
     }
 
     @PatchMapping("/tarefas/{id}")
     public ResponseEntity<Tarefa> alterarStatusTarefa(@PathVariable int id, @RequestBody Tarefa tarefa) {
-        if (isIdInvalid(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        usuario.isConcluido(id, tarefa);
-        return ResponseEntity.ok().body(tarefa);
+        Tarefa tarefaEditada = usuario.isConcluido(id, tarefa);
+        return tarefaEditada != null ?
+                ResponseEntity.ok().body(tarefaEditada) :
+                ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/tarefas/{id}")
     public ResponseEntity<Tarefa> removerTarefa(@PathVariable int id) {
-        if (isIdInvalid(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        Tarefa tarefaRemovida = usuario.getTarefas().stream().filter(t -> t.getId() == id).findAny().get();
-        usuario.removerTarefa(id);
-        return ResponseEntity.ok().body(tarefaRemovida);
+        Tarefa tarefaRemovida = usuario.removerTarefa(id);
+        return tarefaRemovida != null ?
+                ResponseEntity.ok().body(tarefaRemovida) :
+                ResponseEntity.notFound().build();
     }
 
     @GetMapping("/etiquetas")
     public ResponseEntity<List<Etiqueta>> listarEtiquetas() {
         List<Etiqueta> etiquetas = usuario.getGerenciadorEtiquetas().getEtiquetas();
-        if (etiquetas.isEmpty()) return ResponseEntity.status(401).build();
-        return ResponseEntity.ok().body(etiquetas);
+        return etiquetas.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok().body(etiquetas);
     }
 
     @PostMapping("/etiquetas")
     public ResponseEntity<Etiqueta> criarEtiqueta(@RequestBody Etiqueta etiqueta) {
-        return ResponseEntity.status(201).body(usuario.getGerenciadorEtiquetas().cadastrarEtiqueta(etiqueta));
+        Etiqueta etiquetaCadastrada = usuario.getGerenciadorEtiquetas().cadastrarEtiqueta(etiqueta);
+        return etiquetaCadastrada != null ?
+                ResponseEntity.status(201).body(etiquetaCadastrada) :
+                ResponseEntity.status(405).build();
     }
 
     @PutMapping("/etiquetas/{id}")
     public ResponseEntity<Etiqueta> alterarEtiqueta(@PathVariable int id, @RequestBody Etiqueta etiqueta) {
-        if (isIdInvalid(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body(usuario.getGerenciadorEtiquetas().editarEtiqueta(id , etiqueta));
+        Etiqueta etiquetaEditada = usuario.getGerenciadorEtiquetas().editarEtiqueta(id , etiqueta);
+        return etiquetaEditada != null ?
+                ResponseEntity.ok().body(etiquetaEditada) :
+                ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/etiquetas/{id}")
     public ResponseEntity<Etiqueta> removerEtiqueta(@PathVariable int id) {
-        if (isIdInvalid(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Etiqueta etiquetaRemovida = usuario.getGerenciadorEtiquetas().getEtiquetas()
-            .stream()
-            .filter(e -> e.getId() == id)
-            .findAny()
-            .get();
-
-        usuario.getGerenciadorEtiquetas().removerEtiqueta(id);
-        return ResponseEntity.ok().body(etiquetaRemovida);
+        Etiqueta etiquetaRemovida = usuario.getGerenciadorEtiquetas().removerEtiqueta(id);
+        return etiquetaRemovida != null ?
+                ResponseEntity.ok().body(etiquetaRemovida) :
+                ResponseEntity.notFound().build();
     }
 
     @GetMapping("/tarefas/ordem")
     public ResponseEntity<List<List<Tarefa>>> ordenarListaTarefa() {
-        return ResponseEntity.ok().body(usuario.ordenar());
+        List<List<Tarefa>> tarefasOrdenadas = usuario.ordenar();
+        return tarefasOrdenadas.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok().body(tarefasOrdenadas);
     }
 
     @GetMapping("/etiquetas/ordem")
     public ResponseEntity<List<Etiqueta>> ordenarListaEtiqueta() {
-        return ResponseEntity.ok().body(usuario.getGerenciadorEtiquetas().ordenar());
-    }
-
-    private boolean isIdInvalid(int id) {
-        // stream = apenas outro tipo de lista, mas com métodos que o List nao oferece
-        // noneMatch = nenhum elemento da lista satisfaz a condição passada
-        return usuario.getTarefas().stream().noneMatch(t -> t.getId() == id);
+        List<Etiqueta> etiquetasOrdenadas = usuario.getGerenciadorEtiquetas().ordenar();
+        return etiquetasOrdenadas.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok().body(etiquetasOrdenadas);
     }
 }

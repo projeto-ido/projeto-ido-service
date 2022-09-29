@@ -1,32 +1,39 @@
 package school.sptech.ido;
 
+import lombok.Getter;
+
 import java.util.*;
 
-public class GerenciadorEtiquetas  implements Ordenavel{
+public class GerenciadorEtiquetas implements Ordenavel {
 
-    private List<Etiqueta> etiquetas= new ArrayList<>();
+    @Getter private final List<Etiqueta> etiquetas = new ArrayList<>();
 
-
-    public Etiqueta cadastrarEtiqueta(Etiqueta etiqueta){
-        etiqueta.setId(etiquetas.size() + 1);
-        etiquetas.add(etiqueta);
-        return etiqueta;
-    }
-
-    public void removerEtiqueta(int id){
-        for (Etiqueta e : etiquetas) {
-            if (e.getId() == id) etiquetas.remove(e);
-        }
-    }
-
-    public Etiqueta editarEtiqueta(int id, Etiqueta etiquetaAtualizada){
-        for (int i = 0; i < etiquetas.size(); i++) {
-            if(etiquetas.get(i).getId() == id){
-                etiquetas.set(i, etiquetaAtualizada);
-                return etiquetas.get(i);
-            }
+    public Etiqueta cadastrarEtiqueta(Etiqueta etiqueta) {
+        if (etiquetas.size() < 5) {
+            etiqueta.setId(etiquetas.size() + 1);
+            etiquetas.add(etiqueta);
+            return etiqueta;
         }
         return null;
+    }
+
+    public Etiqueta removerEtiqueta(int id) {
+        if (isIdValid(id)) return etiquetas.remove(id - 1);
+
+        return null;
+    }
+
+    public Etiqueta editarEtiqueta(int id, Etiqueta etiquetaAtualizada) {
+        if (isIdValid(id)) {
+            int posicaoDaEtiqueta = id - 1;
+            etiquetas.set(posicaoDaEtiqueta, etiquetaAtualizada);
+            return etiquetas.get(posicaoDaEtiqueta);
+        }
+        return null;
+    }
+
+    private boolean isIdValid(int id) {
+        return id > 0 && id <= etiquetas.size();
     }
 
     @Override
@@ -34,11 +41,4 @@ public class GerenciadorEtiquetas  implements Ordenavel{
          Collections.sort(etiquetas);
          return etiquetas;
     }
-
-    public List<Etiqueta> getEtiquetas() {
-        return etiquetas;
-    }
-
-
-
 }

@@ -1,10 +1,13 @@
 package school.sptech.ido.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.ido.Etiqueta;
 import school.sptech.ido.SubTarefa;
 import school.sptech.ido.Tarefa;
 import school.sptech.ido.Usuario;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/home/tarefa")
@@ -13,40 +16,57 @@ public class TarefaController {
     static Usuario usuario;
 
     @GetMapping("/{id}")
-    public void tarefaSelecionada(@PathVariable int id){
-        for (int i = 0; i < usuario.getTarefas().size(); i++) {
-            if(usuario.getTarefas().get(i).getId() == id) tarefa = usuario.getTarefas().get(i);
+    public ResponseEntity<Tarefa> selecionarTarefa(@PathVariable int id) {
+        if (id > 0 && id <= usuario.getTarefas().size()) {
+            tarefa = usuario.getTarefas().get(id - 1);
+            return ResponseEntity.ok().body(tarefa);
         }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/sub")
-    public SubTarefa[] listarSubtarefa(){
-        return tarefa.getSubtarefas();
+    public ResponseEntity<List<SubTarefa>> listarSubtarefa() {
+        List<SubTarefa> subTarefas = tarefa.getSubtarefas();
+        return subTarefas.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.ok().body(subTarefas);
     }
 
     @PostMapping("/sub")
-    public void criarSubTarefa(@RequestBody SubTarefa subtarefa){
-        tarefa.cadastrarSubTarefa(subtarefa);
+    public ResponseEntity<SubTarefa> criarSubTarefa(@RequestBody SubTarefa subtarefa) {
+        SubTarefa subTarefaAdicionada = tarefa.adicionarSubTarefa(subtarefa);
+        return subTarefaAdicionada != null ?
+                ResponseEntity.status(201).body(subTarefaAdicionada) :
+                ResponseEntity.status(405).build();
     }
 
     @PutMapping("/sub/{id}")
-    public void atualizarSubtarefa(@PathVariable int id, @RequestBody SubTarefa subtarefa){
-        tarefa.editarSubtarefa(id, subtarefa);
+    public ResponseEntity<SubTarefa> atualizarSubtarefa(@PathVariable int id, @RequestBody SubTarefa subtarefa) {
+        SubTarefa subTarefaEditada = tarefa.editarSubtarefa(id, subtarefa);
+        return subTarefaEditada != null ?
+                ResponseEntity.ok().body(subTarefaEditada) :
+                ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/sub/{id}")
-    public void removerSubtarefa(@PathVariable int id){
-        tarefa.removerSubTarefa(id);
+    public ResponseEntity<SubTarefa> removerSubtarefa(@PathVariable int id) {
+        SubTarefa subTarefaRemovida = tarefa.removerSubTarefa(id);
+        return subTarefaRemovida != null ?
+                ResponseEntity.ok().body(subTarefaRemovida) :
+                ResponseEntity.notFound().build();
     }
 
     @PostMapping("/etiqueta")
-    public void associarEtiqueta(@RequestBody Etiqueta etiqueta){
-        tarefa.associarEtiqueta(etiqueta);
+    public ResponseEntity<Etiqueta> associarEtiqueta(@RequestBody Etiqueta etiqueta) {
+        Etiqueta etiquetaAdicionada = tarefa.adicionarEtiqueta(etiqueta);
+        return etiquetaAdicionada != null ?
+                ResponseEntity.status(201).body(etiquetaAdicionada) :
+                ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/etiqueta/{id}")
-    public void desassociarEtiqueta(@PathVariable int id){
-        tarefa.desassociarEtiqueta(id);
+    public ResponseEntity<Etiqueta> desassociarEtiqueta(@PathVariable int id){
+        Etiqueta etiquetaRemovida = tarefa.removerEtiqueta(id);
+        return etiquetaRemovida != null ?
+                ResponseEntity.ok().body(etiquetaRemovida) :
+                ResponseEntity.notFound().build();
     }
-
 }
