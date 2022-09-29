@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Você no controle da sua vida!</title>
+  <link rel="icon" href="./assets/logo-white-icon.png">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+  <div class="container" id="container">
+    
+    <div class="header" id="header">
+      <img src="./assets/logo-dark.ico" alt="Logo da empresa iDo">
+      <a href="#">Inicio</a>
+      <a href="#metodologias">Metodologias</a>
+      <a href="#beneficios">Beneficios</a>
+      <button class="btn-login">Login</button>
+    </div>
+
+    <div class="banner">
+      <div class="banner-text">
+        <h1>Você no controle da sua vida!</h1>
+        <h2>Solução completa da gestão do seu tempo em um só lugar!</h2>
+        <button class="btn-cadastro">Comece agora</button>
+      </div>
+      <div class="banner-image">
+        <img src="./assets/banner-img.png" 
+        alt="Personagem olhando uma prancheta com lupa, moedas e calculadora ao lado">
+      </div>
+    </div>
+
+    <div class="banner-icons">
+      <div class="icons" id="first-icons">
+        <div class="icon">
+          <img src="./assets/img-org.png" alt="Notas">
+          <p>ORGANIZAÇÃO</p>
+        </div>
+        <div class="icon">
+          <img src="./assets/img-game.png" alt="Aumentando nível">
+          <p>GAMEFICAÇÃO</p>
+        </div>
+        <div class="icon">
+          <img src="./assets/img-foco.png" alt="Alvo">
+          <p>FOCO</p>
+        </div>
+        <div class="icon">
+          <img src="./assets/img-planej.png" alt="Calendario">
+          <p>PLANEJAMENTO</p>
+        </div>
+      </div>
+      
+      <div class="icons" id="second-icons" style="display: none;">
+        <div class="icon">
+          <img src="./assets/img-produtividade.png" alt="Engrenagem">
+          <p>PRODUTIVIDADE</p>
+        </div>
+        <div class="icon">
+          <img src="./assets/img-prioridade.png" alt="Balão com exclamação">
+          <p>PRIORIZAÇÃO</p>
+        </div>
+        <div class="icon">
+          <img src="./assets/img-perfil.png" alt="Perfil">
+          <p>PERFIL</p>
+        </div>
+        <div class="icon">
+          <img src="./assets/img-evolucao.png" alt="Gráfico">
+          <p>EVOLUÇÃO</p>
+        </div>
+      </div>
+
+      <div class="icons" id="third-icons" style="display: none;">
+        <div class="icon">
+          <img src="./assets/img-lembrete.png" alt="Sino">
+          <p>LEMBRETES</p>
+        </div>
+        <div class="icon">
+          <img src="./assets/img-ideia.png" alt="Lampada">
+          <p>IDEIAS</p>
+        </div>
+        <div class="icon">
+          <img src="./assets/img-sonho.png" alt="Nuvem">
+          <p>SONHOS</p>
+        </div>
+        <div class="icon">
+          <img src="./assets/img-relogio.png" alt="Relogio">
+          <p>CONCENTRAÇÃO</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="banner-radio">
+      <input type="radio" id="first-radio" checked onclick="moveCarousel(1)">
+      <input type="radio" id="second-radio" onclick="moveCarousel(2)">
+      <input type="radio" id="third-radio" onclick="moveCarousel(3)">
+    </div>
+
+    <div class="metodologias" id="metodologias">
+      <div class="metodologias-text">
+        <h1>Metodologias</h1>
+        <h2>Para proporcionar uma melhor experiência para o usuário, nós implementamos em nossa aplicação metodologias que auxiliam na gestão do tempo</h2>
+      </div>
+      <div class="cards-container">
+        <div class="cards">
+          <div class="bigger-card">
+            <div>
+              <h3>Matriz de Eisenhower</h3>
+              <div class="separator"></div>
+              <h4>Classificação de prioridade de tarefas pela sua urgência e importância.</h4>
+            </div>
+          </div>
+          <div class="small-cards">
+            <div class="card card-pomodoro">
+              <div>
+                <h3>Pomodoro</h3>
+                <div class="separator"></div>
+                <h4>Divisão do seu trabalho em períodos de 25 minutos, separados por breves intervalos.</h4>
+              </div>
+            </div>  
+            <div class="card">
+              <div>
+                <h3>Crie Tarefas e Subtarefas</h3>
+                <div class="separator"></div>
+                <h4>Utilize subtarefas para dividir sua tarefa em partes menores e agrupe elas de sua maneira.</h4>
+              </div>
+            </div> 
+          </div>
+        </div>
+        <div class="card bottom-card">
+          <div>
+            <h3>Monitore seu Progresso</h3>
+            <div class="separator"></div>
+            <h4>Faça o monitoramento do seu progresso de acordo com a conclusão de suas tarefas no período planejado.</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="beneficios" id="beneficios">
+      <div class="beneficios-content">
+        <div class="left-content">
+          <div class="text">
+            <h1>Gestão de Tempo</h1>
+            <div class="separator"></div>
+            <h4>Faça a gestão do seu tempo, organize 
+              seus compromissos, objetivos e sonhos. 
+              Torne o seu dia a dia mais sustentável e 
+              menos estressante.</h4>
+          </div>
+          <div class="text">
+            <h1>Organização</h1>
+            <div class="separator"></div>
+            <h4>Pessoas organizadas adquirem rotinas 
+              produtivas e possuem um alto poder de 
+              concentração, o que impacta diretamente 
+              no seu rendimento.</h4>
+          </div>
+          <button class="btn-cadastro">Crie sua conta</button>
+        </div>
+        <div class="right-content">
+          <img src="./assets/beneficios-img.png" alt="Cards flutuantes com um circulo pontilhado no meio">
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="ido-copyright">
+        <a href="#container">
+          <img src="./assets/logo-white.png" alt="Logo da empresa iDo">
+        </a>
+        <div>
+          <h1>&copy 2022 IDO S.A - SPTECH</h1>
+          <h2>Rua Hadoock Lobo, 595 - São Paulo, SP - 01141103</h2>
+        </div>
+      </div>
+      <div class="social-media">
+        <a href="https://www.facebook.com/sptech.school" target="_blank">
+          <img src="./assets/facebook-icon.png" alt="Facebook">
+        </a>
+        <a href="https://www.instagram.com/sptech.school/" target="_blank">
+          <img src="./assets/instagram-icon.png" alt="Instagram">
+        </a>
+        <a href="https://www.linkedin.com/school/sptechschool/" target="_blank">
+          <img src="./assets/linkedin-icon.png" alt="LinkedIn">
+        </a>
+        <a href="https://twitter.com/SptechSchool" target="_blank">
+          <img src="./assets/twitter-icon.png" alt="Twitter">
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+<script src="./js/index.js"></script>

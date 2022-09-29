@@ -1,0 +1,364 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+/*
+PALETA DE CORES
+    CINZA: #1F1E1E
+    AZUL: #5D84C2
+    VERDE: #51BDAB
+    ROXO: #7463C7
+    AMARELO: #FFCA6D
+*/
+
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 62.5%;
+    display: flex;
+}
+
+.container{
+    width: 100vw;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 15vh;
+    border-bottom: 0.2vh solid #1F1E1E;
+    background-color: #FFF;
+    position: fixed;
+    z-index: 2;
+}
+
+.header a{
+    color: #1F1E1E;
+    font-size: 2.4em;
+    text-decoration: none;
+}
+
+.btn-login{
+    width: 11vw;
+    height: 6vh;
+    font-size: 2.4em;
+    font-weight: 600;
+    color: white;
+    border: 0;
+    background-color: #5D84C2;
+    border-radius: 2vw;
+    transition-duration: 0.3s;
+}
+
+.btn-login:hover{
+    cursor: pointer;
+    transition-duration: 0.3s;
+    background-color: #FFCA6D;
+}
+
+.banner{
+    margin-top: 10vh;
+    display: flex;
+    width: 100%;
+    height: 80vh;
+}
+
+.banner-text{
+    padding: 6vw;
+    padding-left: 9vw;
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.banner-image{
+    display: flex;
+    width: 20vw;
+    padding: 6vh;
+}
+
+.banner-image img{
+    width: 55vw;
+    height: 55vh;
+}
+
+
+.banner-text h1{
+    color: #7463C7;
+    font-weight: 600;
+    font-size: 4.0em;
+}
+
+.banner-text h2{
+    color: #1F1E1E;
+    font-size: 3.0em;
+    font-weight: 300;
+    margin-bottom: 8vh;
+}
+
+.btn-cadastro{
+    width: 18vw;
+    height: 7vh;
+    font-size: 2.4em;
+    font-weight: 600;
+    color: #1F1E1E;
+    border: 0;
+    background-color: #FFCA6D;
+    border-radius: 2vw;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+
+.btn-cadastro:hover{
+    color: #1F1E1E;
+    border: 0;
+    background-color: #ffb83d;
+}
+
+.banner-icons{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+}
+
+.banner-icons .icons{
+    width: 60vw;
+    justify-content: space-evenly;
+    display: flex;
+}
+
+.icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #1F1E1E;
+    font-size: 1.6em;
+    font-weight: 400;
+}
+
+.icon img{
+    width: 7vw;
+    height: 7vw;
+}
+
+.banner-radio{
+    padding: 4vh;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10vh;
+}
+
+.banner-radio input{
+    height: 1vw;
+    width: 1vw;
+    appearance: none;
+    background-color: #AFAFAF;
+    border-radius: 100%;
+    cursor: pointer;
+    transition-duration: 0.2s;
+}
+
+.banner-radio input:checked{
+    height: 1.1vw;
+    width: 1.1vw;
+    appearance: none;
+    background-color: #5D84C2;
+    border-radius: 100%; 
+    cursor: pointer;
+    transition-duration: 0.2s;
+}
+
+.metodologias{
+    background-color: #1F1E1E;
+    height: 150vh;
+}
+
+.metodologias-text {
+    display: flex;
+    flex-direction: column;
+    padding: 7vw;
+    padding-left: 9vw;
+    height: 28vh;
+}
+
+.metodologias-text h1{
+    color: white;
+    font-weight: 600;
+    font-size: 6.4em;
+    margin: 2vh;
+}
+
+.metodologias-text h2{
+    color: white;
+    width: 50vw;
+    margin: 2vh;
+    font-weight: 300;
+    font-size: 2.4em;
+}
+
+.cards-container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #1F1E1E;
+    justify-content: space-evenly;
+}
+
+.cards{
+    display: flex;
+    width: 86vw;
+    justify-content: space-around;
+}
+
+.metodologias h3{
+    color: #5D84C2;
+    font-size: 2.4em;
+    padding-left: 2vw;
+    margin-bottom: 1vh;
+}
+
+.metodologias h4{
+    color: white;
+    font-weight: 300;
+    font-size: 2.0em;
+    padding-left: 2vw;
+    margin-top: 1vh;
+}
+
+.separator{
+    width: 4vw;
+    height: 0.1vh;
+    margin-left: 2vw;
+    background-color: #5D84C2;
+}
+
+.bigger-card{
+    background-image: url("/public/assets/card-matriz.png");
+    background-size: cover;
+    width: 40vw;
+    height: 55vh;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.card img{
+    position: absolute;
+}
+
+.card{
+    background-image: url("/public/assets/bg-card.png");
+    background-size: cover;
+    width: 41.5vw;
+    height: 25.6vh;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.bottom-card{
+    background-image: url("/public/assets/card-progresso.png");
+    background-size: cover;
+    width: 83vw;
+    margin-top: 5vh;
+    height: 23vh;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.card-pomodoro{
+    background-image: url("/public/assets/card-pomodoro.png");
+}
+
+.small-cards{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 55vh;
+}
+
+.beneficios{
+    height: 120vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.beneficios-content{
+    display: flex;
+    justify-content: center;
+    width: 80vw;
+}
+
+.beneficios-content .separator{
+    margin-left: 0;
+}
+
+.left-content{
+    width: 30vw;
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.left-content button{
+    font-size: 2.0em;
+    width: 14vw;
+    height: 6vh;
+}
+
+.text h1{
+    font-size: 2.4em;
+    color: #7463C7;
+}
+
+.text h4{
+    font-size: 2.0em;
+    font-weight: 400;
+    color: #1F1E1E;
+}
+
+.footer{
+    background-color: #5D84C2;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 25vh;
+}
+
+.footer h1{
+    font-weight: 400;
+    font-size: 2em;
+    color: #FFF;
+    margin-bottom: 1vw;
+}
+
+.footer h2{
+    font-weight: 300;
+    font-size: 1.6em;
+    color: #FFF;
+    margin-top: 1vw;
+}
+
+.ido-copyright{
+   width: 40vw;
+   display: flex;
+   justify-content: space-evenly;
+   flex-direction: row; 
+}
+
+.social-media{
+    width: 30vw;
+    display: flex;
+    justify-content: space-evenly;
+}
