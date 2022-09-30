@@ -1,32 +1,10 @@
 package school.sptech.ido;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public abstract class Atividade {
-
-    private int id;
-    private String descricao;
-    private boolean status;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
+    @Getter @Setter private int id;
+    @Getter @Setter private String descricao;
+    @Getter @Setter private boolean status;
 }

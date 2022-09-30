@@ -1,19 +1,24 @@
 package school.sptech.ido;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Tarefa extends Atividade {
 
-    private String titulo;
-    private SubTarefa[] subtarefas = new SubTarefa[5];
-    private Date dataInicio;
-    private Date dataFinal;
-    private Date dataCriacao;
-    private Etiqueta[] etiquetas = new Etiqueta[5];
-    private boolean urgencia;
-    private boolean importancia;
+    @Getter @Setter private String titulo;
+    @Getter private final List<SubTarefa> subtarefas = new ArrayList<>();
+    @Getter @Setter private Date dataInicio;
+    @Getter @Setter private Date dataFinal;
+    @Getter @Setter private Date dataCriacao;
+    @Getter private final List<Etiqueta> etiquetas = new ArrayList<>();
+    @Getter @Setter private boolean urgencia;
+    @Getter @Setter private boolean importancia;
 
-    public String getCalcularPrioridade() {
+    public String calcularPrioridade() {
         if (urgencia && importancia) {
             return "Fazer Agora";
         } else if (!urgencia && importancia) {
@@ -25,100 +30,41 @@ public class Tarefa extends Atividade {
         return "Não priorizar";
     }
 
-    public void cadastrarSubTarefa(SubTarefa subTarefa) {
-        for (int i = 0; i < subtarefas.length; i++) {
-            if (subtarefas[i] == null) {
-                subtarefas[i] = subTarefa;
-                break;
-            }
+    public SubTarefa adicionarSubTarefa(SubTarefa subTarefa) {
+        if (subtarefas.size() < 5) {
+            subTarefa.setId(subtarefas.size() + 1);
+            subtarefas.add(subTarefa);
+            return subTarefa;
         }
+        return null;
     }
 
-    public void removerSubTarefa(int idSubtarefa){
-        for (int i = 0; i < subtarefas.length; i++) {
-            if(subtarefas[i].getId() == idSubtarefa) subtarefas[i] = null;
+    public SubTarefa removerSubTarefa(int id) {
+        if (id > 0 && id <= subtarefas.size()) return subtarefas.remove(id - 1);
+
+        return null;
+    }
+
+    public SubTarefa editarSubtarefa(int id, SubTarefa subTarefa) {
+        if (id > 0 && id <= subtarefas.size()) {
+            subtarefas.set(id - 1, subTarefa);
+            return subtarefas.get(id - 1);
         }
+        return null;
     }
-    public void editarSubtarefa(int id, SubTarefa subTarefa){
-        for (int i = 0; i < subtarefas.length; i++) {
-            if(subtarefas[i].getId() == id) subtarefas[i] = subTarefa;
+
+    public Etiqueta adicionarEtiqueta(Etiqueta etiqueta) {
+        if (etiquetas.size() < 5) {
+            etiqueta.setId(etiquetas.size() + 1);
+            etiquetas.add(etiqueta);
+            return etiqueta;
         }
-    }
-    public void associarEtiqueta(Etiqueta etiqueta){
-        for (int i = 0; i < etiquetas.length; i++) {
-            if (etiquetas[i] == null) {
-                etiquetas[i] = etiqueta;
-                break;
-            }
-        }
-    }
-    public void desassociarEtiqueta(int id){
-        for (int i = 0; i < etiquetas.length; i++) {
-            if(etiquetas[i].getId() == id) etiquetas[i] = null;
-        }
+        return null;
     }
 
-    public String getTitulo() {
-        return titulo;
-    }
+    public Etiqueta removerEtiqueta(int id) {
+        if (id > 0 && id < etiquetas.size()) return etiquetas.remove(id - 1);
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public SubTarefa[] getSubtarefas() {
-        return subtarefas;
-    }
-
-    public void setSubtarefas(SubTarefa[] subtarefas) {
-        this.subtarefas = subtarefas;
-    }
-
-    public Date getDataInicio() {
-        return dataInicio;
-    }
-
-    public void setDataInicio(Date dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public Date getDataFinal() {
-        return dataFinal;
-    }
-
-    public void setDataFinal(Date dataFinal) {
-        this.dataFinal = dataFinal;
-    }
-
-    public Date getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
-    public Etiqueta[] getEtiquetas() {
-        return etiquetas;
-    }
-
-    public void setEtiquetas(Etiqueta[] etiquetas) {
-        this.etiquetas = etiquetas;
-    }
-
-    public boolean isUrgencia() {
-        return urgencia;
-    }
-
-    public void setUrgencia(boolean urgencia) {
-        this.urgencia = urgencia;
-    }
-
-    public boolean isImportancia() {
-        return importancia;
-    }
-
-    public void setImportancia(boolean importancia) {
-        this.importancia = importancia;
+        return null;
     }
 }
