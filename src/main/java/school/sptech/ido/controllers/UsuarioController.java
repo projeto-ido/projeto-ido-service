@@ -1,5 +1,6 @@
 package school.sptech.ido.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.ido.Usuario;
 
@@ -13,67 +14,62 @@ public class UsuarioController {
     private final List<Usuario> usuarios = new ArrayList<>();
 
     @PostMapping
-    public String cadastrarUsuario(@RequestBody Usuario usuario){
+    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
         usuarios.add(usuario);
-        return "Usuário foi cadastrado com sucesso!!";
-
+        return ResponseEntity.status(201).body(usuario);
     }
 
     @GetMapping
-    public List<Usuario> listarUsuarios(){
-        return usuarios;
+    public ResponseEntity<List<Usuario>> listarUsuarios() {
+        return usuarios.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.ok().body(usuarios);
     }
 
     @PutMapping("/{nome}")
-    public Usuario atualizarUsuario(@PathVariable String nome, @RequestBody Usuario usuarioNovo){
+    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable String nome, @RequestBody Usuario usuarioNovo) {
         for (Usuario usuario: usuarios) {
             if (usuario.getNome().equalsIgnoreCase(nome)){
                 usuario = usuarioNovo;
-
-                return usuario;
+                return ResponseEntity.ok().body(usuario);
             }
         }
-        return null;
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{nome}")
-    public String deletarUsuario(@PathVariable String nome){
-        for (int i = 0; i < usuarios.size(); i++) {
-            if (usuarios.get(i).getNome().equalsIgnoreCase(nome)){
-                usuarios.remove(i);
-                return "Usuário foi removido com sucesso!!";
-            }
-        }
-        return "Usuário não foi encontrado";
+    public ResponseEntity<Void> deletarUsuario(@PathVariable String nome) {
+        return usuarios.removeIf(u -> u.getNome().equalsIgnoreCase(nome)) ?
+                ResponseEntity.ok().build() :
+                ResponseEntity.notFound().build();
     }
 
     @PostMapping("/login")
-    public Usuario logar(@RequestBody Usuario user){
+    public ResponseEntity<Usuario> logar(@RequestBody Usuario user) {
         Usuario usuario = validarLogin(user);
 
         if (usuario != null) {
             usuario.setAutenticado(true);
             HomeController.usuario = user;
             TarefaController.usuario = user;
-            return usuario;
+            return ResponseEntity.ok().body(usuario);
         }
 
-        return null;
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/logoff")
-    public String deslogar(){
-        HomeController.usuario.setAutenticado(false);
-        HomeController.usuario = null;
-        return "Tchau Tchau, volte sempre";
+    public ResponseEntity<Void> deslogar() {
+        if (HomeController.usuario != null && HomeController.usuario.isAutenticado()) {
+            HomeController.usuario.setAutenticado(false);
+            HomeController.usuario = null;
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(405).build();
     }
 
     private Usuario validarLogin(Usuario user) {
-        for (Usuario usuario: usuarios) {
-            if (usuario.getEmail().equals(user.getEmail()) && usuario.getSenha().equals(user.getSenha())) {
-                return usuario;
-            }
-        }
-        return null;
+        return usuarios.stream()
+                .filter(u -> u.getEmail().equals(user.getEmail()) && u.getSenha().equals(user.getSenha()))
+                .findAny()
+                .orElse(null);
     }
 }
