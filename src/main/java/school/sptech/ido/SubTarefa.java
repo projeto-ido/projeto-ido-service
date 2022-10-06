@@ -1,14 +1,9 @@
 package school.sptech.ido;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class SubTarefa extends Atividade{
 
-    private int prioridade;
-
-    public int getPrioridade() {
-        return prioridade;
-    }
-
-    public void setPrioridade(int prioridade) {
-        this.prioridade = prioridade;
-    }
+    @Getter @Setter private int prioridade;
 }
