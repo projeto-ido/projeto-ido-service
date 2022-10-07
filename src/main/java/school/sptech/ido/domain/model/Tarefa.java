@@ -1,4 +1,4 @@
-package school.sptech.ido;
+package school.sptech.ido.domain.model;
 
 import lombok.Getter;
 import lombok.Setter;

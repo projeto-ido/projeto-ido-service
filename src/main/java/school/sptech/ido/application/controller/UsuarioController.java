@@ -1,8 +1,8 @@
-package school.sptech.ido.controllers;
+package school.sptech.ido.application.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.ido.Usuario;
+import school.sptech.ido.domain.model.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
