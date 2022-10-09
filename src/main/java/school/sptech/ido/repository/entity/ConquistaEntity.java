@@ -1,11 +1,14 @@
 package school.sptech.ido.repository.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "conquista")
+@Data
 public class ConquistaEntity {
 
     @Id
@@ -23,36 +26,4 @@ public class ConquistaEntity {
     @ManyToOne
     @JoinColumn(name="fk_usuario", nullable=false)
     private UsuarioEntity usuario;
-
-    public Integer getIdConquista() {
-        return idConquista;
-    }
-
-    public void setIdConquista(Integer idConquista) {
-        this.idConquista = idConquista;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public UsuarioEntity getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(UsuarioEntity usuario) {
-        this.usuario = usuario;
-    }
 }
