@@ -1,75 +1,111 @@
 package school.sptech.ido.application.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import school.sptech.ido.application.dto.UsuarioAtualizadoDto;
+import school.sptech.ido.application.dto.UsuarioCadastroDto;
+import school.sptech.ido.application.dto.UsuarioLoginDto;
 import school.sptech.ido.domain.model.Usuario;
+import school.sptech.ido.repository.UsuarioRepository;
+import school.sptech.ido.repository.entity.UsuarioEntity;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
-    private final List<Usuario> usuarios = new ArrayList<>();
-
-    @PostMapping
-    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
-        usuarios.add(usuario);
-        return ResponseEntity.status(201).body(usuario);
-    }
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> listarUsuarios() {
+    public ResponseEntity<List<UsuarioEntity>> listarUsuarios() {
+        List<UsuarioEntity> usuarios = usuarioRepository.findAll();
         return usuarios.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.ok().body(usuarios);
     }
 
-    @PutMapping("/{nome}")
-    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable String nome, @RequestBody Usuario usuarioNovo) {
-        for (Usuario usuario: usuarios) {
-            if (usuario.getNome().equalsIgnoreCase(nome)){
-                usuario = usuarioNovo;
-                return ResponseEntity.ok().body(usuario);
-            }
+    @PostMapping
+    public ResponseEntity<UsuarioEntity> cadastrarUsuario(@RequestBody @Valid UsuarioCadastroDto usuario) {
+        return ResponseEntity.status(201).body(usuarioRepository.save(new UsuarioEntity(usuario)));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UsuarioEntity> atualizarUsuario(
+        @PathVariable Integer id,
+        @RequestBody @Valid UsuarioAtualizadoDto usuarioAtualizadoDto
+    ) {
+
+        if (usuarioRepository.existsById(id)){
+            UsuarioEntity usuarioAtualizado = new UsuarioEntity(id, usuarioAtualizadoDto);
+            return ResponseEntity.ok().body(usuarioRepository.save(usuarioAtualizado));
         }
+
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{nome}")
-    public ResponseEntity<Void> deletarUsuario(@PathVariable String nome) {
-        return usuarios.removeIf(u -> u.getNome().equalsIgnoreCase(nome)) ?
-                ResponseEntity.ok().build() :
-                ResponseEntity.notFound().build();
+    @PatchMapping("/{id}/nivel/{novoNivel}")
+    public ResponseEntity<UsuarioEntity> atualizarNivel(
+        @PathVariable Integer id,
+        @PathVariable Integer novoNivel
+    ) {
+        Optional<UsuarioEntity> usuario = usuarioRepository.findById(id);
+
+        if (usuario.isPresent()){
+            UsuarioEntity usuarioEncontrado = usuario.get();
+            usuarioEncontrado.setNivel(novoNivel);
+            return ResponseEntity.ok().body(usuarioRepository.save(usuarioEncontrado));
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<UsuarioEntity> deletarUsuario(@PathVariable Integer id) {
+
+        if (usuarioRepository.existsById(id)){
+            usuarioRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Usuario> logar(@RequestBody Usuario user) {
-        Usuario usuario = validarLogin(user);
+    public ResponseEntity<UsuarioEntity> logar(@RequestBody @Valid UsuarioLoginDto usuarioLoginDto) {
+        Optional<UsuarioEntity> usuario = usuarioRepository.findByEmailAndSenha(
+            usuarioLoginDto.getEmail(),
+            usuarioLoginDto.getSenha()
+        );
 
-        if (usuario != null) {
-            usuario.setAutenticado(true);
-            HomeController.usuario = user;
-            TarefaController.usuario = user;
-            return ResponseEntity.ok().body(usuario);
+        if (usuario.isPresent()){
+            UsuarioEntity usuarioLogado = usuario.get();
+            usuarioLogado.setAutenticado(true);
+            return ResponseEntity.ok().body(usuarioRepository.save(usuarioLogado));
         }
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(401).build();
     }
 
-    @GetMapping("/logoff")
-    public ResponseEntity<Void> deslogar() {
-        if (HomeController.usuario != null && HomeController.usuario.isAutenticado()) {
-            HomeController.usuario.setAutenticado(false);
-            HomeController.usuario = null;
-            return ResponseEntity.ok().build();
+    @GetMapping("/{id}/logoff")
+    public ResponseEntity<Void> deslogar(@PathVariable Integer id) {
+
+        Optional<UsuarioEntity> usuario = usuarioRepository.findById(id);
+
+        if (usuario.isPresent()){
+            UsuarioEntity usuarioDeslogado = usuario.get();
+            if (usuarioDeslogado.getAutenticado()){
+                usuarioDeslogado.setAutenticado(false);
+                usuarioRepository.save(usuarioDeslogado);
+                return ResponseEntity.ok().build();
+            }
+            return ResponseEntity.status(401).build();
         }
-        return ResponseEntity.status(405).build();
+
+        return ResponseEntity.status(404).build();
     }
 
-    private Usuario validarLogin(Usuario user) {
-        return usuarios.stream()
-                .filter(u -> u.getEmail().equals(user.getEmail()) && u.getSenha().equals(user.getSenha()))
-                .findAny()
-                .orElse(null);
-    }
 }
