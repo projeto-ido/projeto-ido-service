@@ -1,19 +1,18 @@
 package school.sptech.ido.application.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.ido.application.dto.UsuarioAtualizadoDto;
-import school.sptech.ido.application.dto.UsuarioCadastroDto;
-import school.sptech.ido.application.dto.UsuarioLoginDto;
-import school.sptech.ido.domain.model.Usuario;
+import school.sptech.ido.application.dto.*;
+import school.sptech.ido.repository.TarefaRepository;
 import school.sptech.ido.repository.UsuarioRepository;
+import school.sptech.ido.repository.entity.TarefaEntity;
 import school.sptech.ido.repository.entity.UsuarioEntity;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -33,26 +32,26 @@ public class UsuarioController {
         return ResponseEntity.status(201).body(usuarioRepository.save(new UsuarioEntity(usuario)));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{idUsuario}")
     public ResponseEntity<UsuarioEntity> atualizarUsuario(
-        @PathVariable Integer id,
+        @PathVariable Integer idUsuario,
         @RequestBody @Valid UsuarioAtualizadoDto usuarioAtualizadoDto
     ) {
 
-        if (usuarioRepository.existsById(id)){
-            UsuarioEntity usuarioAtualizado = new UsuarioEntity(id, usuarioAtualizadoDto);
+        if (usuarioRepository.existsById(idUsuario)){
+            UsuarioEntity usuarioAtualizado = new UsuarioEntity(idUsuario, usuarioAtualizadoDto);
             return ResponseEntity.ok().body(usuarioRepository.save(usuarioAtualizado));
         }
 
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping("/{id}/nivel/{novoNivel}")
+    @PatchMapping("/{idUsuario}/nivel/{novoNivel}")
     public ResponseEntity<UsuarioEntity> atualizarNivel(
-        @PathVariable Integer id,
+        @PathVariable Integer idUsuario,
         @PathVariable Integer novoNivel
     ) {
-        Optional<UsuarioEntity> usuario = usuarioRepository.findById(id);
+        Optional<UsuarioEntity> usuario = usuarioRepository.findById(idUsuario);
 
         if (usuario.isPresent()){
             UsuarioEntity usuarioEncontrado = usuario.get();
@@ -63,11 +62,11 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<UsuarioEntity> deletarUsuario(@PathVariable Integer id) {
+    @DeleteMapping("/{idUsuario}")
+    public ResponseEntity<UsuarioEntity> deletarUsuario(@PathVariable Integer idUsuario) {
 
-        if (usuarioRepository.existsById(id)){
-            usuarioRepository.deleteById(id);
+        if (usuarioRepository.existsById(idUsuario)){
+            usuarioRepository.deleteById(idUsuario);
             return ResponseEntity.ok().build();
         }
 
@@ -90,10 +89,10 @@ public class UsuarioController {
         return ResponseEntity.status(401).build();
     }
 
-    @GetMapping("/{id}/logoff")
-    public ResponseEntity<Void> deslogar(@PathVariable Integer id) {
+    @GetMapping("/{idUsuario}/logoff")
+    public ResponseEntity<Void> deslogar(@PathVariable Integer idUsuario) {
 
-        Optional<UsuarioEntity> usuario = usuarioRepository.findById(id);
+        Optional<UsuarioEntity> usuario = usuarioRepository.findById(idUsuario);
 
         if (usuario.isPresent()){
             UsuarioEntity usuarioDeslogado = usuario.get();
@@ -108,4 +107,17 @@ public class UsuarioController {
         return ResponseEntity.status(404).build();
     }
 
+    public ResponseEntity<Void> isUsuarioAutenticado(Integer idUsuario){
+
+        Optional<UsuarioEntity> usuario = usuarioRepository.findById(idUsuario);
+
+        if (usuario.isPresent()){
+            UsuarioEntity usuarioEncontrado = usuario.get();
+            if (!usuarioEncontrado.getAutenticado()){
+                return ResponseEntity.status(401).build();
+            }
+        }
+
+        return ResponseEntity.notFound().build();
+    }
 }

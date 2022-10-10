@@ -8,7 +8,5 @@ import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer> {
 
-    @Query(value = "SELECT u.* FROM usuario AS u WHERE u.email = ?1 and u.senha = ?2", nativeQuery = true)
     Optional<UsuarioEntity> findByEmailAndSenha(String email, String senha);
-
 }

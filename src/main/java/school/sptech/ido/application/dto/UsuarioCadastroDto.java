@@ -1,8 +1,11 @@
 package school.sptech.ido.application.dto;
 
+import lombok.Data;
+
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
+@Data
 public class UsuarioCadastroDto {
 
     @NotBlank
@@ -24,44 +27,4 @@ public class UsuarioCadastroDto {
     @NotBlank
     @Size(max = 45)
     private String senha;
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getApelido() {
-        return apelido;
-    }
-
-    public void setApelido(String apelido) {
-        this.apelido = apelido;
-    }
-
-    public LocalDate getNascimento() {
-        return nascimento;
-    }
-
-    public void setNascimento(LocalDate nascimento) {
-        this.nascimento = nascimento;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
 }

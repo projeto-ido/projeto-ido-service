@@ -1,15 +1,19 @@
 package school.sptech.ido.repository.entity;
 
+import lombok.Data;
+import school.sptech.ido.application.dto.TarefaCadastroDto;
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "tarefa")
+@Data
 public class TarefaEntity {
 
     @Id
@@ -19,10 +23,6 @@ public class TarefaEntity {
     @NotBlank
     @Size(max = 30)
     private String titulo;
-
-    @NotNull
-    @Size(max = 200)
-    private String descricao;
 
     @NotNull
     private Boolean status;
@@ -55,99 +55,22 @@ public class TarefaEntity {
     )
     private List<EtiquetaEntity> etiquetasTarefa;
 
-    public Integer getIdTarefa() {
-        return idTarefa;
-    }
+    public TarefaEntity() {}
 
-    public void setIdTarefa(Integer idTarefa) {
-        this.idTarefa = idTarefa;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
-
-    public LocalDate getDataInicio() {
-        return dataInicio;
-    }
-
-    public void setDataInicio(LocalDate dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public LocalDate getDataFinal() {
-        return dataFinal;
-    }
-
-    public void setDataFinal(LocalDate dataFinal) {
-        this.dataFinal = dataFinal;
-    }
-
-    public LocalDate getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(LocalDate dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
-    public Boolean getUrgencia() {
-        return urgencia;
-    }
-
-    public void setUrgencia(Boolean urgencia) {
-        this.urgencia = urgencia;
-    }
-
-    public Boolean getImportancia() {
-        return importancia;
-    }
-
-    public void setImportancia(Boolean importancia) {
-        this.importancia = importancia;
-    }
-
-    public List<SubTarefaEntity> getSubTarefas() {
-        return subTarefas;
-    }
-
-    public void setSubTarefas(List<SubTarefaEntity> subTarefas) {
-        this.subTarefas = subTarefas;
-    }
-
-    public UsuarioEntity getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(UsuarioEntity usuario) {
+    public TarefaEntity(
+        TarefaCadastroDto tarefaCadastroDto,
+        UsuarioEntity usuario
+    ) {
+        this.idTarefa = null;
+        this.titulo = tarefaCadastroDto.getTitulo();
+        this.status = false;
+        this.dataInicio = tarefaCadastroDto.getDataInicio();
+        this.dataFinal = tarefaCadastroDto.getDataFinal();
+        this.dataCriacao = LocalDate.now();
+        this.urgencia = tarefaCadastroDto.getUrgencia();
+        this.importancia = tarefaCadastroDto.getImportancia();
+        this.subTarefas = new ArrayList<>();
         this.usuario = usuario;
-    }
-
-    public List<EtiquetaEntity> getEtiquetasTarefa() {
-        return etiquetasTarefa;
-    }
-
-    public void setEtiquetasTarefa(List<EtiquetaEntity> etiquetasTarefa) {
-        this.etiquetasTarefa = etiquetasTarefa;
+        this.etiquetasTarefa = new ArrayList<>();
     }
 }

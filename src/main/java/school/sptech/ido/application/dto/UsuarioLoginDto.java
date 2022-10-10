@@ -1,9 +1,12 @@
 package school.sptech.ido.application.dto;
 
+import lombok.Data;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+@Data
 public class UsuarioLoginDto {
 
     @NotBlank
@@ -14,20 +17,4 @@ public class UsuarioLoginDto {
     @NotBlank
     @Size(max = 45)
     private String senha;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
 }
