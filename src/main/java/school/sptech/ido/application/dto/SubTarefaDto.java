@@ -1,0 +1,26 @@
+package school.sptech.ido.application.dto;
+
+import lombok.Data;
+import school.sptech.ido.repository.entity.SubTarefaEntity;
+
+@Data
+public class SubTarefaDto {
+
+    private Integer idSubTarefa;
+
+    private String descricao;
+
+    private Boolean status;
+
+    private Integer prioridade;
+
+    private Integer fkTarefa;
+
+    public SubTarefaDto(SubTarefaEntity subTarefaEntity) {
+        this.idSubTarefa = subTarefaEntity.getIdSubTarefa();
+        this.descricao = subTarefaEntity.getDescricao();
+        this.status = subTarefaEntity.getStatus();
+        this.prioridade = subTarefaEntity.getPrioridade();
+        this.fkTarefa = subTarefaEntity.getTarefa().getIdTarefa();
+    }
+}

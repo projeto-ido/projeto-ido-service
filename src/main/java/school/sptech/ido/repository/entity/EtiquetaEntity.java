@@ -1,10 +1,12 @@
 package school.sptech.ido.repository.entity;
 
 import lombok.Data;
+import school.sptech.ido.application.dto.EtiquetaDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,4 +32,12 @@ public class EtiquetaEntity {
 
     @ManyToMany(mappedBy = "etiquetasTarefa")
     private List<TarefaEntity> tarefa;
+
+    public EtiquetaEntity(EtiquetaDto etiquetaDto, UsuarioEntity usuario) {
+        this.idEtiqueta = idEtiqueta;
+        this.titulo = titulo;
+        this.cor = cor;
+        this.usuario = usuario;
+        this.tarefa = new ArrayList<>();
+    }
 }
