@@ -1,9 +1,9 @@
 package school.sptech.ido.domain.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 public class SubTarefa extends Atividade{
 
-    @Getter @Setter private int prioridade;
+    private int prioridade;
 }
