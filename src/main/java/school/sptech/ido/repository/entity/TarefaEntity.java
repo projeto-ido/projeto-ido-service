@@ -37,6 +37,8 @@ public class TarefaEntity {
 
     private LocalDate dataCriacao;
 
+    private LocalDate dataConclusao;
+
     @NotNull
     private Boolean urgencia;
 
@@ -71,6 +73,7 @@ public class TarefaEntity {
         this.dataInicio = tarefaCadastroDto.getDataInicio();
         this.dataFinal = tarefaCadastroDto.getDataFinal();
         this.dataCriacao = LocalDate.now();
+        this.dataConclusao = null;
         this.urgencia = tarefaCadastroDto.getUrgencia();
         this.importancia = tarefaCadastroDto.getImportancia();
         this.subTarefas = new ArrayList<>();
