@@ -1,22 +1,22 @@
-package school.sptech.ido;
+package school.sptech.ido.domain.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Data
 public class Tarefa extends Atividade {
 
-    @Getter @Setter private String titulo;
-    @Getter private final List<SubTarefa> subtarefas = new ArrayList<>();
-    @Getter @Setter private Date dataInicio;
-    @Getter @Setter private Date dataFinal;
-    @Getter @Setter private Date dataCriacao;
-    @Getter private final List<Etiqueta> etiquetas = new ArrayList<>();
-    @Getter @Setter private boolean urgencia;
-    @Getter @Setter private boolean importancia;
+    private String titulo;
+    private final List<SubTarefa> subtarefas = new ArrayList<>();
+    private Date dataInicio;
+    private Date dataFinal;
+    private Date dataCriacao;
+    private final List<Etiqueta> etiquetas = new ArrayList<>();
+    private boolean urgencia;
+    private boolean importancia;
 
     public String calcularPrioridade() {
         if (urgencia && importancia) {
