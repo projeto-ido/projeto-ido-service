@@ -14,6 +14,7 @@ import school.sptech.ido.repository.entity.TarefaEntity;
 import school.sptech.ido.repository.entity.UsuarioEntity;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -160,6 +161,7 @@ public class TarefaController {
             if (tarefaEntity.isPresent()){
                 TarefaEntity tarefaAtualizada = tarefaEntity.get();
                 tarefaAtualizada.setStatus(true);
+                tarefaAtualizada.setDataConclusao(LocalDate.now());
                 tarefaRepository.save(tarefaAtualizada);
                 return ResponseEntity.ok().build();
             }
