@@ -59,4 +59,46 @@ public class SubTarefaController {
 
         return ResponseEntity.notFound().build();
     }
+
+    @PutMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}/sub-tarefas/{idSubTarefa}")
+    public ResponseEntity<SubTarefaEntity> atualizarSubTarefaPorIdTarefa(
+            @PathVariable Integer idUsuario,
+            @PathVariable Integer idTarefa,
+            @PathVariable Integer idSubTarefa,
+            @RequestBody SubTarefaDto subTarefaDto
+    ){
+        usuarioController.isUsuarioAutenticado(idUsuario);
+
+        Optional<TarefaEntity> tarefa = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
+        if (tarefa.isPresent()){
+            subTarefaDto.setIdSubTarefa(idSubTarefa);
+            if (subTarefaRepository.existsById(idSubTarefa)){
+                return ResponseEntity.status(200).body(
+                        subTarefaRepository.save(new SubTarefaEntity(subTarefaDto, tarefa.get())));
+            }
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}/sub-tarefas/{idSubTarefa}")
+    public ResponseEntity<SubTarefaEntity> deletarSubTarefaPorIdTarefa(
+            @PathVariable Integer idUsuario,
+            @PathVariable Integer idTarefa,
+            @PathVariable Integer idSubTarefa
+    ){
+        usuarioController.isUsuarioAutenticado(idUsuario);
+
+        Optional<TarefaEntity> tarefa = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
+        if (tarefa.isPresent()){
+            if (subTarefaRepository.existsById(idSubTarefa)){
+                subTarefaRepository.deleteById(idSubTarefa);
+                return ResponseEntity.status(200).build();
+            }
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.notFound().build();
+    }
 }

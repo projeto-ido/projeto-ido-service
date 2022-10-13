@@ -1,6 +1,7 @@
 package school.sptech.ido.repository.entity;
 
 import lombok.Data;
+import school.sptech.ido.application.dto.ConquistaDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -26,4 +27,11 @@ public class ConquistaEntity {
     @ManyToOne
     @JoinColumn(name="fk_usuario", nullable=false)
     private UsuarioEntity usuario;
+
+    public ConquistaEntity(ConquistaDto conquistaDto, UsuarioEntity usuario) {
+        this.idConquista = null;
+        this.nome = conquistaDto.getNome();
+        this.descricao = conquistaDto.getDescricao();
+        this.usuario = usuario;
+    }
 }

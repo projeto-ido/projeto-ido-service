@@ -2,6 +2,7 @@ package school.sptech.ido.repository.entity;
 
 import lombok.Data;
 import school.sptech.ido.application.dto.SubTarefaCadastroDto;
+import school.sptech.ido.application.dto.SubTarefaDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -35,6 +36,14 @@ public class SubTarefaEntity {
         this.descricao = subTarefaCadastroDto.getDescricao();
         this.status = false;
         this.prioridade = subTarefaCadastroDto.getPrioridade();
+        this.tarefa = tarefa;
+    }
+
+    public SubTarefaEntity(SubTarefaDto subTarefaDto, TarefaEntity tarefa) {
+        this.idSubTarefa = subTarefaDto.getIdSubTarefa();
+        this.descricao = subTarefaDto.getDescricao();
+        this.status = subTarefaDto.getStatus();
+        this.prioridade = subTarefaDto.getPrioridade();
         this.tarefa = tarefa;
     }
 }

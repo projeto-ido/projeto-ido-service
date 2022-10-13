@@ -107,17 +107,15 @@ public class UsuarioController {
         return ResponseEntity.status(404).build();
     }
 
-    public ResponseEntity<Void> isUsuarioAutenticado(Integer idUsuario){
+    public Boolean isUsuarioAutenticado(Integer idUsuario){
 
         Optional<UsuarioEntity> usuario = usuarioRepository.findById(idUsuario);
 
         if (usuario.isPresent()){
             UsuarioEntity usuarioEncontrado = usuario.get();
-            if (!usuarioEncontrado.getAutenticado()){
-                return ResponseEntity.status(401).build();
-            }
+            return usuarioEncontrado.getAutenticado();
         }
 
-        return ResponseEntity.notFound().build();
+        return false;
     }
 }
