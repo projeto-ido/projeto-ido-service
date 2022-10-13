@@ -1,13 +1,12 @@
 package school.sptech.ido.repository.entity;
 
 import lombok.Data;
-
+import school.sptech.ido.application.dto.UsuarioAtualizadoDto;
+import school.sptech.ido.application.dto.UsuarioCadastroDto;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,7 +27,9 @@ public class UsuarioEntity {
     private String apelido;
 
     @NotBlank
-    @Size(max = 45)
+    @Size(max = 100)
+    @Email
+    @Column(name = "email", unique = true)
     private String email;
 
     @NotBlank
@@ -45,11 +46,16 @@ public class UsuarioEntity {
     @Column(name = "imagem_perfil", columnDefinition="BLOB")
     private Byte[] imagemPerfil;
 
-    @NotBlank
     private String imagemBiografia;
 
     @NotNull
     private Integer nivel;
+
+    @NotNull
+    private Boolean autenticado;
+
+    @NotNull
+    private Boolean notificacao;
 
     @OneToMany(mappedBy = "usuario")
     private List<TarefaEntity> tarefas;
@@ -59,4 +65,39 @@ public class UsuarioEntity {
 
     @OneToMany(mappedBy = "usuario")
     private List<EtiquetaEntity> etiquetas;
+
+    public UsuarioEntity() {}
+
+    public UsuarioEntity(UsuarioCadastroDto usuarioCadastroDto) {
+        this.idUsuario = null;
+        this.nome = usuarioCadastroDto.getNome();
+        this.apelido = usuarioCadastroDto.getApelido();
+        this.email = usuarioCadastroDto.getEmail();
+        this.senha = usuarioCadastroDto.getSenha();
+        this.biografia = "Bem vindo ao iDo! Você pode editar sua biografia se quiser!";
+        this.nascimento = usuarioCadastroDto.getNascimento();
+        this.imagemPerfil = null;
+        this.imagemBiografia = null;
+        this.nivel = 0;
+        this.autenticado = false;
+        this.notificacao = false;
+        this.tarefas = new ArrayList<>();
+        this.conquistas = new ArrayList<>();
+        this.etiquetas = new ArrayList<>();
+    }
+
+    public UsuarioEntity(Integer id, UsuarioAtualizadoDto usuarioAtualizadoDto) {
+        this.idUsuario = id;
+        this.nome = usuarioAtualizadoDto.getNome();
+        this.apelido = usuarioAtualizadoDto.getApelido();
+        this.email = usuarioAtualizadoDto.getEmail();
+        this.senha = usuarioAtualizadoDto.getSenha();
+        this.biografia = usuarioAtualizadoDto.getBiografia();
+        this.nascimento = usuarioAtualizadoDto.getNascimento();
+        this.imagemPerfil = usuarioAtualizadoDto.getImagemPerfil();
+        this.imagemBiografia = usuarioAtualizadoDto.getImagemBiografia();
+        this.nivel = usuarioAtualizadoDto.getNivel();
+        this.autenticado = true;
+        this.notificacao = false;
+    }
 }

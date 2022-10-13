@@ -30,29 +30,6 @@ public class Tarefa extends Atividade {
         return "Não priorizar";
     }
 
-    public SubTarefa adicionarSubTarefa(SubTarefa subTarefa) {
-        if (subtarefas.size() < 5) {
-            subTarefa.setId(subtarefas.size() + 1);
-            subtarefas.add(subTarefa);
-            return subTarefa;
-        }
-        return null;
-    }
-
-    public SubTarefa removerSubTarefa(int id) {
-        if (id > 0 && id <= subtarefas.size()) return subtarefas.remove(id - 1);
-
-        return null;
-    }
-
-    public SubTarefa editarSubtarefa(int id, SubTarefa subTarefa) {
-        if (id > 0 && id <= subtarefas.size()) {
-            subtarefas.set(id - 1, subTarefa);
-            return subtarefas.get(id - 1);
-        }
-        return null;
-    }
-
     public Etiqueta adicionarEtiqueta(Etiqueta etiqueta) {
         if (etiquetas.size() < 5) {
             etiqueta.setId(etiquetas.size() + 1);

@@ -1,72 +1,135 @@
 package school.sptech.ido.application.controller;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.ido.domain.model.Etiqueta;
-import school.sptech.ido.domain.model.SubTarefa;
-import school.sptech.ido.domain.model.Tarefa;
-import school.sptech.ido.domain.model.Usuario;
+import school.sptech.ido.application.dto.TarefaAtualizadaDto;
+import school.sptech.ido.application.dto.TarefaCadastroDto;
+import school.sptech.ido.application.dto.TarefaDto;
+import school.sptech.ido.repository.TarefaRepository;
+import school.sptech.ido.repository.UsuarioRepository;
+import school.sptech.ido.repository.entity.TarefaEntity;
+import school.sptech.ido.repository.entity.UsuarioEntity;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/home/tarefa")
 public class TarefaController {
-    static Tarefa tarefa;
-    static Usuario usuario;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Tarefa> selecionarTarefa(@PathVariable int id) {
-        if (id > 0 && id <= usuario.getTarefas().size()) {
-            tarefa = usuario.getTarefas().get(id - 1);
-            return ResponseEntity.ok().body(tarefa);
+    @Autowired
+    UsuarioRepository usuarioRepository;
+
+    @Autowired
+    TarefaRepository tarefaRepository;
+
+    @Autowired
+    UsuarioController usuarioController;
+
+    @GetMapping("/usuarios/{idUsuario}/tarefas")
+    public ResponseEntity<List<TarefaDto>> listarTarefasPorIdUsuario(@PathVariable Integer idUsuario){
+
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            List<TarefaEntity> tarefas = tarefaRepository.findByFkUsuario(idUsuario);
+
+            if (tarefas.isEmpty()){
+                return ResponseEntity.noContent().build();
+            }
+
+            return ResponseEntity.ok().body(tarefas.stream().map(TarefaDto::new).collect(Collectors.toList()));
+        } else {
+            return ResponseEntity.status(403).build();
         }
-        return ResponseEntity.notFound().build();
+
     }
 
-    @GetMapping("/sub")
-    public ResponseEntity<List<SubTarefa>> listarSubtarefa() {
-        List<SubTarefa> subTarefas = tarefa.getSubtarefas();
-        return subTarefas.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.ok().body(subTarefas);
+    @GetMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}")
+    public ResponseEntity<TarefaDto> buscarPorIdTarefa(
+            @PathVariable Integer idUsuario,
+            @PathVariable Integer idTarefa
+    ){
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            Optional<TarefaEntity> tarefaEntity = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
+
+            if (tarefaEntity.isPresent()){
+                return ResponseEntity.ok().body(new TarefaDto(tarefaEntity.get()));
+            }
+
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.status(403).build();
+        }
+
     }
 
-    @PostMapping("/sub")
-    public ResponseEntity<SubTarefa> criarSubTarefa(@RequestBody SubTarefa subtarefa) {
-        SubTarefa subTarefaAdicionada = tarefa.adicionarSubTarefa(subtarefa);
-        return subTarefaAdicionada != null ?
-                ResponseEntity.status(201).body(subTarefaAdicionada) :
-                ResponseEntity.status(405).build();
+    @PostMapping("/usuarios/{idUsuario}/tarefas")
+    public ResponseEntity<TarefaDto> salvarTarefaPorIdUsuario(
+            @PathVariable Integer idUsuario,
+            @RequestBody @Valid TarefaCadastroDto tarefaCadastroDto
+    ){
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            Optional<UsuarioEntity> usuario = usuarioRepository.findById(idUsuario);
+
+            if (usuario.isPresent()){
+                UsuarioEntity usuarioEncontrado = usuario.get();
+                TarefaEntity tarefaSalva = tarefaRepository.save(new TarefaEntity(tarefaCadastroDto, usuarioEncontrado));
+                return ResponseEntity.status(201).body(new TarefaDto(tarefaSalva));
+            }
+
+            return ResponseEntity.status(401).build();
+        } else {
+            return ResponseEntity.status(403).build();
+        }
+
     }
 
-    @PutMapping("/sub/{id}")
-    public ResponseEntity<SubTarefa> atualizarSubtarefa(@PathVariable int id, @RequestBody SubTarefa subtarefa) {
-        SubTarefa subTarefaEditada = tarefa.editarSubtarefa(id, subtarefa);
-        return subTarefaEditada != null ?
-                ResponseEntity.ok().body(subTarefaEditada) :
-                ResponseEntity.notFound().build();
+    @PutMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}")
+    public ResponseEntity<TarefaDto> atualizarTarefaPorIdTarefa(
+        @PathVariable Integer idUsuario,
+        @PathVariable Integer idTarefa,
+        @RequestBody @Valid TarefaAtualizadaDto tarefaAtualizadaDto
+    ){
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            Optional<TarefaEntity> tarefaEntity = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
+
+            if (tarefaEntity.isPresent()){
+                TarefaEntity tarefaEncontrada = tarefaEntity.get();
+                BeanUtils.copyProperties(tarefaAtualizadaDto, tarefaEncontrada);
+                TarefaEntity tarefaAtualizada = tarefaRepository.save(tarefaEncontrada);
+                return ResponseEntity.ok().body(new TarefaDto(tarefaAtualizada));
+            }
+
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.status(403).build();
+        }
+
     }
 
-    @DeleteMapping("/sub/{id}")
-    public ResponseEntity<SubTarefa> removerSubtarefa(@PathVariable int id) {
-        SubTarefa subTarefaRemovida = tarefa.removerSubTarefa(id);
-        return subTarefaRemovida != null ?
-                ResponseEntity.ok().body(subTarefaRemovida) :
-                ResponseEntity.notFound().build();
-    }
+    @DeleteMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}")
+    public ResponseEntity<Void> deletarTarefaPorIdTarefa(
+        @PathVariable Integer idUsuario,
+        @PathVariable Integer idTarefa
+    ){
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
 
-    @PostMapping("/etiqueta")
-    public ResponseEntity<Etiqueta> associarEtiqueta(@RequestBody Etiqueta etiqueta) {
-        Etiqueta etiquetaAdicionada = tarefa.adicionarEtiqueta(etiqueta);
-        return etiquetaAdicionada != null ?
-                ResponseEntity.status(201).body(etiquetaAdicionada) :
-                ResponseEntity.notFound().build();
-    }
+            if (tarefaRepository.existsById(idTarefa)){
+                tarefaRepository.deleteById(idTarefa);
+                return ResponseEntity.ok().build();
+            }
 
-    @DeleteMapping("/etiqueta/{id}")
-    public ResponseEntity<Etiqueta> desassociarEtiqueta(@PathVariable int id){
-        Etiqueta etiquetaRemovida = tarefa.removerEtiqueta(id);
-        return etiquetaRemovida != null ?
-                ResponseEntity.ok().body(etiquetaRemovida) :
-                ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.status(403).build();
+        }
+
     }
 }

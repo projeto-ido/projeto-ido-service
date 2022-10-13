@@ -39,8 +39,6 @@ public class Usuario implements Ordenavel{
         return null;
     }
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    // TODO: repensar nome do método (começa com "is" mas nao retorna um boolean)
     public Tarefa isConcluido(int id, Tarefa tarefa) {
         if (isIdValid(id)) {
             tarefas.get(id - 1).setStatus(tarefa.isStatus());
