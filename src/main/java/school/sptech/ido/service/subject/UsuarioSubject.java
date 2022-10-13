@@ -2,28 +2,30 @@ package school.sptech.ido.service.subject;
 
 import school.sptech.ido.domain.model.Usuario;
 import school.sptech.ido.repository.UsuarioRepository;
+import school.sptech.ido.repository.entity.UsuarioEntity;
 import school.sptech.ido.service.observer.ApplicationObsever;
 
 import java.time.LocalDate;
 
 public class UsuarioSubject {
 
-    private Usuario usuario;
+    private UsuarioEntity usuario;
 
     private ApplicationObsever observer;
 
 
-    public UsuarioSubject(Usuario usuario, LocalDate dtAtual) {
+    public UsuarioSubject(UsuarioEntity usuario) {
         this.usuario = usuario;
-        observer = new ApplicationObsever(dtAtual);
+    }
+
+    public void notificar(){
+        observer.
     }
 
 
 
 
-
-
-    public Usuario getUsuario() {
+    public UsuarioEntity getUsuario() {
         return usuario;
     }
 
