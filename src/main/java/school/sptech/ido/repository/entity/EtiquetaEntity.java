@@ -1,8 +1,6 @@
 package school.sptech.ido.repository.entity;
 
 import lombok.Data;
-import school.sptech.ido.application.dto.EtiquetaDto;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

@@ -3,7 +3,6 @@ package school.sptech.ido.repository.entity;
 import lombok.Data;
 import school.sptech.ido.application.dto.UsuarioAtualizadoDto;
 import school.sptech.ido.application.dto.UsuarioCadastroDto;
-
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;

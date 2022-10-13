@@ -1,24 +1,24 @@
 package school.sptech.ido.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Data
 public class Usuario implements Ordenavel{
-    @Getter @Setter private int idUsuario;
-    @Getter @Setter private String nome;
-    @Getter @Setter private Date dataNascimento;
-    @Getter @Setter private String email;
+    private int idUsuario;
+    private String nome;
+    private Date dataNascimento;
+    private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Getter @Setter private String senha;
-    @Getter @Setter private String bio;
-    @Getter @Setter private GerenciadorEtiquetas gerenciadorEtiquetas = new GerenciadorEtiquetas();
-    @Getter private final List<Tarefa> tarefas = new ArrayList<>();
-    @Getter @Setter private boolean isAutenticado;
+    private String senha;
+    private String bio;
+    private GerenciadorEtiquetas gerenciadorEtiquetas = new GerenciadorEtiquetas();
+    private final List<Tarefa> tarefas = new ArrayList<>();
+    private boolean isAutenticado;
 
     public void adicionarTarefa(Tarefa tarefa) {
         tarefa.setId(tarefas.size() + 1);
