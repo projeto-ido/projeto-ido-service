@@ -1,7 +1,7 @@
 package school.sptech.ido.domain.model;
 
 import lombok.Data;
-import school.sptech.ido.Enums.CorEtiqueta;
+import school.sptech.ido.enums.CorEtiqueta;
 
 @Data
 public class Etiqueta implements Comparable<Etiqueta> {
