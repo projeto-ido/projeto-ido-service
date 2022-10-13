@@ -1,6 +1,7 @@
 package school.sptech.ido.repository.entity;
 
 import lombok.Data;
+import school.sptech.ido.application.dto.EtiquetaDto;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -32,9 +33,9 @@ public class EtiquetaEntity {
     private List<TarefaEntity> tarefa;
 
     public EtiquetaEntity(EtiquetaDto etiquetaDto, UsuarioEntity usuario) {
-        this.idEtiqueta = idEtiqueta;
-        this.titulo = titulo;
-        this.cor = cor;
+        this.idEtiqueta = etiquetaDto.getIdEtiqueta();
+        this.titulo = etiquetaDto.getTitulo();
+        this.cor = etiquetaDto.getCor();
         this.usuario = usuario;
         this.tarefa = new ArrayList<>();
     }
