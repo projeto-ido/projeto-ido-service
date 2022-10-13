@@ -14,6 +14,8 @@ public class TarefaDto {
 
     private String titulo;
 
+    private String descricao;
+
     private Boolean status;
 
     private LocalDate dataInicio;
@@ -37,6 +39,8 @@ public class TarefaDto {
     public TarefaDto(TarefaEntity tarefaEntity) {
         this.idTarefa = tarefaEntity.getIdTarefa();
         this.titulo = tarefaEntity.getTitulo();
+        this.descricao = tarefaEntity.getDescricao();
+        this.status = tarefaEntity.getStatus();
         this.dataInicio = tarefaEntity.getDataInicio();
         this.dataFinal = tarefaEntity.getDataFinal();
         this.dataCriacao = tarefaEntity.getDataCriacao();

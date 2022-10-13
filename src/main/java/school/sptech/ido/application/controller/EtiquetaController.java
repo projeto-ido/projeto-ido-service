@@ -33,15 +33,18 @@ public class EtiquetaController {
 
     @GetMapping("/usuarios/{idUsuario}/etiquetas")
     public ResponseEntity<List<EtiquetaDto>> listarEtiquetas(@PathVariable Integer idUsuario) {
-        usuarioController.isUsuarioAutenticado(idUsuario);
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            List<EtiquetaEntity> etiquetas = etiquetaRepository.findByFkUsuario(idUsuario);
 
-        List<EtiquetaEntity> etiquetas = etiquetaRepository.findByFkUsuario(idUsuario);
+            if (etiquetas.isEmpty()){
+                return ResponseEntity.noContent().build();
+            }
 
-        if (etiquetas.isEmpty()){
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().body(etiquetas.stream().map(EtiquetaDto::new).collect(Collectors.toList()));
+        } else {
+            return ResponseEntity.status(403).build();
         }
-
-        return ResponseEntity.ok().body(etiquetas.stream().map(EtiquetaDto::new).collect(Collectors.toList()));
     }
 
     @GetMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}/etiquetas")
@@ -49,15 +52,18 @@ public class EtiquetaController {
        @PathVariable Integer idUsuario,
        @PathVariable Integer idTarefa
     ){
-        usuarioController.isUsuarioAutenticado(idUsuario);
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            List<EtiquetaEntity> etiquetas = etiquetaRepository.findByFkUsuario(idUsuario);
 
-        List<EtiquetaEntity> etiquetas = etiquetaRepository.findByFkUsuario(idUsuario);
+            if (etiquetas.isEmpty()){
+                return ResponseEntity.noContent().build();
+            }
 
-        if (etiquetas.isEmpty()){
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().body(etiquetas.stream().map(EtiquetaDto::new).collect(Collectors.toList()));
+        } else {
+            return ResponseEntity.status(403).build();
         }
-
-        return ResponseEntity.ok().body(etiquetas.stream().map(EtiquetaDto::new).collect(Collectors.toList()));
     }
 
     @PostMapping("/usuarios/{idUsuario}/etiquetas")
@@ -65,18 +71,21 @@ public class EtiquetaController {
         @PathVariable Integer idUsuario,
         @RequestBody @Valid EtiquetaDto etiquetaDto
     ){
-        usuarioController.isUsuarioAutenticado(idUsuario);
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            Optional<UsuarioEntity> usuario = usuarioRepository.findById(idUsuario);
 
-        Optional<UsuarioEntity> usuario = usuarioRepository.findById(idUsuario);
+            if (usuario.isPresent()){
+                UsuarioEntity usuarioEncontrado = usuario.get();
+                EtiquetaEntity etiquetaSalva =
+                        etiquetaRepository.save(new EtiquetaEntity(etiquetaDto, usuarioEncontrado));
+                return ResponseEntity.status(201).body(new EtiquetaDto(etiquetaSalva));
+            }
 
-        if (usuario.isPresent()){
-            UsuarioEntity usuarioEncontrado = usuario.get();
-            EtiquetaEntity etiquetaSalva =
-                etiquetaRepository.save(new EtiquetaEntity(etiquetaDto, usuarioEncontrado));
-            return ResponseEntity.status(201).body(new EtiquetaDto(etiquetaSalva));
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.status(403).build();
         }
-
-        return ResponseEntity.status(401).build();
     }
 
     @DeleteMapping("/usuarios/{idUsuario}/etiquetas/{idEtiqueta}")
@@ -84,15 +93,21 @@ public class EtiquetaController {
         @PathVariable Integer idUsuario,
         @PathVariable Integer idEtiqueta
     ){
-        usuarioController.isUsuarioAutenticado(idUsuario);
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            Optional<EtiquetaEntity> etiqueta = etiquetaRepository.findByFkUsuarioAndIdEtiqueta(idUsuario, idEtiqueta);
 
-        Optional<EtiquetaEntity> etiqueta = etiquetaRepository.findByFkUsuarioAndIdEtiqueta(idUsuario, idEtiqueta);
-        if (etiqueta.isPresent()){
-            etiquetaRepository.deletaAllEtiquetaById(idEtiqueta);
-            etiquetaRepository.deleteById(idEtiqueta);
-            return ResponseEntity.status(200).build();
+            if (etiqueta.isPresent()){
+                etiquetaRepository.deletaAllEtiquetaById(idEtiqueta);
+                etiquetaRepository.deleteById(idEtiqueta);
+                return ResponseEntity.status(200).build();
+            }
+
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.status(403).build();
         }
-        return ResponseEntity.notFound().build();
+
     }
 
     @PostMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}/etiquetas/{idEtiqueta}")
@@ -101,21 +116,29 @@ public class EtiquetaController {
             @PathVariable Integer idTarefa,
             @PathVariable Integer idEtiqueta
     ){
-        usuarioController.isUsuarioAutenticado(idUsuario);
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            Optional<TarefaEntity> tarefa = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
+            if (tarefa.isPresent()){
+                TarefaEntity tarefaEncontrada = tarefa.get();
+                Optional<EtiquetaEntity> etiqueta = etiquetaRepository
+                        .findByFkUsuarioAndIdEtiqueta(idUsuario, idEtiqueta);
 
-        Optional<TarefaEntity> tarefa = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
-        if (tarefa.isPresent()){
-            TarefaEntity tarefaEncontrada = tarefa.get();
-            Optional<EtiquetaEntity> etiqueta = etiquetaRepository.findByFkUsuarioAndIdEtiqueta(idUsuario, idEtiqueta);
-            if (etiqueta.isPresent()){
-                EtiquetaEntity etiquetaEncontrada = etiqueta.get();
-                etiquetaRepository.saveEtiquetaTarefa(idTarefa, idEtiqueta);
-                return ResponseEntity.status(201).build();
+                if (etiqueta.isPresent()){
+                    EtiquetaEntity etiquetaEncontrada = etiqueta.get();
+                    etiquetaRepository.saveEtiquetaTarefa(idTarefa, idEtiqueta);
+                    return ResponseEntity.status(201).build();
+                }
+
+                return ResponseEntity.notFound().build();
             }
+
             return ResponseEntity.notFound().build();
+
+        } else {
+            return ResponseEntity.status(403).build();
         }
 
-        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}/etiquetas/{idEtiqueta}")
@@ -124,20 +147,27 @@ public class EtiquetaController {
             @PathVariable Integer idTarefa,
             @PathVariable Integer idEtiqueta
     ){
-        usuarioController.isUsuarioAutenticado(idUsuario);
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            Optional<TarefaEntity> tarefa = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
 
-        Optional<TarefaEntity> tarefa = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
-        if (tarefa.isPresent()){
-            TarefaEntity tarefaEncontrada = tarefa.get();
-            Optional<EtiquetaEntity> etiqueta = etiquetaRepository.findByFkUsuarioAndIdEtiqueta(idUsuario, idEtiqueta);
-            if (etiqueta.isPresent()){
-                EtiquetaEntity etiquetaEncontrada = etiqueta.get();
-                etiquetaRepository.deleteEtiquetaByIdAndIdTarefa(idTarefa, idEtiqueta);
-                return ResponseEntity.status(200).build();
+            if (tarefa.isPresent()){
+                TarefaEntity tarefaEncontrada = tarefa.get();
+                Optional<EtiquetaEntity> etiqueta = etiquetaRepository.findByFkUsuarioAndIdEtiqueta(idUsuario, idEtiqueta);
+
+                if (etiqueta.isPresent()){
+                    EtiquetaEntity etiquetaEncontrada = etiqueta.get();
+                    etiquetaRepository.deleteEtiquetaByIdAndIdTarefa(idTarefa, idEtiqueta);
+                    return ResponseEntity.status(200).build();
+                }
+
+                return ResponseEntity.notFound().build();
             }
+
             return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.status(403).build();
         }
 
-        return ResponseEntity.notFound().build();
     }
 }

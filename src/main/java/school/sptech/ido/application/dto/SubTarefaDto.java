@@ -8,7 +8,7 @@ public class SubTarefaDto {
 
     private Integer idSubTarefa;
 
-    private String descricao;
+    private String titulo;
 
     private Boolean status;
 
@@ -18,7 +18,7 @@ public class SubTarefaDto {
 
     public SubTarefaDto(SubTarefaEntity subTarefaEntity) {
         this.idSubTarefa = subTarefaEntity.getIdSubTarefa();
-        this.descricao = subTarefaEntity.getDescricao();
+        this.titulo = subTarefaEntity.getTitulo();
         this.status = subTarefaEntity.getStatus();
         this.prioridade = subTarefaEntity.getPrioridade();
         this.fkTarefa = subTarefaEntity.getTarefa().getIdTarefa();

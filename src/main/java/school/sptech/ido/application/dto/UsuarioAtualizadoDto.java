@@ -21,7 +21,7 @@ public class UsuarioAtualizadoDto {
     private String apelido;
 
     @NotBlank
-    @Size(max = 45)
+    @Size(max = 100)
     private String email;
 
     @NotBlank
@@ -41,4 +41,7 @@ public class UsuarioAtualizadoDto {
 
     @NotNull
     private Integer nivel;
+
+    @NotNull
+    private Boolean notificacao;
 }

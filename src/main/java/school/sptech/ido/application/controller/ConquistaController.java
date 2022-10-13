@@ -60,6 +60,4 @@ public class ConquistaController {
             return ResponseEntity.status(401).build();
         }
     }
-
-
 }

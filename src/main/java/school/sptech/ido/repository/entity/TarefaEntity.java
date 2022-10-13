@@ -21,8 +21,11 @@ public class TarefaEntity {
     private Integer idTarefa;
 
     @NotBlank
-    @Size(max = 30)
+    @Size(max = 45)
     private String titulo;
+
+    @Size(max = 200)
+    private String descricao;
 
     @NotNull
     private Boolean status;
@@ -63,6 +66,7 @@ public class TarefaEntity {
     ) {
         this.idTarefa = null;
         this.titulo = tarefaCadastroDto.getTitulo();
+        this.descricao = tarefaCadastroDto.getDescricao();
         this.status = false;
         this.dataInicio = tarefaCadastroDto.getDataInicio();
         this.dataFinal = tarefaCadastroDto.getDataFinal();

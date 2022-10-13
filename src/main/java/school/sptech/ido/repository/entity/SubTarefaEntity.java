@@ -19,7 +19,8 @@ public class SubTarefaEntity {
     private Integer idSubTarefa;
 
     @NotBlank
-    private String descricao;
+    @Size(max = 20)
+    private String titulo;
 
     @NotNull
     private Boolean status;
@@ -33,7 +34,7 @@ public class SubTarefaEntity {
 
     public SubTarefaEntity(SubTarefaCadastroDto subTarefaCadastroDto, TarefaEntity tarefa) {
         this.idSubTarefa = null;
-        this.descricao = subTarefaCadastroDto.getDescricao();
+        this.titulo = subTarefaCadastroDto.getTitulo();
         this.status = false;
         this.prioridade = subTarefaCadastroDto.getPrioridade();
         this.tarefa = tarefa;
@@ -41,7 +42,7 @@ public class SubTarefaEntity {
 
     public SubTarefaEntity(SubTarefaDto subTarefaDto, TarefaEntity tarefa) {
         this.idSubTarefa = subTarefaDto.getIdSubTarefa();
-        this.descricao = subTarefaDto.getDescricao();
+        this.titulo = subTarefaDto.getTitulo();
         this.status = subTarefaDto.getStatus();
         this.prioridade = subTarefaDto.getPrioridade();
         this.tarefa = tarefa;

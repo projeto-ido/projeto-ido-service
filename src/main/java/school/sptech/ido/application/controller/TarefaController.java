@@ -32,15 +32,19 @@ public class TarefaController {
     @GetMapping("/usuarios/{idUsuario}/tarefas")
     public ResponseEntity<List<TarefaDto>> listarTarefasPorIdUsuario(@PathVariable Integer idUsuario){
 
-        usuarioController.isUsuarioAutenticado(idUsuario);
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            List<TarefaEntity> tarefas = tarefaRepository.findByFkUsuario(idUsuario);
 
-        List<TarefaEntity> tarefas = tarefaRepository.findByFkUsuario(idUsuario);
+            if (tarefas.isEmpty()){
+                return ResponseEntity.noContent().build();
+            }
 
-        if (tarefas.isEmpty()){
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().body(tarefas.stream().map(TarefaDto::new).collect(Collectors.toList()));
+        } else {
+            return ResponseEntity.status(403).build();
         }
 
-        return ResponseEntity.ok().body(tarefas.stream().map(TarefaDto::new).collect(Collectors.toList()));
     }
 
     @GetMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}")
@@ -48,15 +52,19 @@ public class TarefaController {
             @PathVariable Integer idUsuario,
             @PathVariable Integer idTarefa
     ){
-        usuarioController.isUsuarioAutenticado(idUsuario);
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            Optional<TarefaEntity> tarefaEntity = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
 
-        Optional<TarefaEntity> tarefaEntity = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
+            if (tarefaEntity.isPresent()){
+                return ResponseEntity.ok().body(new TarefaDto(tarefaEntity.get()));
+            }
 
-        if (tarefaEntity.isPresent()){
-            return ResponseEntity.ok().body(new TarefaDto(tarefaEntity.get()));
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.status(403).build();
         }
 
-        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/usuarios/{idUsuario}/tarefas")
@@ -64,17 +72,21 @@ public class TarefaController {
             @PathVariable Integer idUsuario,
             @RequestBody @Valid TarefaCadastroDto tarefaCadastroDto
     ){
-        usuarioController.isUsuarioAutenticado(idUsuario);
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            Optional<UsuarioEntity> usuario = usuarioRepository.findById(idUsuario);
 
-        Optional<UsuarioEntity> usuario = usuarioRepository.findById(idUsuario);
+            if (usuario.isPresent()){
+                UsuarioEntity usuarioEncontrado = usuario.get();
+                TarefaEntity tarefaSalva = tarefaRepository.save(new TarefaEntity(tarefaCadastroDto, usuarioEncontrado));
+                return ResponseEntity.status(201).body(new TarefaDto(tarefaSalva));
+            }
 
-        if (usuario.isPresent()){
-            UsuarioEntity usuarioEncontrado = usuario.get();
-            TarefaEntity tarefaSalva = tarefaRepository.save(new TarefaEntity(tarefaCadastroDto, usuarioEncontrado));
-            return ResponseEntity.status(201).body(new TarefaDto(tarefaSalva));
+            return ResponseEntity.status(401).build();
+        } else {
+            return ResponseEntity.status(403).build();
         }
 
-        return ResponseEntity.status(401).build();
     }
 
     @PutMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}")
@@ -83,18 +95,22 @@ public class TarefaController {
         @PathVariable Integer idTarefa,
         @RequestBody @Valid TarefaAtualizadaDto tarefaAtualizadaDto
     ){
-        usuarioController.isUsuarioAutenticado(idUsuario);
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            Optional<TarefaEntity> tarefaEntity = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
 
-        Optional<TarefaEntity> tarefaEntity = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
+            if (tarefaEntity.isPresent()){
+                TarefaEntity tarefaEncontrada = tarefaEntity.get();
+                BeanUtils.copyProperties(tarefaAtualizadaDto, tarefaEncontrada);
+                TarefaEntity tarefaAtualizada = tarefaRepository.save(tarefaEncontrada);
+                return ResponseEntity.ok().body(new TarefaDto(tarefaAtualizada));
+            }
 
-        if (tarefaEntity.isPresent()){
-            TarefaEntity tarefaEncontrada = tarefaEntity.get();
-            BeanUtils.copyProperties(tarefaAtualizadaDto, tarefaEncontrada);
-            TarefaEntity tarefaAtualizada = tarefaRepository.save(tarefaEncontrada);
-            return ResponseEntity.ok().body(new TarefaDto(tarefaAtualizada));
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.status(403).build();
         }
 
-        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}")
@@ -102,13 +118,18 @@ public class TarefaController {
         @PathVariable Integer idUsuario,
         @PathVariable Integer idTarefa
     ){
-        usuarioController.isUsuarioAutenticado(idUsuario);
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
 
-        if (tarefaRepository.existsById(idTarefa)){
-            tarefaRepository.deleteById(idTarefa);
-            return ResponseEntity.ok().build();
+            if (tarefaRepository.existsById(idTarefa)){
+                tarefaRepository.deleteById(idTarefa);
+                return ResponseEntity.ok().build();
+            }
+
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.status(403).build();
         }
 
-        return ResponseEntity.notFound().build();
     }
 }
