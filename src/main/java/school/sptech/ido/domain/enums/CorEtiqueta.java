@@ -1,4 +1,4 @@
-package school.sptech.ido.enums;
+package school.sptech.ido.domain.enums;
 
 import lombok.Getter;
 

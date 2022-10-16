@@ -3,16 +3,13 @@ package school.sptech.ido.application.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.ido.application.dto.*;
-import school.sptech.ido.repository.TarefaRepository;
-import school.sptech.ido.repository.UsuarioRepository;
-import school.sptech.ido.repository.entity.TarefaEntity;
-import school.sptech.ido.repository.entity.UsuarioEntity;
+import school.sptech.ido.application.controller.dto.*;
+import school.sptech.ido.resources.repository.UsuarioRepository;
+import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuarios")

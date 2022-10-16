@@ -1,7 +1,7 @@
-package school.sptech.ido.repository.entity;
+package school.sptech.ido.resources.repository.entity;
 
 import lombok.Data;
-import school.sptech.ido.application.dto.TarefaCadastroDto;
+import school.sptech.ido.application.controller.dto.TarefaCadastroDto;
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;

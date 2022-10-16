@@ -1,6 +1,6 @@
 package school.sptech.ido.domain.model;
 
-import school.sptech.ido.repository.entity.TarefaEntity;
+import school.sptech.ido.resources.repository.entity.TarefaEntity;
 
 public class ListaObj<T> {
         private T[] vetor;

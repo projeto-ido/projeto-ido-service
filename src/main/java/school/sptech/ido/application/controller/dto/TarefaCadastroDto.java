@@ -1,4 +1,4 @@
-package school.sptech.ido.application.dto;
+package school.sptech.ido.application.controller.dto;
 
 import lombok.Data;
 import javax.validation.constraints.NotBlank;

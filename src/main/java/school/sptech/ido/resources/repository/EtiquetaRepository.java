@@ -1,8 +1,8 @@
-package school.sptech.ido.repository;
+package school.sptech.ido.resources.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import school.sptech.ido.repository.entity.EtiquetaEntity;
+import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
 import java.util.List;
 import java.util.Optional;
 

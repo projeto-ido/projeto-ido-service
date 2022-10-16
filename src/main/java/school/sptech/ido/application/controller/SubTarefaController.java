@@ -3,11 +3,11 @@ package school.sptech.ido.application.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.ido.application.dto.*;
-import school.sptech.ido.repository.SubTarefaRepository;
-import school.sptech.ido.repository.TarefaRepository;
-import school.sptech.ido.repository.entity.SubTarefaEntity;
-import school.sptech.ido.repository.entity.TarefaEntity;
+import school.sptech.ido.application.controller.dto.*;
+import school.sptech.ido.resources.repository.SubTarefaRepository;
+import school.sptech.ido.resources.repository.TarefaRepository;
+import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
+import school.sptech.ido.resources.repository.entity.TarefaEntity;
 
 import javax.validation.Valid;
 import java.util.List;
