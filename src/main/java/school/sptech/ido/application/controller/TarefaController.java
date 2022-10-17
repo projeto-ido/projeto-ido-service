@@ -67,8 +67,6 @@ public class TarefaController {
                 listaTarefas.adiciona(tarefa);
             }
 
-            listaTarefas.exibe();
-
             listaTarefas.ordenarTarefa(listaTarefas);
 
             List<TarefaDto> tarefasDtos = new ArrayList<TarefaDto>();

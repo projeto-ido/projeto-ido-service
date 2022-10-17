@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "456dd113-fb1e-466b-b07a-e22b017e420c",
+		"_postman_id": "9cf75b72-5415-4e45-a766-fd45d347c70f",
 		"name": "projeto-ido",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23048583"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -61,7 +60,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\": \"Nathan David\",\r\n    \"apelido\": \"Megathan10\",\r\n    \"email\": \"nathan.david@sptech.com.br\",\r\n    \"senha\": \"Megathan101234\",\r\n    \"biografia\": \"Bem vindo ao iDo! Você pode editar sua biografia se quiser!\",\r\n    \"nascimento\": \"2022-10-01\",\r\n    \"imagemPerfil\": null,\r\n    \"imagemBiografia\": null,\r\n    \"nivel\": 0\r\n}",
+							"raw": "{\r\n    \"nome\": \"Nathan David\",\r\n    \"apelido\": \"Megathan10\",\r\n    \"email\": \"nathan.david@sptech.com.br\",\r\n    \"senha\": \"Megathan101234\",\r\n    \"biografia\": \"Bem vindo ao iDo! Você pode editar sua biografia se quiser!\",\r\n    \"nascimento\": \"2022-10-01\",\r\n    \"imagemPerfil\": null,\r\n    \"imagemBiografia\": null,\r\n    \"nivel\": 0,\r\n    \"notificacao\": false\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -196,6 +195,48 @@
 					"response": []
 				},
 				{
+					"name": "listar-tarefas-ordenado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/usuarios/1/tarefas/ordenado",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"1",
+								"tarefas",
+								"ordenado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar-tarefa-por-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/usuarios/1/tarefas/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"1",
+								"tarefas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "criar-tarefas",
 					"request": {
 						"method": "POST",
@@ -225,42 +266,44 @@
 					"response": []
 				},
 				{
-					"name": "buscar-tarefa-por-id",
+					"name": "atualizar-tarefa",
 					"request": {
-						"method": "GET",
+						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios/{idUsuario}/tarefas/{idTarefa}",
+							"raw": "localhost:8080/usuarios/1/tarefas/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"usuarios",
-								"{idUsuario}",
+								"1",
 								"tarefas",
-								"{idTarefa}"
+								"1"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "atualizar-tarefa",
+					"name": "atualizar-status-tarefa",
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios/{idUsuario}/tarefas/{idTarefa}",
+							"raw": "localhost:8080/usuarios/1/tarefas/1/status/concluido",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"usuarios",
-								"{idUsuario}",
+								"1",
 								"tarefas",
-								"{idTarefa}"
+								"1",
+								"status",
+								"concluido"
 							]
 						}
 					},
@@ -272,16 +315,16 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios/{idUsuario}/tarefas/{idTarefa}",
+							"raw": "localhost:8080/usuarios/1/tarefas/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"usuarios",
-								"{idUsuario}",
+								"1",
 								"tarefas",
-								"{idTarefa}"
+								"1"
 							]
 						}
 					},
@@ -298,14 +341,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios/{idUsuario}/etiquetas",
+							"raw": "localhost:8080/usuarios/1/etiquetas",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"usuarios",
-								"{idUsuario}",
+								"1",
 								"etiquetas"
 							]
 						}
@@ -318,16 +361,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios/{idUsuario}/tarefas/{idTarefa}/etiquetas",
+							"raw": "localhost:8080/usuarios/1/tarefas/1/etiquetas",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"usuarios",
-								"{idUsuario}",
+								"1",
 								"tarefas",
-								"{idTarefa}",
+								"1",
 								"etiquetas"
 							]
 						}
@@ -340,14 +383,14 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios/{idUsuario}/etiquetas",
+							"raw": "localhost:8080/usuarios/1/etiquetas",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"usuarios",
-								"{idUsuario}",
+								"1",
 								"etiquetas"
 							]
 						}
@@ -360,16 +403,16 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios/{idUsuario}/etiquetas/{idEtiqueta}",
+							"raw": "localhost:8080/usuarios/1/etiquetas/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"usuarios",
-								"{idUsuario}",
+								"1",
 								"etiquetas",
-								"{idEtiqueta}"
+								"1"
 							]
 						}
 					},
@@ -381,17 +424,16 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080//usuarios/{idUsuario}/tarefas/{idTarefa}/etiquetas",
+							"raw": "localhost:8080/usuarios/1/tarefas/1/etiquetas",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"",
 								"usuarios",
-								"{idUsuario}",
+								"1",
 								"tarefas",
-								"{idTarefa}",
+								"1",
 								"etiquetas"
 							]
 						}
@@ -432,16 +474,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios/{idUsuario}/tarefas/{idTarefa}/sub-tarefas",
+							"raw": "localhost:8080/usuarios/1/tarefas/1/sub-tarefas",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"usuarios",
-								"{idUsuario}",
+								"1",
 								"tarefas",
-								"{idTarefa}",
+								"1",
 								"sub-tarefas"
 							]
 						}
@@ -454,17 +496,117 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/usuarios/{idUsuario}/tarefas/{idTarefa}/sub-tarefas",
+							"raw": "localhost:8080/usuarios/1/tarefas/1/sub-tarefas",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"usuarios",
-								"{idUsuario}",
+								"1",
 								"tarefas",
-								"{idTarefa}",
+								"1",
 								"sub-tarefas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar-subtarefa",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/usuarios/1/tarefas/1/sub-tarefas/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"1",
+								"tarefas",
+								"1",
+								"sub-tarefas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletar-subtarefa",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/usuarios/1/tarefas/1/sub-tarefas/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"1",
+								"tarefas",
+								"1",
+								"sub-tarefas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Conquista",
+			"item": [
+				{
+					"name": "listar-conquistas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/usuarios/1/conquistas",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"1",
+								"conquistas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "salvar-conquista",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"NOME CONQUISTA\",\r\n  \"descricao\": \"descricao\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/usuarios/1/conquistas",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"1",
+								"conquistas"
 							]
 						}
 					},
