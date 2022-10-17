@@ -54,7 +54,7 @@ public class EtiquetaController {
     ){
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
         if (isAutenticado){
-            List<EtiquetaEntity> etiquetas = etiquetaRepository.findByFkUsuario(idUsuario);
+            List<EtiquetaEntity> etiquetas = etiquetaRepository.findByIdTarefa(idTarefa);
 
             if (etiquetas.isEmpty()){
                 return ResponseEntity.noContent().build();

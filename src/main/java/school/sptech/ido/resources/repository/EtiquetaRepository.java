@@ -14,6 +14,10 @@ public interface EtiquetaRepository extends JpaRepository<EtiquetaEntity, Intege
     @Query(value = "SELECT e.* FROM etiqueta AS e WHERE e.fk_usuario = ?1 AND e.id_etiqueta = ?2", nativeQuery = true)
     Optional<EtiquetaEntity> findByFkUsuarioAndIdEtiqueta(Integer fkUsuario, Integer idEtiqueta);
 
+    @Query(value = "SELECT e.* FROM etiqueta AS e join tarefa_etiqueta AS te on e.id_etiqueta = te.id_etiqueta " +
+            "join tarefa AS t on te.id_tarefa = t.id_tarefa WHERE t.id_tarefa= ?1", nativeQuery = true)
+    List<EtiquetaEntity> findByIdTarefa(Integer idTarefa);
+
     @Query(value = "INSERT INTO tarefa_etiqueta VALUES ( ?1, ?2)", nativeQuery = true)
     void saveEtiquetaTarefa(Integer idTarefa, Integer idEtiqueta);
 
