@@ -33,6 +33,8 @@ public class UsuarioDto {
 
     private Integer nivel;
 
+    private Boolean autenticado;
+
     private Boolean notificacao;
 
     public UsuarioDto(UsuarioEntity usuarioEntity) {
@@ -46,6 +48,7 @@ public class UsuarioDto {
         this.imagemPerfil = usuarioEntity.getImagemPerfil();
         this.imagemBiografia = usuarioEntity.getImagemBiografia();
         this.nivel = usuarioEntity.getNivel();
+        this.autenticado = usuarioEntity.getAutenticado();
         this.notificacao = usuarioEntity.getNotificacao();
     }
 }
