@@ -1,5 +1,10 @@
 package school.sptech.ido.application.controller;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +17,7 @@ import school.sptech.ido.repository.entity.UsuarioEntity;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Conquista", description = "Reponsável por gerir as conquistas dos usuários.")
 @RestController
 public class ConquistaController {
 
@@ -23,6 +29,15 @@ public class ConquistaController {
 
     @Autowired
     UsuarioController usuarioController;
+
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Não há Conquista realizadas.", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "200", description = "Conquistas encontradas."),
+            @ApiResponse(responseCode = "404", description = "Conquista não encontrada.", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado."),
+
+
+    })
 
     @GetMapping("/usuarios/{idUsuario}/conquistas")
     public ResponseEntity<List<ConquistaEntity>> listarConquistas(
@@ -50,12 +65,10 @@ public class ConquistaController {
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
         if (isAutenticado){
             Optional<UsuarioEntity> usuarioEntity = usuarioRepository.findById(idUsuario);
-            if (usuarioEntity.isPresent()){
-                return ResponseEntity.status(201).body(
-                    conquistaRepository.save(new ConquistaEntity(conquistaDto, usuarioEntity.get()))
-                );
-            }
-            return ResponseEntity.notFound().build();
+
+            return usuarioEntity.map(entity -> ResponseEntity.status(201).body(
+                    conquistaRepository.save(new ConquistaEntity(conquistaDto, entity))
+            )).orElseGet(() -> ResponseEntity.notFound().build());
         } else {
             return ResponseEntity.status(401).build();
         }

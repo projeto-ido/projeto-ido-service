@@ -1,5 +1,10 @@
 package school.sptech.ido.application.controller;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Tag(name = "Tarefa", description = "Reponsável por gerir as Tarefas do usuários.")
 @RestController
 public class TarefaController {
 
@@ -28,6 +34,18 @@ public class TarefaController {
 
     @Autowired
     UsuarioController usuarioController;
+
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Não há Tarefas cadastradas.", content = @Content(schema = @Schema(hidden = true))
+            ),
+            @ApiResponse(responseCode = "200", description = "Tarefas encontradas."),
+            @ApiResponse(responseCode = "201", description = "Tarefa cadastrada."),
+            @ApiResponse(responseCode = "401", description = "O conteúdo não é autorizado."),
+            @ApiResponse(responseCode = "403", description = "O conteúdo dessa página é proibido.")
+    })
+
 
     @GetMapping("/usuarios/{idUsuario}/tarefas")
     public ResponseEntity<List<TarefaDto>> listarTarefasPorIdUsuario(@PathVariable Integer idUsuario){
@@ -56,11 +74,14 @@ public class TarefaController {
         if (isAutenticado){
             Optional<TarefaEntity> tarefaEntity = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
 
-            if (tarefaEntity.isPresent()){
-                return ResponseEntity.ok().body(new TarefaDto(tarefaEntity.get()));
-            }
+            return tarefaEntity.map(
+                entity -> ResponseEntity.ok().body(
+                    new TarefaDto(entity)
+                )
+            ).orElseGet(
+                () -> ResponseEntity.notFound().build()
+            );
 
-            return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.status(403).build();
         }
