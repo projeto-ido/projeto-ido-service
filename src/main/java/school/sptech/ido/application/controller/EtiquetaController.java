@@ -1,5 +1,10 @@
 package school.sptech.ido.application.controller;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Tag(name = "Etiquetas", description = "Reponsável por gerir as etiquetas nas tarefas e nas sub Tarefas dos usuários.")
 @RestController
 public class EtiquetaController {
 
@@ -30,6 +36,16 @@ public class EtiquetaController {
 
     @Autowired
     UsuarioController usuarioController;
+
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "204",
+            description = "Não há Etiquetas cadastradas.", content = @Content(schema = @Schema(hidden = true))
+        ),
+        @ApiResponse(responseCode = "200", description = "Etiquetas encontradas."),
+        @ApiResponse(responseCode = "201", description = "Etiqueta cadastrada."),
+        @ApiResponse(responseCode = "403", description = "O conteúdo dessa página é proibido.")
+    })
 
     @GetMapping("/usuarios/{idUsuario}/etiquetas")
     public ResponseEntity<List<EtiquetaDto>> listarEtiquetas(@PathVariable Integer idUsuario) {

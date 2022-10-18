@@ -1,5 +1,10 @@
 package school.sptech.ido.application.controller;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Tag(name = "Sub-Tarefa", description = "Reponsável por gerir as sub-tarefas que estão associada a tarefa.")
 @RestController
 public class SubTarefaController {
 
@@ -25,6 +31,16 @@ public class SubTarefaController {
 
     @Autowired
     SubTarefaRepository subTarefaRepository;
+
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Não há Sub-Tarefas cadastradas.", content = @Content(schema = @Schema(hidden = true))
+            ),
+            @ApiResponse(responseCode = "200", description = "Sub-Tarefas encontradas."),
+            @ApiResponse(responseCode = "201", description = "sub-Tarefa cadastrada."),
+            @ApiResponse(responseCode = "403", description = "O conteúdo dessa página é proibido.")
+    })
 
     @GetMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}/sub-tarefas/")
     public ResponseEntity<List<SubTarefaDto>> buscarPorIdTarefa(
