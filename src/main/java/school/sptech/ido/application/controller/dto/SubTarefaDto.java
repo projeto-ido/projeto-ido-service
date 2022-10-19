@@ -1,7 +1,7 @@
-package school.sptech.ido.application.dto;
+package school.sptech.ido.application.controller.dto;
 
 import lombok.Data;
-import school.sptech.ido.repository.entity.SubTarefaEntity;
+import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
 
 @Data
 public class SubTarefaDto {

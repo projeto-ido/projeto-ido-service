@@ -8,11 +8,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.ido.application.dto.ConquistaDto;
-import school.sptech.ido.repository.ConquistaRepository;
-import school.sptech.ido.repository.UsuarioRepository;
-import school.sptech.ido.repository.entity.ConquistaEntity;
-import school.sptech.ido.repository.entity.UsuarioEntity;
+import school.sptech.ido.application.controller.dto.ConquistaDto;
+import school.sptech.ido.resources.repository.ConquistaRepository;
+import school.sptech.ido.resources.repository.UsuarioRepository;
+import school.sptech.ido.resources.repository.entity.ConquistaEntity;
+import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 
 import java.util.List;
 import java.util.Optional;

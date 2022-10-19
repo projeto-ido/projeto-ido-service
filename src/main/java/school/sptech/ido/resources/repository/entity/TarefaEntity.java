@@ -1,7 +1,7 @@
-package school.sptech.ido.repository.entity;
+package school.sptech.ido.resources.repository.entity;
 
 import lombok.Data;
-import school.sptech.ido.application.dto.TarefaCadastroDto;
+import school.sptech.ido.application.controller.dto.TarefaCadastroDto;
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
@@ -37,6 +37,8 @@ public class TarefaEntity {
 
     private LocalDate dataCriacao;
 
+    private LocalDate dataConclusao;
+
     @NotNull
     private Boolean urgencia;
 
@@ -71,6 +73,7 @@ public class TarefaEntity {
         this.dataInicio = tarefaCadastroDto.getDataInicio();
         this.dataFinal = tarefaCadastroDto.getDataFinal();
         this.dataCriacao = LocalDate.now();
+        this.dataConclusao = null;
         this.urgencia = tarefaCadastroDto.getUrgencia();
         this.importancia = tarefaCadastroDto.getImportancia();
         this.subTarefas = new ArrayList<>();

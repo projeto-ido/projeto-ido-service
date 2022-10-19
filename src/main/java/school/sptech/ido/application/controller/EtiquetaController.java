@@ -8,13 +8,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.ido.application.dto.EtiquetaDto;
-import school.sptech.ido.repository.EtiquetaRepository;
-import school.sptech.ido.repository.TarefaRepository;
-import school.sptech.ido.repository.UsuarioRepository;
-import school.sptech.ido.repository.entity.EtiquetaEntity;
-import school.sptech.ido.repository.entity.TarefaEntity;
-import school.sptech.ido.repository.entity.UsuarioEntity;
+import school.sptech.ido.application.controller.dto.EtiquetaDto;
+import school.sptech.ido.resources.repository.EtiquetaRepository;
+import school.sptech.ido.resources.repository.TarefaRepository;
+import school.sptech.ido.resources.repository.UsuarioRepository;
+import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
+import school.sptech.ido.resources.repository.entity.TarefaEntity;
+import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -70,7 +70,7 @@ public class EtiquetaController {
     ){
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
         if (isAutenticado){
-            List<EtiquetaEntity> etiquetas = etiquetaRepository.findByFkUsuario(idUsuario);
+            List<EtiquetaEntity> etiquetas = etiquetaRepository.findByIdTarefa(idTarefa);
 
             if (etiquetas.isEmpty()){
                 return ResponseEntity.noContent().build();

@@ -9,15 +9,18 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.ido.application.dto.TarefaAtualizadaDto;
-import school.sptech.ido.application.dto.TarefaCadastroDto;
-import school.sptech.ido.application.dto.TarefaDto;
-import school.sptech.ido.repository.TarefaRepository;
-import school.sptech.ido.repository.UsuarioRepository;
-import school.sptech.ido.repository.entity.TarefaEntity;
-import school.sptech.ido.repository.entity.UsuarioEntity;
+import school.sptech.ido.application.controller.dto.TarefaAtualizadaDto;
+import school.sptech.ido.application.controller.dto.TarefaCadastroDto;
+import school.sptech.ido.application.controller.dto.TarefaDto;
+import school.sptech.ido.domain.model.ListaObj;
+import school.sptech.ido.resources.repository.TarefaRepository;
+import school.sptech.ido.resources.repository.UsuarioRepository;
+import school.sptech.ido.resources.repository.entity.TarefaEntity;
+import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,6 +62,37 @@ public class TarefaController {
             }
 
             return ResponseEntity.ok().body(tarefas.stream().map(TarefaDto::new).collect(Collectors.toList()));
+        } else {
+            return ResponseEntity.status(403).build();
+        }
+
+    }
+
+    @GetMapping("/usuarios/{idUsuario}/tarefas/ordenado")
+    public ResponseEntity<List<TarefaDto>> listarTarefasPorIdUsuarioOrdenadas(@PathVariable Integer idUsuario){
+
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            List<TarefaEntity> tarefas = tarefaRepository.findByFkUsuario(idUsuario);
+
+            if (tarefas.isEmpty()){
+                return ResponseEntity.noContent().build();
+            }
+
+            ListaObj<TarefaEntity> listaTarefas = new ListaObj<TarefaEntity>(tarefas.size());
+
+            for (TarefaEntity tarefa: tarefas){
+                listaTarefas.adiciona(tarefa);
+            }
+
+            listaTarefas.ordenarTarefa(listaTarefas);
+
+            List<TarefaDto> tarefasDtos = new ArrayList<TarefaDto>();
+            for (int i = 0; i < listaTarefas.getTamanho(); i++) {
+                tarefasDtos.add(new TarefaDto(listaTarefas.getElemento(i)));
+            }
+
+            return ResponseEntity.ok().body(tarefasDtos);
         } else {
             return ResponseEntity.status(403).build();
         }
@@ -132,6 +166,29 @@ public class TarefaController {
             return ResponseEntity.status(403).build();
         }
 
+    }
+
+    @PatchMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}/status/concluido")
+    public ResponseEntity<Void> atualizarStatusPorIdTarefa(
+        @PathVariable Integer idUsuario,
+        @PathVariable Integer idTarefa
+    ){
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            Optional<TarefaEntity> tarefaEntity = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
+
+            if (tarefaEntity.isPresent()){
+                TarefaEntity tarefaAtualizada = tarefaEntity.get();
+                tarefaAtualizada.setStatus(true);
+                tarefaAtualizada.setDataConclusao(LocalDate.now());
+                tarefaRepository.save(tarefaAtualizada);
+                return ResponseEntity.ok().build();
+            }
+
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.status(403).build();
+        }
     }
 
     @DeleteMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}")

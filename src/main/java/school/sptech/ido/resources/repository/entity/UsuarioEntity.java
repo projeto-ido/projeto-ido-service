@@ -1,8 +1,8 @@
-package school.sptech.ido.repository.entity;
+package school.sptech.ido.resources.repository.entity;
 
 import lombok.Data;
-import school.sptech.ido.application.dto.UsuarioAtualizadoDto;
-import school.sptech.ido.application.dto.UsuarioCadastroDto;
+import school.sptech.ido.application.controller.dto.UsuarioAtualizadoDto;
+import school.sptech.ido.application.controller.dto.UsuarioCadastroDto;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;

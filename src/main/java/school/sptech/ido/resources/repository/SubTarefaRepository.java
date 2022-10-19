@@ -1,8 +1,8 @@
-package school.sptech.ido.repository;
+package school.sptech.ido.resources.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import school.sptech.ido.repository.entity.SubTarefaEntity;
+import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
 
 import java.util.List;
 

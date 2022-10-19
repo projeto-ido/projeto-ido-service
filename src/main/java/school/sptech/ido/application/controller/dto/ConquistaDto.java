@@ -1,7 +1,6 @@
-package school.sptech.ido.application.dto;
+package school.sptech.ido.application.controller.dto;
 
 import lombok.Data;
-import school.sptech.ido.repository.entity.ConquistaEntity;
 
 import javax.validation.constraints.NotBlank;
 
