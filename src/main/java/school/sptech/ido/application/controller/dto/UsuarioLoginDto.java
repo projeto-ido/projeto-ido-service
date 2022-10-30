@@ -1,4 +1,4 @@
-package school.sptech.ido.application.dto;
+package school.sptech.ido.application.controller.dto;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 public class UsuarioLoginDto {
 
     @NotBlank
-    @Size(max = 45)
+    @Size(max = 100)
     @Email
     private String email;
 

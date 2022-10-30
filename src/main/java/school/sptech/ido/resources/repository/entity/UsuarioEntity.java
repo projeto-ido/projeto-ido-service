@@ -1,9 +1,8 @@
-package school.sptech.ido.repository.entity;
+package school.sptech.ido.resources.repository.entity;
 
 import lombok.Data;
-import school.sptech.ido.application.dto.UsuarioAtualizadoDto;
-import school.sptech.ido.application.dto.UsuarioCadastroDto;
-
+import school.sptech.ido.application.controller.dto.UsuarioAtualizadoDto;
+import school.sptech.ido.application.controller.dto.UsuarioCadastroDto;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -28,7 +27,7 @@ public class UsuarioEntity {
     private String apelido;
 
     @NotBlank
-    @Size(max = 45)
+    @Size(max = 100)
     @Email
     @Column(name = "email", unique = true)
     private String email;
@@ -55,6 +54,9 @@ public class UsuarioEntity {
     @NotNull
     private Boolean autenticado;
 
+    @NotNull
+    private Boolean notificacao;
+
     @OneToMany(mappedBy = "usuario")
     private List<TarefaEntity> tarefas;
 
@@ -78,6 +80,7 @@ public class UsuarioEntity {
         this.imagemBiografia = null;
         this.nivel = 0;
         this.autenticado = false;
+        this.notificacao = false;
         this.tarefas = new ArrayList<>();
         this.conquistas = new ArrayList<>();
         this.etiquetas = new ArrayList<>();
@@ -95,5 +98,6 @@ public class UsuarioEntity {
         this.imagemBiografia = usuarioAtualizadoDto.getImagemBiografia();
         this.nivel = usuarioAtualizadoDto.getNivel();
         this.autenticado = true;
+        this.notificacao = false;
     }
 }

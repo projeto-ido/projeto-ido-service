@@ -1,9 +1,9 @@
-package school.sptech.ido.application.dto;
+package school.sptech.ido.application.controller.dto;
 
 import lombok.Data;
-import school.sptech.ido.repository.entity.EtiquetaEntity;
-import school.sptech.ido.repository.entity.SubTarefaEntity;
-import school.sptech.ido.repository.entity.TarefaEntity;
+import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
+import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
+import school.sptech.ido.resources.repository.entity.TarefaEntity;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,6 +13,8 @@ public class TarefaDto {
     private Integer idTarefa;
 
     private String titulo;
+
+    private String descricao;
 
     private Boolean status;
 
@@ -37,6 +39,8 @@ public class TarefaDto {
     public TarefaDto(TarefaEntity tarefaEntity) {
         this.idTarefa = tarefaEntity.getIdTarefa();
         this.titulo = tarefaEntity.getTitulo();
+        this.descricao = tarefaEntity.getDescricao();
+        this.status = tarefaEntity.getStatus();
         this.dataInicio = tarefaEntity.getDataInicio();
         this.dataFinal = tarefaEntity.getDataFinal();
         this.dataCriacao = tarefaEntity.getDataCriacao();

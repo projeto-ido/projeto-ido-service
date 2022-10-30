@@ -1,13 +1,14 @@
 package school.sptech.ido.domain.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import school.sptech.ido.domain.enums.CorEtiqueta;
 
+@Data
 public class Etiqueta implements Comparable<Etiqueta> {
 
-    @Getter @Setter private int id;
-    @Getter @Setter private String titulo;
-    @Getter @Setter private CorEtiqueta cor;
+    private int id;
+    private String titulo;
+    private CorEtiqueta cor;
 
     @Override
     public int compareTo(Etiqueta etiqueta) {

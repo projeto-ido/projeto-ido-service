@@ -1,12 +1,15 @@
 package school.sptech.ido.domain.model;
 
-import lombok.Getter;
+import lombok.Data;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+@Data
 public class GerenciadorEtiquetas implements Ordenavel {
 
-    @Getter private final List<Etiqueta> etiquetas = new ArrayList<>();
+    private final List<Etiqueta> etiquetas = new ArrayList<>();
 
     public Etiqueta cadastrarEtiqueta(Etiqueta etiqueta) {
         if (etiquetas.size() < 5) {

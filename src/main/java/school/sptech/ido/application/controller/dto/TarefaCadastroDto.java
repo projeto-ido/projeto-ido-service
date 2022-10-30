@@ -1,4 +1,4 @@
-package school.sptech.ido.application.dto;
+package school.sptech.ido.application.controller.dto;
 
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
@@ -10,8 +10,11 @@ import java.time.LocalDate;
 public class TarefaCadastroDto {
 
     @NotBlank
-    @Size(max = 30)
+    @Size(max = 45)
     private String titulo;
+
+    @Size(max = 200)
+    private String descricao;
 
     private LocalDate dataInicio;
 
