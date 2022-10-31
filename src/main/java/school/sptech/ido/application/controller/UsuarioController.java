@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import school.sptech.ido.application.controller.dto.*;
 import school.sptech.ido.resources.repository.UsuarioRepository;
 import school.sptech.ido.resources.repository.entity.UsuarioEntity;
+import school.sptech.ido.service.UsuarioService;
+import school.sptech.ido.service.subject.UsuarioSubject;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +28,9 @@ public class UsuarioController {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    UsuarioService usuarioService;
 
     @ApiResponses({
             @ApiResponse(
@@ -134,4 +140,27 @@ public class UsuarioController {
 
         return false;
     }
+
+
+    @PostMapping("/notificacao/desabilita/{id}")
+    public ResponseEntity<UsuarioDto> desabilitarNotificacao(@PathVariable Integer id){
+        return usuarioService.removerSubject(id) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/notificacao/habilita/{id}")
+    public ResponseEntity<Void> habilitarNotificacao(@PathVariable Integer id){
+        if (usuarioService.adicionarSubject(id))
+            return ResponseEntity.ok().build();
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/notificacao/envio")
+    public ResponseEntity<Void> teste(){
+        usuarioService.verificarData(LocalDate.now());
+
+        return ResponseEntity.status(200).build();
+    }
+
+
 }
