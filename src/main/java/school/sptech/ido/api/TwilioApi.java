@@ -7,14 +7,14 @@ import com.twilio.type.PhoneNumber;
 public class TwilioApi {
 
     public static void main(String[] args) {
-        String ACCOUNT_SID = "AC1e44cb741107923533c059559d4855ad";
-        String AUTH_TOKEN = "d00ca5fd613ac59e33a7adf8727229d3";
+        String ACCOUNT_SID = "";
+        String AUTH_TOKEN = "";
 
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
-                        new com.twilio.type.PhoneNumber("+5511994437209"),
+                        new com.twilio.type.PhoneNumber("+5511989970024"),
                         "MGe64e8c82b97affee4a8dfd95410cd73c",
-                        "Bjiadsjfiasjio")
+                        "")
                 .create();
 
         System.out.println(message.getSid());

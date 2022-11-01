@@ -12,6 +12,7 @@ public class Usuario implements Ordenavel{
     private int idUsuario;
     private String nome;
     private Date dataNascimento;
+    private String telefone;
     private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
