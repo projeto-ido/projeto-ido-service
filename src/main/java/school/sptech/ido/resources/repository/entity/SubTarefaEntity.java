@@ -24,9 +24,6 @@ public class SubTarefaEntity {
     @NotNull
     private Boolean status;
 
-    @NotNull
-    private Integer prioridade;
-
     @ManyToOne
     @JoinColumn(name="fk_tarefa", nullable=false)
     private TarefaEntity tarefa;
@@ -35,7 +32,6 @@ public class SubTarefaEntity {
         this.idSubTarefa = null;
         this.titulo = subTarefaCadastroDto.getTitulo();
         this.status = false;
-        this.prioridade = subTarefaCadastroDto.getPrioridade();
         this.tarefa = tarefa;
     }
 
@@ -43,7 +39,6 @@ public class SubTarefaEntity {
         this.idSubTarefa = subTarefaDto.getIdSubTarefa();
         this.titulo = subTarefaDto.getTitulo();
         this.status = subTarefaDto.getStatus();
-        this.prioridade = subTarefaDto.getPrioridade();
         this.tarefa = tarefa;
     }
 }
