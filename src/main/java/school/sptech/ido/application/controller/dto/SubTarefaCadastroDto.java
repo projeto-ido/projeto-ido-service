@@ -1,12 +1,11 @@
 package school.sptech.ido.application.controller.dto;
 
-import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Data
+
 public class SubTarefaCadastroDto {
 
     @NotBlank
@@ -16,4 +15,19 @@ public class SubTarefaCadastroDto {
     @NotNull
     private Integer prioridade;
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public Integer getPrioridade() {
+        return prioridade;
+    }
+
+    public void setPrioridade(Integer prioridade) {
+        this.prioridade = prioridade;
+    }
 }

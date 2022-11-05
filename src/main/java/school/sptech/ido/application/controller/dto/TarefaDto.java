@@ -1,13 +1,11 @@
 package school.sptech.ido.application.controller.dto;
 
-import lombok.Data;
 import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
 import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
 public class TarefaDto {
 
     private Integer idTarefa;

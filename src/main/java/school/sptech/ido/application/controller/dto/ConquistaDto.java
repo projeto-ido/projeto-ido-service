@@ -1,10 +1,8 @@
 package school.sptech.ido.application.controller.dto;
 
-import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
 public class ConquistaDto {
 
     @NotBlank
@@ -12,4 +10,20 @@ public class ConquistaDto {
 
     @NotBlank
     private String descricao;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 }
