@@ -1,38 +1,34 @@
 package school.sptech.ido.service.email;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.io.UnsupportedEncodingException;
-
-@Service
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
 public class EmailService {
 
 
-    @Autowired
-    private JavaMailSender mailSender;
-
-    public void enviarEmail ()
-            throws MessagingException, UnsupportedEncodingException {
-
-        MimeMessage msg = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(msg);
-
-        helper.setFrom("yan.torquato01@gmail.com", "iDo");
-        helper.setTo("yan.torquato01@gmail.com");
-
-        helper.setSubject("Tarefas Proximas do Prazo");
-        helper.setText("Olá Yan Hudson, tudo bem?\n\n" +
+    public static void enviarEmail () {
+        String menssagem = "Olá Yan Hudson, tudo bem?\n\n" +
                 "Nós da iDo identificamos que voce possui tarefas proximas para XX/XX/XXXX \n\n" +
                 "Atensiosamente\n" +
-                "iDO", false);
+                "iDO";
 
-        mailSender.send(msg);
+        SimpleEmail email = new SimpleEmail();
+
+        email.setHostName("smtp.gmail.com");
+        email.setSmtpPort(587);
+        email.setAuthenticator(new DefaultAuthenticator("yan.torquato01@gmail.com", "sfpzrfkomhfoejyf"));
+        email.setSSLOnConnect(true);
+
+        try {
+            email.setFrom("yan.torquato01@gmail.com");
+            email.setSubject("iDo - Tarefas pendentes");
+            email.setMsg(menssagem);
+            email.addTo("yan.hudson23@gmail.com");
+            email.send();
+            System.out.println("Email enviado com sucesso");
+        } catch (EmailException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }

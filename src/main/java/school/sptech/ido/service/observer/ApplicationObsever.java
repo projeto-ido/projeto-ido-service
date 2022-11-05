@@ -11,22 +11,14 @@ import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 
-@Component
+//@Component
 public class ApplicationObsever {
 
-    @Autowired
-    private EmailService emailService;
-
-    public void notificarPorEmail(LocalDate dataTarefa){
-        try {
-            emailService.enviarEmail();
-        } catch (MessagingException error) {
-            System.out.println("Erro ao decodificar a mensagem");
-            error.printStackTrace();
-        } catch (UnsupportedEncodingException error) {
-            System.out.println("Erro ao enviar o email");
-            error.printStackTrace();
-        }
-
-    };
+//    @Autowired
+//    private EmailService emailService;
+//
+//    public void notificarPorEmail(LocalDate dataTarefa){
+//        emailService.enviarEmail();
+//
+//    };
 }

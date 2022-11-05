@@ -32,7 +32,7 @@ public class UsuarioSubject {
         for (TarefaDto tarefa: tarefas) {
             if(datasProximas(dataAtual, tarefa.getDataFinal())){
                 hasAtividadesProximas = true;
-                observer.notificarPorEmail(tarefa.getDataFinal());
+//                observer.notificarPorEmail(tarefa.getDataFinal());
             }
         }
 
