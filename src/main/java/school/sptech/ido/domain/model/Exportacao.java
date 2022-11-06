@@ -238,20 +238,6 @@ public class Exportacao {
         catch (IOException e) {
             System.out.println("Erro ao ler o arquivo: " + nomeArq);
             e.printStackTrace();
-        } finally {
-            saida.close();
-
-            try {
-                arq.close();
-            } catch (IOException e ){
-                System.out.println("Erro ao fechar o arquivo");
-                hasErro = true;
-            }
-
-            if(hasErro){
-                System.exit(1);
-            }
-
         }
     }
 }
