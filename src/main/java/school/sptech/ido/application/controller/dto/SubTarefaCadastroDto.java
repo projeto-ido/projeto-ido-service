@@ -12,8 +12,6 @@ public class SubTarefaCadastroDto {
     @Size(max = 20)
     private String titulo;
 
-    @NotNull
-    private Integer prioridade;
 
     public String getTitulo() {
         return titulo;
@@ -21,13 +19,5 @@ public class SubTarefaCadastroDto {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
-    }
-
-    public Integer getPrioridade() {
-        return prioridade;
-    }
-
-    public void setPrioridade(Integer prioridade) {
-        this.prioridade = prioridade;
     }
 }

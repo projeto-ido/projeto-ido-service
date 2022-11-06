@@ -108,17 +108,17 @@ public class TarefaController {
         if (isAutenticado){
             Optional<TarefaEntity> tarefaEntity = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
 
-            return tarefaEntity.map(
-                entity -> ResponseEntity.ok().body(
-                    new TarefaDto(entity)
-                )
-            ).orElseGet(
-                () -> ResponseEntity.notFound().build()
-            );
+            if (tarefaEntity.isPresent()){
+                TarefaDto tarefaDto = new TarefaDto(tarefaEntity.get());
+                return ResponseEntity.ok().body(tarefaDto);
+            }
 
-        } else {
-            return ResponseEntity.status(403).build();
+            return ResponseEntity.notFound().build();
+
         }
+
+        return ResponseEntity.status(403).build();
+
 
     }
 
