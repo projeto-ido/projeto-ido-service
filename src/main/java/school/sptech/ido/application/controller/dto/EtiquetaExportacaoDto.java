@@ -6,8 +6,18 @@ public class EtiquetaExportacaoDto {
 
     private String titulo;
 
+    public EtiquetaExportacaoDto() {}
+
     public EtiquetaExportacaoDto(EtiquetaEntity etiquetaEntity) {
         this.titulo = etiquetaEntity.getTitulo();
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     @Override

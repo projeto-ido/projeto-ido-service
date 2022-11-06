@@ -1,6 +1,5 @@
 package school.sptech.ido.domain.enums;
 
-import lombok.Getter;
 
 public enum CorEtiqueta {
     BRANCO("#FFF"),
@@ -11,9 +10,13 @@ public enum CorEtiqueta {
     ROXO("#b264d9"),
     VERDE("#51BDAB");
 
-    @Getter private final String hexadecimal;
+    private final String hexadecimal;
 
     CorEtiqueta(String hexadecimal) {
         this.hexadecimal = hexadecimal;
+    }
+
+    public String getHexadecimal() {
+        return hexadecimal;
     }
 }

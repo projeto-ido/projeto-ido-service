@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.ido.application.controller.dto.EtiquetaDto;
+import school.sptech.ido.application.controller.dto.Response.EtiquetaDto;
 import school.sptech.ido.resources.repository.EtiquetaRepository;
 import school.sptech.ido.resources.repository.TarefaRepository;
 import school.sptech.ido.resources.repository.UsuarioRepository;

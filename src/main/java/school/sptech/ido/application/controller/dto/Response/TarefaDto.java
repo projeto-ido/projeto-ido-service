@@ -1,13 +1,11 @@
-package school.sptech.ido.application.controller.dto;
+package school.sptech.ido.application.controller.dto.Response;
 
-import lombok.Data;
 import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
 import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
 public class TarefaDto {
 
     private Integer idTarefa;
@@ -28,15 +26,15 @@ public class TarefaDto {
 
     private Boolean importancia;
 
-    private List<SubTarefaEntity> subTarefas;
+    private List<SubTarefaDto> subTarefas;
 
     private Integer fkUsuario;
 
-    private List<EtiquetaEntity> etiquetasTarefa;
+    private List<EtiquetaDto> etiquetasTarefa;
 
     public TarefaDto() {}
 
-    public TarefaDto(TarefaEntity tarefaEntity) {
+    public TarefaDto(TarefaEntity tarefaEntity, List<SubTarefaDto> subTarefaDto, List<EtiquetaDto> etiquetaDtos) {
         this.idTarefa = tarefaEntity.getIdTarefa();
         this.titulo = tarefaEntity.getTitulo();
         this.descricao = tarefaEntity.getDescricao();
@@ -46,9 +44,9 @@ public class TarefaDto {
         this.dataCriacao = tarefaEntity.getDataCriacao();
         this.urgencia = tarefaEntity.getUrgencia();
         this.importancia = tarefaEntity.getImportancia();
-        this.subTarefas = tarefaEntity.getSubTarefas();
+        this.subTarefas = subTarefaDto;
         this.fkUsuario = tarefaEntity.getUsuario().getIdUsuario();
-        this.etiquetasTarefa = tarefaEntity.getEtiquetasTarefa();
+        this.etiquetasTarefa = etiquetaDtos;
     }
 
     public Integer getIdTarefa() {
@@ -123,11 +121,11 @@ public class TarefaDto {
         this.importancia = importancia;
     }
 
-    public List<SubTarefaEntity> getSubTarefas() {
+    public List<SubTarefaDto> getSubTarefas() {
         return subTarefas;
     }
 
-    public void setSubTarefas(List<SubTarefaEntity> subTarefas) {
+    public void setSubTarefas(List<SubTarefaDto> subTarefas) {
         this.subTarefas = subTarefas;
     }
 
@@ -139,11 +137,11 @@ public class TarefaDto {
         this.fkUsuario = fkUsuario;
     }
 
-    public List<EtiquetaEntity> getEtiquetasTarefa() {
+    public List<EtiquetaDto> getEtiquetasTarefa() {
         return etiquetasTarefa;
     }
 
-    public void setEtiquetasTarefa(List<EtiquetaEntity> etiquetasTarefa) {
+    public void setEtiquetasTarefa(List<EtiquetaDto> etiquetasTarefa) {
         this.etiquetasTarefa = etiquetasTarefa;
     }
 }

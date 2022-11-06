@@ -137,3 +137,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+###### autenticacao-api-twillo #####
+String ACCOUNT_SID = "AC1e44cb741107923533c059559d4855ad";
+String AUTH_TOKEN = "d38d9c9dee7a7403139e16605038ec97";
