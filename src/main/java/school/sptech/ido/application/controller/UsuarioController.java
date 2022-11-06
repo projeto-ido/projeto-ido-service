@@ -142,6 +142,17 @@ public class UsuarioController {
         return false;
     }
 
+    public UsuarioDto getUsuarioDto(Integer idUsuario){
+
+        Optional<UsuarioDto> usuario = usuarioRepository.getusuarioDto(idUsuario);
+
+        if (usuario.isPresent()){
+            return usuario.get();
+        }
+
+        return null;
+    }
+
 
     @PostMapping("/notificacao/desabilita/{id}")
     public ResponseEntity<UsuarioDto> desabilitarNotificacao(@PathVariable Integer id){

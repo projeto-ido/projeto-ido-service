@@ -4,6 +4,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.ido.application.controller.dto.EtiquetaExportacaoDto;
+import school.sptech.ido.application.controller.dto.Response.UsuarioDto;
 import school.sptech.ido.application.controller.dto.SubTarefaExportacaoDto;
 import school.sptech.ido.application.controller.dto.TarefaExportacaoDto;
 import school.sptech.ido.domain.model.Exportacao;
@@ -41,7 +42,7 @@ public class ExportacaoController {
 
 
 
-    @PostMapping("/usuarios/{idUsuario}/exportacao/{nomeArq}")
+    @PostMapping("/usuarios/{idUsuario}/exportacao/grava/csv/{nomeArq}")
     public ResponseEntity<Resource> gravar(@PathVariable Integer idUsuario, @PathVariable String nomeArq) throws IOException {
 
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
@@ -55,17 +56,16 @@ public class ExportacaoController {
                 return ResponseEntity.status(204).build();
             }
 
-            for (int i = 0; i < tarefas.size(); i++) {
-                TarefaEntity tarefa = tarefas.get(i);
-
-                List<SubTarefaEntity> subtarefas = subTarefaRepository.findAllByIdTarefa(tarefa.getIdTarefa());
-                List<EtiquetaEntity> etiquetas = etiquetaRepository.findByIdTarefa(tarefa.getIdTarefa());
-
-                List<SubTarefaExportacaoDto> subTarefaExportacaoDtos = subtarefas.stream().map(SubTarefaExportacaoDto::new).collect(Collectors.toList());
-                List<EtiquetaExportacaoDto> etiquetasExportacao = etiquetas.stream().map(EtiquetaExportacaoDto::new).collect(Collectors.toList());
+            for (TarefaEntity tarefa : tarefas) {
+                List<SubTarefaExportacaoDto> subTarefaExportacaoDtos = subTarefaRepository.getSubTarefaExportacaoDto(tarefa.getIdTarefa());
+                List<EtiquetaExportacaoDto> etiquetasExportacao = etiquetaRepository.getEtiquestaExportacaoDto(tarefa.getIdTarefa());
 
 
-                tarefasExportacao.add(new TarefaExportacaoDto(tarefa ,subTarefaExportacaoDtos, etiquetasExportacao));
+                tarefasExportacao.add(new TarefaExportacaoDto(
+                        tarefa,
+                        subTarefaExportacaoDtos,
+                        etiquetasExportacao.isEmpty() ? null : etiquetasExportacao.get(0),
+                        etiquetasExportacao.isEmpty() ? null : etiquetasExportacao.get(1)));
             }
 
             Exportacao.gravarCsv(tarefasExportacao, nomeArq);
@@ -79,10 +79,59 @@ public class ExportacaoController {
         return ResponseEntity.status(403).build();
     }
 
-//    @GetMapping("/{nomeArq}")
-//    public void ler(@PathVariable String nomeArq){
-//        Exportacao.lerCsv(nomeArq);
-//    }
+    @PostMapping("/usuarios/{idUsuario}/exportacao/grava/txt/{nomeArq}")
+    public ResponseEntity<Resource> gravarTxt(@PathVariable Integer idUsuario, @PathVariable String nomeArq) throws IOException {
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+
+        if (isAutenticado){
+
+            List<TarefaEntity> tarefas = tarefaRepository.findByFkUsuario(idUsuario);
+
+            if (tarefas.isEmpty()){
+                return ResponseEntity.noContent().build();
+            }
+
+            UsuarioDto usuario = usuarioController.getUsuarioDto(idUsuario);
+
+            List<TarefaExportacaoDto> tarefasExportacao = new ArrayList<>();
+
+            for (TarefaEntity tarefa: tarefas) {
+                List<SubTarefaExportacaoDto> subTarefaExportacaoDtos = subTarefaRepository.getSubTarefaExportacaoDto(tarefa.getIdTarefa());
+                List<EtiquetaExportacaoDto> etiquetasExportacao = etiquetaRepository.getEtiquestaExportacaoDto(tarefa.getIdTarefa());
+
+
+                tarefasExportacao.add(new TarefaExportacaoDto(
+                        tarefa,
+                        subTarefaExportacaoDtos,
+                        etiquetasExportacao.isEmpty() ? null :  etiquetasExportacao.get(0),
+                        etiquetasExportacao.isEmpty() ? null :  etiquetasExportacao.get(1)));
+            }
+
+            Exportacao.gravaArquivoTxt(tarefasExportacao, usuario.getNome(), nomeArq);
+
+
+            File path = new File(nomeArq + ".txt");
+
+            return ResponseEntity.status(200).body(new ByteArrayResource(Files.readAllBytes(path.toPath())));
+
+
+        }
+        return ResponseEntity.status(403).build();
+    }
+
+    @PostMapping("/usuarios/{idUsuario}/exportacao/le/txt/{nomeArq}")
+    public ResponseEntity<Void> lerTxt(@PathVariable Integer idUsuario, @PathVariable String nomeArq){
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+
+        if (isAutenticado){
+            Exportacao.leArquivoTxt(nomeArq);
+
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.status(403).build();
+    }
+
 
 
 }
