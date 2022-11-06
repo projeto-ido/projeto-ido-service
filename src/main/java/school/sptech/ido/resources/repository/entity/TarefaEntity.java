@@ -1,7 +1,6 @@
 package school.sptech.ido.resources.repository.entity;
 
-import lombok.Data;
-import school.sptech.ido.application.controller.dto.TarefaCadastroDto;
+import school.sptech.ido.application.controller.dto.Request.TarefaCadastroDto;
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
@@ -44,7 +43,7 @@ public class TarefaEntity {
     @NotNull
     private Boolean importancia;
 
-    @OneToMany(mappedBy = "tarefa")
+    @OneToMany()
     private List<SubTarefaEntity> subTarefas;
 
     @ManyToOne
@@ -54,8 +53,8 @@ public class TarefaEntity {
     @ManyToMany
     @JoinTable(
         name="tarefa_etiqueta",
-        joinColumns = @JoinColumn(name = "id_tarefa"),
-        inverseJoinColumns = @JoinColumn(name = "id_etiqueta")
+        joinColumns = @JoinColumn(name = "fk_tarefa"),
+        inverseJoinColumns = @JoinColumn(name = "fk_etiqueta")
     )
     private List<EtiquetaEntity> etiquetasTarefa;
 

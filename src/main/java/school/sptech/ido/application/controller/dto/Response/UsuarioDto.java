@@ -1,4 +1,4 @@
-package school.sptech.ido.application.controller.dto;
+package school.sptech.ido.application.controller.dto.Response;
 
 
 import school.sptech.ido.resources.repository.entity.UsuarioEntity;

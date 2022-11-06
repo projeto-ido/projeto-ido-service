@@ -1,4 +1,4 @@
-package school.sptech.ido.application.controller.dto;
+package school.sptech.ido.application.controller.dto.Request;
 
 
 import javax.validation.constraints.NotBlank;
@@ -12,6 +12,9 @@ public class SubTarefaCadastroDto {
     @Size(max = 20)
     private String titulo;
 
+    @NotNull
+    private boolean status;
+
 
     public String getTitulo() {
         return titulo;
@@ -19,5 +22,13 @@ public class SubTarefaCadastroDto {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

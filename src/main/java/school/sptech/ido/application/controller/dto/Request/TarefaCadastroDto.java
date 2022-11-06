@@ -1,4 +1,4 @@
-package school.sptech.ido.application.controller.dto;
+package school.sptech.ido.application.controller.dto.Request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

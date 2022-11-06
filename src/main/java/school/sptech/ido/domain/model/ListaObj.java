@@ -1,11 +1,9 @@
 package school.sptech.ido.domain.model;
 
-import school.sptech.ido.resources.repository.entity.TarefaEntity;
+public abstract class ListaObj<T> implements Ordenavel{
+        protected T[] vetor;
 
-public class ListaObj<T> {
-        private T[] vetor;
-
-        private int nroElem;
+        protected int nroElem;
 
         public ListaObj(int capacidade) {
             this.vetor = (T[]) new Object[capacidade];
@@ -63,19 +61,10 @@ public class ListaObj<T> {
             System.out.println();
         }
 
-    public void ordenarTarefa(ListaObj<TarefaEntity> tarefas) {
-        for (int i = 0; i < nroElem; i++) {
-            for (int j = i + 1; j < nroElem - 1; j++) {
-                if (tarefas.getElemento(j).getDataCriacao().isBefore(tarefas.getElemento(i).getDataCriacao())){
-                    TarefaEntity aux = tarefas.getElemento(i);
-                    tarefas.adicionaPeloIndice(i, tarefas.getElemento(j));
-                    tarefas.adicionaPeloIndice(j, aux);
-                }
-            }
-        }
-    }
+    @Override
+    public abstract void ordenar();
 
-    private void adicionaPeloIndice(int indice, T elemento) {
+    public void adicionaPeloIndice(int indice, T elemento) {
         vetor[indice] = elemento;
     }
 }

@@ -1,4 +1,4 @@
-package school.sptech.ido.application.controller.dto;
+package school.sptech.ido.application.controller.dto.Response;
 
 import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
 
@@ -10,16 +10,12 @@ public class SubTarefaDto {
 
     private Boolean status;
 
-
-    private Integer fkTarefa;
-
     public SubTarefaDto() {}
 
     public SubTarefaDto(SubTarefaEntity subTarefaEntity) {
         this.idSubTarefa = subTarefaEntity.getIdSubTarefa();
         this.titulo = subTarefaEntity.getTitulo();
         this.status = subTarefaEntity.getStatus();
-        this.fkTarefa = subTarefaEntity.getTarefa().getIdTarefa();
     }
 
     public Integer getIdSubTarefa() {
@@ -46,11 +42,4 @@ public class SubTarefaDto {
         this.status = status;
     }
 
-    public Integer getFkTarefa() {
-        return fkTarefa;
-    }
-
-    public void setFkTarefa(Integer fkTarefa) {
-        this.fkTarefa = fkTarefa;
-    }
 }

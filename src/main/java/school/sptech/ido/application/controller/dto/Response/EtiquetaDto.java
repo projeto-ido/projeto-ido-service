@@ -1,4 +1,4 @@
-package school.sptech.ido.application.controller.dto;
+package school.sptech.ido.application.controller.dto.Response;
 
 import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
 
@@ -10,7 +10,6 @@ public class EtiquetaDto {
 
     private String cor;
 
-    private Integer fkUsuario;
 
     public EtiquetaDto() {}
 
@@ -18,7 +17,6 @@ public class EtiquetaDto {
         this.idEtiqueta = etiquetaEntity.getIdEtiqueta();
         this.titulo = etiquetaEntity.getTitulo();
         this.cor = etiquetaEntity.getCor();
-        this.fkUsuario = etiquetaEntity.getUsuario().getIdUsuario();
     }
 
     public Integer getIdEtiqueta() {
@@ -45,11 +43,4 @@ public class EtiquetaDto {
         this.cor = cor;
     }
 
-    public Integer getFkUsuario() {
-        return fkUsuario;
-    }
-
-    public void setFkUsuario(Integer fkUsuario) {
-        this.fkUsuario = fkUsuario;
-    }
 }

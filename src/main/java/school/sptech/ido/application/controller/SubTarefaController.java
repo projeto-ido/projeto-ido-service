@@ -8,7 +8,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.ido.application.controller.dto.*;
+import school.sptech.ido.application.controller.dto.Request.SubTarefaCadastroDto;
+import school.sptech.ido.application.controller.dto.Response.SubTarefaDto;
 import school.sptech.ido.resources.repository.SubTarefaRepository;
 import school.sptech.ido.resources.repository.TarefaRepository;
 import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
@@ -63,8 +64,8 @@ public class SubTarefaController {
 
     }
 
-    @PostMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}/sub-tarefas/")
-    public ResponseEntity<SubTarefaEntity> salvarSubTarefaPorIdTarefa(
+    @PostMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}/sub-tarefas")
+    public ResponseEntity<SubTarefaDto> salvarSubTarefaPorIdTarefa(
             @PathVariable Integer idUsuario,
             @PathVariable Integer idTarefa,
             @RequestBody @Valid SubTarefaCadastroDto subTarefaCadastroDto
@@ -74,7 +75,7 @@ public class SubTarefaController {
             Optional<TarefaEntity> tarefa = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
             if (tarefa.isPresent()){
                 SubTarefaEntity subTarefaEntity = subTarefaRepository.save(new SubTarefaEntity(subTarefaCadastroDto, tarefa.get()));
-                return ResponseEntity.status(201).body(subTarefaEntity);
+                return ResponseEntity.status(201).body(new SubTarefaDto(subTarefaEntity));
             }
 
             return ResponseEntity.notFound().build();
