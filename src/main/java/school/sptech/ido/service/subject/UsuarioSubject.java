@@ -1,12 +1,8 @@
 package school.sptech.ido.service.subject;
 
-import net.bytebuddy.asm.Advice;
-import org.springframework.beans.factory.annotation.Autowired;
-import school.sptech.ido.application.controller.dto.TarefaDto;
-import school.sptech.ido.application.controller.dto.UsuarioDto;
-import school.sptech.ido.resources.repository.entity.TarefaEntity;
-import school.sptech.ido.resources.repository.entity.UsuarioEntity;
-import school.sptech.ido.service.email.EmailService;
+import school.sptech.ido.application.controller.dto.Response.TarefaDto;
+import school.sptech.ido.application.controller.dto.Response.UsuarioDto;
+
 import school.sptech.ido.service.observer.ApplicationObsever;
 
 import java.time.LocalDate;
@@ -32,7 +28,7 @@ public class UsuarioSubject {
         for (TarefaDto tarefa: tarefas) {
             if(datasProximas(dataAtual, tarefa.getDataFinal())){
                 hasAtividadesProximas = true;
-//                observer.notificarPorEmail(tarefa.getDataFinal());
+                observer.notificarPorEmail(tarefa.getDataFinal());
             }
         }
 
@@ -46,14 +42,13 @@ public class UsuarioSubject {
     }
 
     private boolean datasProximas(LocalDate dataAtual, LocalDate dataTarefa){
-        LocalDate dataTarefaFinalMenos10Dias = dataTarefa.minusDays(11);
+        LocalDate dataTarefaFinalMenos10Dias = dataTarefa.minusDays(10);
 
-        if ( (dataAtual.isAfter(dataTarefaFinalMenos10Dias)
-                        && dataAtual.isBefore(dataTarefa)) ){
+        if ( dataAtual.isAfter(dataTarefaFinalMenos10Dias) && dataAtual.isBefore(dataTarefa) ){
             return true;
         }
 
-        return true;
+        return false;
     }
 
     public UsuarioDto getUsuario() {

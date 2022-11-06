@@ -8,8 +8,6 @@ public class IdoApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(IdoApplication.class, args);
-
-        EmailService.enviarEmail();
     }
 
 }

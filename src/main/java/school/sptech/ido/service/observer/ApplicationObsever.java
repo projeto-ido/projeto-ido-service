@@ -8,17 +8,15 @@ import org.springframework.stereotype.Service;
 import school.sptech.ido.service.email.EmailService;
 
 import javax.mail.MessagingException;
+import javax.validation.constraints.Email;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 
 //@Component
 public class ApplicationObsever {
 
-//    @Autowired
-//    private EmailService emailService;
-//
-//    public void notificarPorEmail(LocalDate dataTarefa){
-//        emailService.enviarEmail();
-//
-//    };
+    public void notificarPorEmail(LocalDate dataTarefa){
+        EmailService.enviarEmail();
+
+    };
 }

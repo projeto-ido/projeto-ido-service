@@ -2,8 +2,12 @@ package school.sptech.ido.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import school.sptech.ido.application.controller.dto.TarefaDto;
-import school.sptech.ido.application.controller.dto.UsuarioDto;
+import school.sptech.ido.application.controller.dto.Response.EtiquetaDto;
+import school.sptech.ido.application.controller.dto.Response.SubTarefaDto;
+import school.sptech.ido.application.controller.dto.Response.TarefaDto;
+import school.sptech.ido.application.controller.dto.Response.UsuarioDto;
+import school.sptech.ido.resources.repository.EtiquetaRepository;
+import school.sptech.ido.resources.repository.SubTarefaRepository;
 import school.sptech.ido.resources.repository.TarefaRepository;
 import school.sptech.ido.resources.repository.UsuarioRepository;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
@@ -25,6 +29,12 @@ public class UsuarioService {
     @Autowired
     TarefaRepository tarefaRepository;
 
+    @Autowired
+    SubTarefaRepository subTarefaRepository;
+
+    @Autowired
+    EtiquetaRepository etiquetaRepository;
+
     private List<UsuarioSubject> subjects = new ArrayList();
 
     public boolean adicionarSubject(Integer id){
@@ -32,9 +42,17 @@ public class UsuarioService {
 
 
         if(usuarioOptional.isPresent()){
-            List<TarefaEntity> tarefasOptional = tarefaRepository.findByFkUsuario(id);
+            List<TarefaEntity> tarefas = tarefaRepository.findByFkUsuario(id);
 
-            List<TarefaDto> tarefaDtos = tarefasOptional.stream().map(TarefaDto::new).collect(Collectors.toList());
+            List<TarefaDto> tarefaDtos = new ArrayList<>(25);
+
+            for (TarefaEntity tarefa: tarefas) {
+                List<SubTarefaDto> subTarefaDtos = subTarefaRepository.getSubtarefasDto(tarefa.getIdTarefa());
+                List<EtiquetaDto> etiquetaDtos = etiquetaRepository.getEtiquetasDto(tarefa.getIdTarefa());
+
+                tarefaDtos.add(new TarefaDto(tarefa, subTarefaDtos, etiquetaDtos));
+            }
+
 
             UsuarioDto usuarioDto = new UsuarioDto(usuarioOptional.get());
 
