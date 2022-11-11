@@ -1,41 +1,60 @@
-package school.sptech.ido.application.controller.dto;
+package school.sptech.ido.application.controller.dto.Response;
 
 import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
 import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
-
 import java.time.LocalDate;
 import java.util.List;
 
-public class TarefaAtualizadaDto {
+public class TarefaDto {
+
+    private Integer idTarefa;
 
     private String titulo;
 
     private String descricao;
 
+    private Boolean status;
+
     private LocalDate dataInicio;
 
     private LocalDate dataFinal;
+
+    private LocalDate dataCriacao;
 
     private Boolean urgencia;
 
     private Boolean importancia;
 
-    private List<SubTarefaEntity> subTarefas;
+    private List<SubTarefaDto> subTarefas;
 
-    private List<EtiquetaEntity> etiquetasTarefa;
+    private Integer fkUsuario;
 
-    public TarefaAtualizadaDto() {}
+    private List<EtiquetaDto> etiquetasTarefa;
 
-    public TarefaAtualizadaDto(TarefaEntity tarefaEntity) {
+    public TarefaDto() {}
+
+    public TarefaDto(TarefaEntity tarefaEntity, List<SubTarefaDto> subTarefaDto, List<EtiquetaDto> etiquetaDtos) {
+        this.idTarefa = tarefaEntity.getIdTarefa();
         this.titulo = tarefaEntity.getTitulo();
         this.descricao = tarefaEntity.getDescricao();
+        this.status = tarefaEntity.getStatus();
         this.dataInicio = tarefaEntity.getDataInicio();
         this.dataFinal = tarefaEntity.getDataFinal();
+        this.dataCriacao = tarefaEntity.getDataCriacao();
         this.urgencia = tarefaEntity.getUrgencia();
         this.importancia = tarefaEntity.getImportancia();
-        this.subTarefas = tarefaEntity.getSubTarefas();
-        this.etiquetasTarefa = tarefaEntity.getEtiquetasTarefa();
+        this.subTarefas = subTarefaDto;
+        this.fkUsuario = tarefaEntity.getUsuario().getIdUsuario();
+        this.etiquetasTarefa = etiquetaDtos;
+    }
+
+    public Integer getIdTarefa() {
+        return idTarefa;
+    }
+
+    public void setIdTarefa(Integer idTarefa) {
+        this.idTarefa = idTarefa;
     }
 
     public String getTitulo() {
@@ -54,6 +73,14 @@ public class TarefaAtualizadaDto {
         this.descricao = descricao;
     }
 
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
     public LocalDate getDataInicio() {
         return dataInicio;
     }
@@ -68,6 +95,14 @@ public class TarefaAtualizadaDto {
 
     public void setDataFinal(LocalDate dataFinal) {
         this.dataFinal = dataFinal;
+    }
+
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 
     public Boolean getUrgencia() {
@@ -86,19 +121,27 @@ public class TarefaAtualizadaDto {
         this.importancia = importancia;
     }
 
-    public List<SubTarefaEntity> getSubTarefas() {
+    public List<SubTarefaDto> getSubTarefas() {
         return subTarefas;
     }
 
-    public void setSubTarefas(List<SubTarefaEntity> subTarefas) {
+    public void setSubTarefas(List<SubTarefaDto> subTarefas) {
         this.subTarefas = subTarefas;
     }
 
-    public List<EtiquetaEntity> getEtiquetasTarefa() {
+    public Integer getFkUsuario() {
+        return fkUsuario;
+    }
+
+    public void setFkUsuario(Integer fkUsuario) {
+        this.fkUsuario = fkUsuario;
+    }
+
+    public List<EtiquetaDto> getEtiquetasTarefa() {
         return etiquetasTarefa;
     }
 
-    public void setEtiquetasTarefa(List<EtiquetaEntity> etiquetasTarefa) {
+    public void setEtiquetasTarefa(List<EtiquetaDto> etiquetasTarefa) {
         this.etiquetasTarefa = etiquetasTarefa;
     }
 }

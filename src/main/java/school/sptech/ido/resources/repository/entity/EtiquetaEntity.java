@@ -1,7 +1,6 @@
 package school.sptech.ido.resources.repository.entity;
 
-import lombok.Data;
-import school.sptech.ido.application.controller.dto.EtiquetaDto;
+import school.sptech.ido.application.controller.dto.Response.EtiquetaDto;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -10,7 +9,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "etiqueta")
-@Data
 public class EtiquetaEntity {
 
     @Id
@@ -32,11 +30,53 @@ public class EtiquetaEntity {
     @ManyToMany(mappedBy = "etiquetasTarefa")
     private List<TarefaEntity> tarefa;
 
+    public EtiquetaEntity() {}
+
     public EtiquetaEntity(EtiquetaDto etiquetaDto, UsuarioEntity usuario) {
         this.idEtiqueta = etiquetaDto.getIdEtiqueta();
         this.titulo = etiquetaDto.getTitulo();
         this.cor = etiquetaDto.getCor();
         this.usuario = usuario;
         this.tarefa = new ArrayList<>();
+    }
+
+    public Integer getIdEtiqueta() {
+        return idEtiqueta;
+    }
+
+    public void setIdEtiqueta(Integer idEtiqueta) {
+        this.idEtiqueta = idEtiqueta;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<TarefaEntity> getTarefa() {
+        return tarefa;
+    }
+
+    public void setTarefa(List<TarefaEntity> tarefa) {
+        this.tarefa = tarefa;
     }
 }

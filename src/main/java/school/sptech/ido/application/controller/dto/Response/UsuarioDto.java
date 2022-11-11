@@ -1,47 +1,60 @@
-package school.sptech.ido.application.controller.dto;
+package school.sptech.ido.application.controller.dto.Response;
 
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
+import school.sptech.ido.resources.repository.entity.UsuarioEntity;
+
 import java.time.LocalDate;
 
-public class UsuarioAtualizadoDto {
+public class UsuarioDto {
 
-    @NotBlank
-    @Size(max = 45)
+    private Integer idUsuario;
+
     private String nome;
 
-    @NotBlank
-    @Size(max = 45)
     private String apelido;
 
-    @NotBlank
-    @Size(max = 100)
     private String email;
 
-    @NotBlank
-    @Size(max = 45)
     private String senha;
 
-    @Size(max = 200)
     private String biografia;
 
-    @Past
     private LocalDate nascimento;
 
-    @Lob
     private Byte[] imagemPerfil;
 
     private String imagemBiografia;
 
-    @NotNull
     private Integer nivel;
 
-    @NotNull
+    private Boolean autenticado;
+
     private Boolean notificacao;
+
+    public UsuarioDto() {}
+
+    public UsuarioDto(UsuarioEntity usuarioEntity) {
+        this.idUsuario = usuarioEntity.getIdUsuario();
+        this.nome = usuarioEntity.getNome();
+        this.apelido = usuarioEntity.getApelido();
+        this.email = usuarioEntity.getEmail();
+        this.senha = usuarioEntity.getSenha();
+        this.biografia = usuarioEntity.getBiografia();
+        this.nascimento = usuarioEntity.getNascimento();
+        this.imagemPerfil = usuarioEntity.getImagemPerfil();
+        this.imagemBiografia = usuarioEntity.getImagemBiografia();
+        this.nivel = usuarioEntity.getNivel();
+        this.autenticado = usuarioEntity.getAutenticado();
+        this.notificacao = usuarioEntity.getNotificacao();
+    }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
     public String getNome() {
         return nome;
@@ -113,6 +126,14 @@ public class UsuarioAtualizadoDto {
 
     public void setNivel(Integer nivel) {
         this.nivel = nivel;
+    }
+
+    public Boolean getAutenticado() {
+        return autenticado;
+    }
+
+    public void setAutenticado(Boolean autenticado) {
+        this.autenticado = autenticado;
     }
 
     public Boolean getNotificacao() {
