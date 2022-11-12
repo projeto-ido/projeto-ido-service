@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import school.sptech.ido.application.controller.dto.Request.EtiquetaCadastroDto;
 import school.sptech.ido.application.controller.dto.Response.EtiquetaDto;
 import school.sptech.ido.resources.repository.EtiquetaRepository;
 import school.sptech.ido.resources.repository.TarefaRepository;
@@ -104,6 +105,31 @@ public class EtiquetaController {
         }
     }
 
+    @PutMapping("/usuarios/{idUsuario}/etiquetas/{idEtiqueta}")
+    public ResponseEntity<EtiquetaDto> atualizarEtiqueta(
+            @PathVariable Integer idUsuario,
+            @PathVariable Integer idEtiqueta,
+            @RequestBody @Valid EtiquetaCadastroDto etiquetaDto
+    ){
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado){
+            Optional<EtiquetaEntity> etiqueta = etiquetaRepository.findByFkUsuarioAndIdEtiqueta(idUsuario, idEtiqueta);
+
+            if (etiqueta.isPresent()){
+                EtiquetaEntity etiquetaEntity = etiqueta.get();
+                etiquetaEntity.setCor(etiquetaDto.getCor());
+                etiquetaEntity.setTitulo(etiquetaDto.getTitulo());
+                EtiquetaEntity etiquetaAtualizada = etiquetaRepository.save(etiquetaEntity);
+                return ResponseEntity.status(200).body(new EtiquetaDto(etiquetaAtualizada));
+            }
+
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.status(403).build();
+        }
+
+    }
+
     @DeleteMapping("/usuarios/{idUsuario}/etiquetas/{idEtiqueta}")
     public ResponseEntity<Void> deletarEtiquetaPorId(
         @PathVariable Integer idUsuario,
@@ -114,7 +140,6 @@ public class EtiquetaController {
             Optional<EtiquetaEntity> etiqueta = etiquetaRepository.findByFkUsuarioAndIdEtiqueta(idUsuario, idEtiqueta);
 
             if (etiqueta.isPresent()){
-                etiquetaRepository.deletaAllEtiquetaById(idEtiqueta);
                 etiquetaRepository.deleteById(idEtiqueta);
                 return ResponseEntity.status(200).build();
             }
