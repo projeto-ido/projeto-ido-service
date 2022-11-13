@@ -14,7 +14,6 @@ import school.sptech.ido.application.controller.dto.Response.SubTarefaDto;
 import school.sptech.ido.application.controller.dto.TarefaAtualizadaDto;
 import school.sptech.ido.application.controller.dto.Request.TarefaCadastroDto;
 import school.sptech.ido.application.controller.dto.Response.TarefaDto;
-import school.sptech.ido.domain.model.ListaObj;
 import school.sptech.ido.domain.model.ListaTarefas;
 import school.sptech.ido.resources.repository.EtiquetaRepository;
 import school.sptech.ido.resources.repository.SubTarefaRepository;
@@ -22,6 +21,7 @@ import school.sptech.ido.resources.repository.TarefaRepository;
 import school.sptech.ido.resources.repository.UsuarioRepository;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
 import school.sptech.ido.resources.repository.entity.UsuarioEntity;
+import school.sptech.ido.service.UsuarioService;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -47,6 +47,9 @@ public class TarefaController {
 
     @Autowired
     UsuarioController usuarioController;
+
+    @Autowired
+    UsuarioService usuarioService;
 
     @ApiResponses({
             @ApiResponse(
@@ -126,7 +129,7 @@ public class TarefaController {
     ){
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
         if (isAutenticado){
-            Optional<TarefaEntity> tarefaEntity = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
+            Optional<TarefaEntity> tarefaEntity = this.getTarefaEntityOpt(idUsuario, idTarefa);
 
             if (tarefaEntity.isPresent()){
                 List<SubTarefaDto> subTarefaDtos = subTarefaRepository.getSubtarefasDto(idTarefa);
@@ -160,11 +163,11 @@ public class TarefaController {
                 UsuarioEntity usuarioEncontrado = usuario.get();
                 TarefaEntity tarefaSalva = tarefaRepository.save(new TarefaEntity(tarefaCadastroDto, usuarioEncontrado));
 
-                List<SubTarefaDto> subTarefaDtos = subTarefaRepository.getSubtarefasDto(tarefaSalva.getIdTarefa());
+                TarefaDto tarefaDto = this.transformadorTarefaDto(tarefaSalva);
 
-                List<EtiquetaDto> etiquetaDtos = etiquetaRepository.getEtiquetasDto(tarefaSalva.getIdTarefa());
+                this.atualizarTarefasUsuariosSubject(idUsuario, tarefaDto);
 
-                return ResponseEntity.status(201).body(new TarefaDto(tarefaSalva, subTarefaDtos, etiquetaDtos));
+                return ResponseEntity.status(201).body(tarefaDto);
             }
 
             return ResponseEntity.status(401).build();
@@ -172,6 +175,10 @@ public class TarefaController {
             return ResponseEntity.status(403).build();
         }
 
+    }
+
+    public ResponseEntity<Void> atualizarTarefasUsuariosSubject(int idUsuario, TarefaDto tarefaDto){
+        return usuarioService.atualizarTarefa(idUsuario ,tarefaDto);
     }
 
     @PutMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}")
@@ -182,7 +189,7 @@ public class TarefaController {
     ){
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
         if (isAutenticado){
-            Optional<TarefaEntity> tarefaEntity = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
+            Optional<TarefaEntity> tarefaEntity = this.getTarefaEntityOpt(idUsuario, idTarefa);
 
             if (tarefaEntity.isPresent()){
                 TarefaEntity tarefaEncontrada = tarefaEntity.get();
@@ -209,7 +216,7 @@ public class TarefaController {
     ){
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
         if (isAutenticado){
-            Optional<TarefaEntity> tarefaEntity = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
+            Optional<TarefaEntity> tarefaEntity = this.getTarefaEntityOpt(idUsuario, idTarefa);
 
             if (tarefaEntity.isPresent()){
                 TarefaEntity tarefaAtualizada = tarefaEntity.get();
@@ -243,5 +250,17 @@ public class TarefaController {
             return ResponseEntity.status(403).build();
         }
 
+    }
+
+    private Optional<TarefaEntity> getTarefaEntityOpt(int idUsuario, int idTarefa){
+        return tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
+    }
+
+    private TarefaDto transformadorTarefaDto(TarefaEntity tarefa){
+        List<SubTarefaDto> subTarefaDtos = subTarefaRepository.getSubtarefasDto(tarefa.getIdTarefa());
+
+        List<EtiquetaDto> etiquetaDtos = etiquetaRepository.getEtiquetasDto(tarefa.getIdTarefa());
+
+        return new TarefaDto(tarefa, subTarefaDtos, etiquetaDtos);
     }
 }

@@ -15,7 +15,7 @@ import java.time.LocalDate;
 //@Component
 public class ApplicationObsever {
 
-    public void notificarPorEmail(LocalDate dataTarefa){
+    public void notificarPorEmail(){
         EmailService.enviarEmail();
 
     };

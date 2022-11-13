@@ -167,12 +167,12 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/notificacao/envio")
-    public ResponseEntity<Void> teste(){
-        usuarioService.verificarData(LocalDate.now());
-
-        return ResponseEntity.status(200).build();
-    }
+//    @PostMapping("/notificacao/envio")
+//    public ResponseEntity<Void> teste(){
+//        usuarioService.verificarData(LocalDate.now());
+//
+//        return ResponseEntity.status(200).build();
+//    }
 
 
 }

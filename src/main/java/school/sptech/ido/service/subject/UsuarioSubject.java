@@ -22,23 +22,21 @@ public class UsuarioSubject {
         this.tarefas = tarefas;
     }
 
-    public void verificarData(LocalDate dataAtual){
+    public Boolean possuiTarefasProximas(LocalDate dataAtual){
         Boolean hasAtividadesProximas = false;
 
         for (TarefaDto tarefa: tarefas) {
             if(datasProximas(dataAtual, tarefa.getDataFinal())){
-                hasAtividadesProximas = true;
-                observer.notificarPorEmail(tarefa.getDataFinal());
+                return true;
             }
         }
 
-        if (!hasAtividadesProximas) {
-            System.out.println(String.format(
-                    "O usuario  %s não possui nenhuma atividade proxima",
-                    usuario.getNome()
-            ));
-        }
+        return false;
 
+    }
+
+    public void notificar(){
+        observer.notificarPorEmail();
     }
 
     private boolean datasProximas(LocalDate dataAtual, LocalDate dataTarefa){
