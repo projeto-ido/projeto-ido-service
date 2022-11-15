@@ -4,6 +4,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.ido.application.controller.dto.EtiquetaExportacaoDto;
+import school.sptech.ido.application.controller.dto.Response.EtiquetaDto;
 import school.sptech.ido.application.controller.dto.SubTarefaExportacaoDto;
 import school.sptech.ido.application.controller.dto.TarefaExportacaoDto;
 import school.sptech.ido.domain.model.Exportacao;
@@ -59,7 +60,7 @@ public class ExportacaoController {
                 TarefaEntity tarefa = tarefas.get(i);
 
                 List<SubTarefaEntity> subtarefas = subTarefaRepository.findAllByIdTarefa(tarefa.getIdTarefa());
-                List<EtiquetaEntity> etiquetas = etiquetaRepository.findByIdTarefa(tarefa.getIdTarefa());
+                List<EtiquetaDto> etiquetas = etiquetaRepository.getEtiquetasDto(tarefa.getIdTarefa());
 
                 List<SubTarefaExportacaoDto> subTarefaExportacaoDtos = subtarefas.stream().map(SubTarefaExportacaoDto::new).collect(Collectors.toList());
                 List<EtiquetaExportacaoDto> etiquetasExportacao = etiquetas.stream().map(EtiquetaExportacaoDto::new).collect(Collectors.toList());
@@ -78,11 +79,4 @@ public class ExportacaoController {
 
         return ResponseEntity.status(403).build();
     }
-
-//    @GetMapping("/{nomeArq}")
-//    public void ler(@PathVariable String nomeArq){
-//        Exportacao.lerCsv(nomeArq);
-//    }
-
-
 }
