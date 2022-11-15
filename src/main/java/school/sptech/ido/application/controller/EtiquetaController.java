@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Tag(name = "Etiquetas", description = "Reponsável por gerir as etiquetas nas tarefas e nas sub Tarefas dos usuários.")
+@Tag(name = "Etiquetas", description = "Responsável por gerir as etiquetas nas tarefas e nas sub Tarefas dos usuários.")
 @RestController
 public class EtiquetaController {
 

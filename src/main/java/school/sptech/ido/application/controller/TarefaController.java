@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name = "Tarefa", description = "Reponsável por gerir as Tarefas do usuários.")
+@Tag(name = "Tarefa", description = "Responsável por gerir as Tarefas do usuários.")
 @RestController
 public class TarefaController {
 
