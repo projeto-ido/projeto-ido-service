@@ -19,3 +19,12 @@ INSERT INTO etiqueta (titulo, cor, fk_usuario) VALUES
     ('Trabalho', '51BDAB', 1),
     ('Estágio', '7463C7', 1),
     ('Lazer', 'FFCA6D', 1);
+
+INSERT INTO tarefa_etiqueta VALUES
+    (1,1),
+    (2,1),
+    (2,3),
+    (3,2),
+    (4,1),
+    (6,4),
+    (7,4);

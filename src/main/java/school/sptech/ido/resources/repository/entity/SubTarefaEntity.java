@@ -42,6 +42,12 @@ public class SubTarefaEntity {
         this.tarefa = tarefa;
     }
 
+    public SubTarefaEntity(SubTarefaCadastroDto subTarefaCadastroDto) {
+        this.idSubTarefa = null;
+        this.titulo = subTarefaCadastroDto.getTitulo();
+        this.status = subTarefaCadastroDto.isStatus();
+    }
+
     public Integer getIdSubTarefa() {
         return idSubTarefa;
     }

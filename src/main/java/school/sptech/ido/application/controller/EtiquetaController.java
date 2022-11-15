@@ -71,13 +71,13 @@ public class EtiquetaController {
     ){
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
         if (isAutenticado){
-            List<EtiquetaEntity> etiquetas = etiquetaRepository.findByIdTarefa(idTarefa);
+            List<EtiquetaDto> etiquetas = etiquetaRepository.getEtiquetasDto(idTarefa);
 
             if (etiquetas.isEmpty()){
                 return ResponseEntity.noContent().build();
             }
 
-            return ResponseEntity.ok().body(etiquetas.stream().map(EtiquetaDto::new).collect(Collectors.toList()));
+            return ResponseEntity.ok().body(etiquetas);
         } else {
             return ResponseEntity.status(403).build();
         }
@@ -166,8 +166,11 @@ public class EtiquetaController {
                         .findByFkUsuarioAndIdEtiqueta(idUsuario, idEtiqueta);
 
                 if (etiqueta.isPresent()){
-                    EtiquetaEntity etiquetaEncontrada = etiqueta.get();
-                    etiquetaRepository.saveEtiquetaTarefa(idTarefa, idEtiqueta);
+                    EtiquetaEntity etiquetaEntity = etiqueta.get();
+                    List<TarefaEntity> tarefas = etiquetaEntity.getTarefa();
+                    tarefas.add(tarefaEncontrada);
+                    etiquetaEntity.setTarefa(tarefas);
+                    etiquetaRepository.save(etiquetaEntity);
                     return ResponseEntity.status(201).build();
                 }
 

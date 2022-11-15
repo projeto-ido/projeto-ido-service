@@ -5,21 +5,23 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import school.sptech.ido.application.controller.dto.Request.EtiquetaCadastroTarefaDto;
+import school.sptech.ido.application.controller.dto.Request.SubTarefaCadastroDto;
+import school.sptech.ido.application.controller.dto.Request.TarefaAtualizacaoDto;
 import school.sptech.ido.application.controller.dto.Response.EtiquetaDto;
 import school.sptech.ido.application.controller.dto.Response.SubTarefaDto;
-import school.sptech.ido.application.controller.dto.TarefaAtualizadaDto;
 import school.sptech.ido.application.controller.dto.Request.TarefaCadastroDto;
 import school.sptech.ido.application.controller.dto.Response.TarefaDto;
-import school.sptech.ido.domain.model.ListaObj;
 import school.sptech.ido.domain.model.ListaTarefas;
 import school.sptech.ido.resources.repository.EtiquetaRepository;
 import school.sptech.ido.resources.repository.SubTarefaRepository;
 import school.sptech.ido.resources.repository.TarefaRepository;
 import school.sptech.ido.resources.repository.UsuarioRepository;
+import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
+import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
 import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 
@@ -47,6 +49,9 @@ public class TarefaController {
 
     @Autowired
     UsuarioController usuarioController;
+
+    @Autowired
+    SubTarefaController subTarefaController;
 
     @ApiResponses({
             @ApiResponse(
@@ -160,6 +165,26 @@ public class TarefaController {
                 UsuarioEntity usuarioEncontrado = usuario.get();
                 TarefaEntity tarefaSalva = tarefaRepository.save(new TarefaEntity(tarefaCadastroDto, usuarioEncontrado));
 
+                for ( SubTarefaCadastroDto subTarefaCadastroDto: tarefaCadastroDto.getSubTarefas()) {
+                    subTarefaRepository.save(new SubTarefaEntity(subTarefaCadastroDto, tarefaSalva));
+                }
+
+                for (EtiquetaCadastroTarefaDto etiquetaCadastroTarefaDto: tarefaCadastroDto.getEtiquetas()) {
+                    Optional<EtiquetaEntity> etiqueta = etiquetaRepository
+                            .findById(etiquetaCadastroTarefaDto.getIdEtiqueta());
+
+                    if (etiqueta.isPresent()){
+                        EtiquetaEntity etiquetaEntity = etiqueta.get();
+                        List<TarefaEntity> tarefas = etiquetaEntity.getTarefa();
+                        List<EtiquetaEntity> etiquetasTarefa = tarefaSalva.getEtiquetasTarefa();
+                        etiquetasTarefa.add(etiquetaEntity);
+                        tarefaSalva.setEtiquetasTarefa(etiquetasTarefa);
+                        tarefas.add(tarefaSalva);
+                        etiquetaEntity.setTarefa(tarefas);
+                        etiquetaRepository.save(etiquetaEntity);
+                    }
+                }
+
                 List<SubTarefaDto> subTarefaDtos = subTarefaRepository.getSubtarefasDto(tarefaSalva.getIdTarefa());
 
                 List<EtiquetaDto> etiquetaDtos = etiquetaRepository.getEtiquetasDto(tarefaSalva.getIdTarefa());
@@ -178,7 +203,7 @@ public class TarefaController {
     public ResponseEntity<TarefaDto> atualizarTarefaPorIdTarefa(
         @PathVariable Integer idUsuario,
         @PathVariable Integer idTarefa,
-        @RequestBody @Valid TarefaAtualizadaDto tarefaAtualizadaDto
+        @RequestBody @Valid TarefaAtualizacaoDto tarefaAtualizadaDto
     ){
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
         if (isAutenticado){
@@ -187,11 +212,66 @@ public class TarefaController {
             if (tarefaEntity.isPresent()){
                 TarefaEntity tarefaEncontrada = tarefaEntity.get();
 
+                List<EtiquetaEntity> etiquetas = new ArrayList<>();
+                List<SubTarefaEntity> subTarefas = new ArrayList<>();
+
+                if (!tarefaAtualizadaDto.getEtiquetas().isEmpty()){
+                    for (EtiquetaCadastroTarefaDto etiquetaDto: tarefaAtualizadaDto.getEtiquetas()) {
+                        Optional<EtiquetaEntity> etiqueta = etiquetaRepository
+                                .findById(etiquetaDto.getIdEtiqueta());
+
+                        if (etiqueta.isPresent()){
+                            EtiquetaEntity etiquetaEntity = etiqueta.get();
+                            etiquetas.add(etiquetaEntity);
+                        }
+                    }
+                }
+
+                tarefaEncontrada.setEtiquetasTarefa(etiquetas);
+
+                if (tarefaAtualizadaDto.getSubTarefas().isEmpty()){
+                    for ( SubTarefaDto subTarefa: tarefaAtualizadaDto.getSubTarefas()) {
+                        ResponseEntity<SubTarefaEntity> sub =
+                            subTarefaController.deletarSubTarefaPorIdTarefa(idUsuario, idTarefa, subTarefa.getIdSubTarefa());
+                    }
+                } else {
+                    for (SubTarefaDto subTarefaDto: tarefaAtualizadaDto.getSubTarefas()){
+                        Optional<SubTarefaEntity> subtarefa = subTarefaRepository.findById(subTarefaDto.getIdSubTarefa());
+
+                        if (subtarefa.isPresent()){
+                            SubTarefaEntity subTarefaEntity = subtarefa.get();
+                            subTarefas.add(subTarefaEntity);
+                        }
+                    }
+
+                    List<SubTarefaEntity> subTarefasCadastradas = tarefaEncontrada.getSubTarefas();
+                    List<SubTarefaEntity> subTarefasDeletadas = new ArrayList<>();
+                    for (SubTarefaEntity subTarefaEntity: subTarefasCadastradas){
+
+                        for (SubTarefaEntity subTarefa : subTarefas) {
+
+                            if (subTarefaEntity.getIdSubTarefa().equals(subTarefa.getIdSubTarefa())) {
+                                subTarefasDeletadas.add(subTarefa);
+                            }
+
+                        }
+
+                    }
+
+                    if (!subTarefasDeletadas.isEmpty()){
+                        for ( SubTarefaEntity sub : subTarefasDeletadas) {
+                            subTarefaController.deletarSubTarefaPorIdTarefa(idUsuario, idTarefa, sub.getIdSubTarefa());
+                        }
+                    }
+                }
+
+                tarefaEncontrada.setSubTarefas(subTarefas);
+
+                TarefaEntity tarefaAtualizada = tarefaRepository.save(tarefaEncontrada);
+
                 List<SubTarefaDto> subTarefaDtos = subTarefaRepository.getSubtarefasDto(idTarefa);
                 List<EtiquetaDto> etiquetaDtos = etiquetaRepository.getEtiquetasDto(idTarefa);
 
-                BeanUtils.copyProperties(tarefaAtualizadaDto, tarefaEncontrada);
-                TarefaEntity tarefaAtualizada = tarefaRepository.save(tarefaEncontrada);
                 return ResponseEntity.ok().body(new TarefaDto(tarefaAtualizada, subTarefaDtos, etiquetaDtos));
             }
 
