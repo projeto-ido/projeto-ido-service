@@ -3,6 +3,7 @@ package school.sptech.ido.application.controller.dto;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class TarefaExportacaoDto {
@@ -11,9 +12,9 @@ public class TarefaExportacaoDto {
 
     private String descricao;
 
-    private LocalDate dataInicio;
+    private LocalDateTime dataInicio;
 
-    private LocalDate dataFinal;
+    private LocalDateTime dataFinal;
 
     private Boolean urgencia;
 
@@ -58,19 +59,19 @@ public class TarefaExportacaoDto {
         this.descricao = descricao;
     }
 
-    public LocalDate getDataInicio() {
+    public LocalDateTime getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDate dataInicio) {
+    public void setDataInicio(LocalDateTime dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public LocalDate getDataFinal() {
+    public LocalDateTime getDataFinal() {
         return dataFinal;
     }
 
-    public void setDataFinal(LocalDate dataFinal) {
+    public void setDataFinal(LocalDateTime dataFinal) {
         this.dataFinal = dataFinal;
     }
 
