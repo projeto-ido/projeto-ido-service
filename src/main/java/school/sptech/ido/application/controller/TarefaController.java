@@ -229,43 +229,13 @@ public class TarefaController {
 
                 tarefaEncontrada.setEtiquetasTarefa(etiquetas);
 
-                if (tarefaAtualizadaDto.getSubTarefas().isEmpty()){
+                if(!tarefaAtualizadaDto.getSubTarefas().isEmpty()){
                     for ( SubTarefaDto subTarefa: tarefaAtualizadaDto.getSubTarefas()) {
-                        ResponseEntity<SubTarefaEntity> sub =
-                            subTarefaController.deletarSubTarefaPorIdTarefa(idUsuario, idTarefa, subTarefa.getIdSubTarefa());
+                        SubTarefaEntity sub = subTarefaRepository.save(new SubTarefaEntity(subTarefa, tarefaEncontrada));
+                        subTarefas.add(sub);
                     }
-                } else {
-                    for (SubTarefaDto subTarefaDto: tarefaAtualizadaDto.getSubTarefas()){
-                        Optional<SubTarefaEntity> subtarefa = subTarefaRepository.findById(subTarefaDto.getIdSubTarefa());
-
-                        if (subtarefa.isPresent()){
-                            SubTarefaEntity subTarefaEntity = subtarefa.get();
-                            subTarefas.add(subTarefaEntity);
-                        }
-                    }
-
-                    List<SubTarefaEntity> subTarefasCadastradas = tarefaEncontrada.getSubTarefas();
-                    List<SubTarefaEntity> subTarefasDeletadas = new ArrayList<>();
-                    for (SubTarefaEntity subTarefaEntity: subTarefasCadastradas){
-
-                        for (SubTarefaEntity subTarefa : subTarefas) {
-
-                            if (subTarefaEntity.getIdSubTarefa().equals(subTarefa.getIdSubTarefa())) {
-                                subTarefasDeletadas.add(subTarefa);
-                            }
-
-                        }
-
-                    }
-
-                    if (!subTarefasDeletadas.isEmpty()){
-                        for ( SubTarefaEntity sub : subTarefasDeletadas) {
-                            subTarefaController.deletarSubTarefaPorIdTarefa(idUsuario, idTarefa, sub.getIdSubTarefa());
-                        }
-                    }
+                    tarefaEncontrada.setSubTarefas(subTarefas);
                 }
-
-                tarefaEncontrada.setSubTarefas(subTarefas);
 
                 TarefaEntity tarefaAtualizada = tarefaRepository.save(tarefaEncontrada);
 
