@@ -1,42 +1,36 @@
-package school.sptech.ido.application.controller.dto;
+package school.sptech.ido.application.controller.dto.Request;
 
-import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
-import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
-import school.sptech.ido.resources.repository.entity.TarefaEntity;
+import school.sptech.ido.application.controller.dto.Response.SubTarefaDto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-public class TarefaAtualizadaDto {
+public class TarefaAtualizacaoDto {
 
+    @NotBlank
+    @Size(max = 45)
     private String titulo;
 
+    @Size(max = 200)
     private String descricao;
 
     private LocalDate dataInicio;
 
     private LocalDate dataFinal;
 
+    @NotNull
     private Boolean urgencia;
 
+    @NotNull
     private Boolean importancia;
 
-    private List<SubTarefaEntity> subTarefas;
+    private List<SubTarefaDto> subTarefas = new ArrayList<>();
 
-    private List<EtiquetaEntity> etiquetasTarefa;
-
-    public TarefaAtualizadaDto() {}
-
-    public TarefaAtualizadaDto(TarefaEntity tarefaEntity) {
-        this.titulo = tarefaEntity.getTitulo();
-        this.descricao = tarefaEntity.getDescricao();
-        this.dataInicio = tarefaEntity.getDataInicio();
-        this.dataFinal = tarefaEntity.getDataFinal();
-        this.urgencia = tarefaEntity.getUrgencia();
-        this.importancia = tarefaEntity.getImportancia();
-        this.subTarefas = tarefaEntity.getSubTarefas();
-        this.etiquetasTarefa = tarefaEntity.getEtiquetasTarefa();
-    }
+    private List<EtiquetaCadastroTarefaDto> etiquetas = new ArrayList<>();
 
     public String getTitulo() {
         return titulo;
@@ -86,19 +80,19 @@ public class TarefaAtualizadaDto {
         this.importancia = importancia;
     }
 
-    public List<SubTarefaEntity> getSubTarefas() {
+    public List<SubTarefaDto> getSubTarefas() {
         return subTarefas;
     }
 
-    public void setSubTarefas(List<SubTarefaEntity> subTarefas) {
+    public void setSubTarefas(List<SubTarefaDto> subTarefas) {
         this.subTarefas = subTarefas;
     }
 
-    public List<EtiquetaEntity> getEtiquetasTarefa() {
-        return etiquetasTarefa;
+    public List<EtiquetaCadastroTarefaDto> getEtiquetas() {
+        return etiquetas;
     }
 
-    public void setEtiquetasTarefa(List<EtiquetaEntity> etiquetasTarefa) {
-        this.etiquetasTarefa = etiquetasTarefa;
+    public void setEtiquetas(List<EtiquetaCadastroTarefaDto> etiquetas) {
+        this.etiquetas = etiquetas;
     }
 }

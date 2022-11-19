@@ -4,6 +4,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TarefaCadastroDto {
 
@@ -24,6 +26,9 @@ public class TarefaCadastroDto {
     @NotNull
     private Boolean importancia;
 
+    private List<SubTarefaCadastroDto> subTarefas = new ArrayList<>();
+
+    private List<EtiquetaCadastroTarefaDto> etiquetas = new ArrayList<>();
 
     public String getTitulo() {
         return titulo;
@@ -71,5 +76,21 @@ public class TarefaCadastroDto {
 
     public void setImportancia(Boolean importancia) {
         this.importancia = importancia;
+    }
+
+    public List<SubTarefaCadastroDto> getSubTarefas() {
+        return subTarefas;
+    }
+
+    public void setSubTarefas(List<SubTarefaCadastroDto> subTarefas) {
+        this.subTarefas = subTarefas;
+    }
+
+    public List<EtiquetaCadastroTarefaDto> getEtiquetas() {
+        return etiquetas;
+    }
+
+    public void setEtiquetas(List<EtiquetaCadastroTarefaDto> etiquetas) {
+        this.etiquetas = etiquetas;
     }
 }

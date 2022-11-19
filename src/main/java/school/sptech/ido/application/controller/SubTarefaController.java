@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Tag(name = "Sub-Tarefa", description = "Reponsável por gerir as sub-tarefas que estão associada a tarefa.")
+@Tag(name = "Sub-Tarefa", description = "Responsável por gerir as sub-tarefas que estão associada a tarefa.")
 @RestController
 public class SubTarefaController {
 

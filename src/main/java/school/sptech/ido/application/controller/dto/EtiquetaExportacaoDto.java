@@ -1,5 +1,6 @@
 package school.sptech.ido.application.controller.dto;
 
+import school.sptech.ido.application.controller.dto.Response.EtiquetaDto;
 import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
 
 public class EtiquetaExportacaoDto {
@@ -10,6 +11,10 @@ public class EtiquetaExportacaoDto {
 
     public EtiquetaExportacaoDto(EtiquetaEntity etiquetaEntity) {
         this.titulo = etiquetaEntity.getTitulo();
+    }
+
+    public EtiquetaExportacaoDto(EtiquetaDto etiquetaDto) {
+        this.titulo = etiquetaDto.getTitulo();
     }
 
     public String getTitulo() {

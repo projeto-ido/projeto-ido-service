@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 
-@Tag(name = "Usuário", description = "Reponsável por gerir os usuários dessa aplicação.")
+@Tag(name = "Usuário", description = "Responsável por gerir os usuários dessa aplicação.")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
