@@ -1,14 +1,15 @@
 package school.sptech.ido.application.controller.dto.Request;
 
+import school.sptech.ido.application.controller.dto.Response.SubTarefaDto;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TarefaCadastroDto {
+public class TarefaAtualizacaoDto {
 
     @NotBlank
     @Size(max = 45)
@@ -17,9 +18,9 @@ public class TarefaCadastroDto {
     @Size(max = 200)
     private String descricao;
 
-    private LocalDateTime dataInicio;
+    private LocalDate dataInicio;
 
-    private LocalDateTime dataFinal;
+    private LocalDate dataFinal;
 
     @NotNull
     private Boolean urgencia;
@@ -27,7 +28,7 @@ public class TarefaCadastroDto {
     @NotNull
     private Boolean importancia;
 
-    private List<SubTarefaCadastroDto> subTarefas = new ArrayList<>();
+    private List<SubTarefaDto> subTarefas = new ArrayList<>();
 
     private List<EtiquetaCadastroTarefaDto> etiquetas = new ArrayList<>();
 
@@ -47,19 +48,19 @@ public class TarefaCadastroDto {
         this.descricao = descricao;
     }
 
-    public LocalDateTime getDataInicio() {
+    public LocalDate getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDateTime dataInicio) {
+    public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public LocalDateTime getDataFinal() {
+    public LocalDate getDataFinal() {
         return dataFinal;
     }
 
-    public void setDataFinal(LocalDateTime dataFinal) {
+    public void setDataFinal(LocalDate dataFinal) {
         this.dataFinal = dataFinal;
     }
 
@@ -79,11 +80,11 @@ public class TarefaCadastroDto {
         this.importancia = importancia;
     }
 
-    public List<SubTarefaCadastroDto> getSubTarefas() {
+    public List<SubTarefaDto> getSubTarefas() {
         return subTarefas;
     }
 
-    public void setSubTarefas(List<SubTarefaCadastroDto> subTarefas) {
+    public void setSubTarefas(List<SubTarefaDto> subTarefas) {
         this.subTarefas = subTarefas;
     }
 

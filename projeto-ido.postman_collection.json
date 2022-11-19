@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9cf75b72-5415-4e45-a766-fd45d347c70f",
+		"_postman_id": "2d81c8cb-f750-419e-87a0-3fa71723333b",
 		"name": "projeto-ido",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -128,7 +128,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"danilo.kovacs@sptech.com.br\",\r\n    \"senha\": \"dankovacs\"\r\n}",
+							"raw": "{\r\n    \"email\": \"julia.santos@gmail.com\",\r\n    \"senha\": \"julia123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -243,7 +243,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"titulo\": \"Estudar para biologia\",\r\n    \"descricao\": \"Descricao da tarefa\",\r\n    \"dataInicio\": null,\r\n    \"dataFinal\": null,\r\n    \"urgencia\": false,\r\n    \"importancia\": true\r\n}\r\n",
+							"raw": "{\r\n  \"titulo\": \"Listar tarefas\",\r\n  \"descricao\": \"descricao\",\r\n  \"dataInicio\": \"2022-11-17\",\r\n  \"dataFinal\": \"2022-11-17\",\r\n  \"urgencia\": true,\r\n  \"importancia\": true,\r\n  \"subTarefas\": [\r\n    {\r\n      \"titulo\": \"subtarefa\",\r\n      \"status\": true\r\n    }\r\n  ],\r\n  \"etiquetas\": [\r\n    {\r\n      \"idEtiqueta\": 2\r\n    }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -270,8 +270,17 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"titulo\": \"string\",\r\n  \"descricao\": \"string\",\r\n  \"dataInicio\": \"2022-11-17\",\r\n  \"dataFinal\": \"2022-11-17\",\r\n  \"urgencia\": true,\r\n  \"importancia\": true,\r\n  \"subTarefas\": [\r\n    {\r\n      \"idSubTarefa\": 1,\r\n      \"titulo\": \"aaaa\",\r\n      \"status\": false\r\n    }\r\n  ],\r\n  \"etiquetas\": [\r\n    {\r\n      \"idEtiqueta\": 2\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:8080/usuarios/1/tarefas/1",
+							"raw": "localhost:8080/usuarios/1/tarefas/11",
 							"host": [
 								"localhost"
 							],
@@ -280,7 +289,7 @@
 								"usuarios",
 								"1",
 								"tarefas",
-								"1"
+								"11"
 							]
 						}
 					},

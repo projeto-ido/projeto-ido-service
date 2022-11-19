@@ -17,7 +17,7 @@ import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name = "Conquista", description = "Reponsável por gerir as conquistas dos usuários.")
+@Tag(name = "Conquista", description = "Responsável por gerir as conquistas dos usuários.")
 @RestController
 public class ConquistaController {
 
