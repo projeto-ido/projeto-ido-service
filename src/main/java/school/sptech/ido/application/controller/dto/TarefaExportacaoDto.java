@@ -7,6 +7,8 @@ import java.util.List;
 
 public class TarefaExportacaoDto {
 
+    private Integer idTarefa;
+
     private String titulo;
 
     private String descricao;
@@ -23,14 +25,18 @@ public class TarefaExportacaoDto {
 
     private List<SubTarefaExportacaoDto> subTarefas;
 
-    private List<EtiquetaExportacaoDto> etiquetasTarefa;
+    private EtiquetaExportacaoDto etiqueta1;
+
+    private EtiquetaExportacaoDto etiqueta2;
 
     public TarefaExportacaoDto() {}
 
     public TarefaExportacaoDto(TarefaEntity tarefaEntity,
                                List<SubTarefaExportacaoDto> subTarefas,
-                               List<EtiquetaExportacaoDto> etiquetasTarefa)
+                               EtiquetaExportacaoDto etiqueta1,
+                               EtiquetaExportacaoDto etiqueta2 )
     {
+        this.idTarefa = tarefaEntity.getIdTarefa();
         this.titulo = tarefaEntity.getTitulo();
         this.descricao = tarefaEntity.getDescricao();
         this.dataInicio = tarefaEntity.getDataInicio();
@@ -39,7 +45,27 @@ public class TarefaExportacaoDto {
         this.importancia = tarefaEntity.getImportancia();
         this.status = tarefaEntity.getStatus();
         this.subTarefas = subTarefas;
-        this.etiquetasTarefa = etiquetasTarefa;
+        this.etiqueta1 = etiqueta1;
+        this.etiqueta2 = etiqueta2;
+    }
+
+    public String getPrioridade(){
+        if (importancia && urgencia)
+            return "Fazer Agora";
+        else if (!importancia && urgencia)
+            return "Delegar";
+        else if (importancia && !urgencia)
+            return "Agendar";
+        else
+            return "Não priorizar";
+    }
+
+    public Integer getIdTarefa() {
+        return idTarefa;
+    }
+
+    public void setIdTarefa(Integer idTarefa) {
+        this.idTarefa = idTarefa;
     }
 
     public String getTitulo() {
@@ -106,11 +132,19 @@ public class TarefaExportacaoDto {
         this.subTarefas = subTarefas;
     }
 
-    public List<EtiquetaExportacaoDto> getEtiquetasTarefa() {
-        return etiquetasTarefa;
+    public EtiquetaExportacaoDto getEtiqueta1() {
+        return etiqueta1;
     }
 
-    public void setEtiquetasTarefa(List<EtiquetaExportacaoDto> etiquetasTarefa) {
-        this.etiquetasTarefa = etiquetasTarefa;
+    public void setEtiqueta1(EtiquetaExportacaoDto etiqueta1) {
+        this.etiqueta1 = etiqueta1;
+    }
+
+    public EtiquetaExportacaoDto getEtiqueta2() {
+        return etiqueta2;
+    }
+
+    public void setEtiqueta2(EtiquetaExportacaoDto etiqueta2) {
+        this.etiqueta2 = etiqueta2;
     }
 }
