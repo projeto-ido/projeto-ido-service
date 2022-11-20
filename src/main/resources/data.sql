@@ -15,10 +15,10 @@ INSERT INTO tarefa (titulo, descricao, status, data_inicio, data_final, data_cri
     ('Compras para a faculdade', 'Comprar luva e estetoscópio', 1, '2022-10-02', '2022-10-05', '2022-10-04', null, 1, 1, 1);
 
 INSERT INTO etiqueta (titulo, cor, fk_usuario) VALUES
-	('Faculdade', '5D84C2', 1),
-    ('Trabalho', '51BDAB', 1),
-    ('Estágio', '7463C7', 1),
-    ('Lazer', 'FFCA6D', 1);
+	('Faculdade', '#5D84C2', 1),
+    ('Trabalho', '#51BDAB', 1),
+    ('Estágio', '#7463C7', 1),
+    ('Lazer', '#FFCA6D', 1);
 
 INSERT INTO tarefa_etiqueta VALUES
     (1,1),
@@ -28,3 +28,12 @@ INSERT INTO tarefa_etiqueta VALUES
     (4,1),
     (6,4),
     (7,4);
+
+INSERT INTO sub_tarefa (titulo, status, fk_tarefa) VALUES
+    ('Ossos do corpo', false, 1),
+    ('Cérebro', false, 1),
+    ('Prova de sutura', false, 2),
+    ('Blusa de frio', false, 6),
+    ('Camisa social', false, 6),
+    ('Calça social', false, 6),
+    ('Meia', false, 6);

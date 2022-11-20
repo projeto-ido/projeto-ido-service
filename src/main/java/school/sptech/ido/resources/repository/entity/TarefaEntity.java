@@ -30,7 +30,6 @@ public class TarefaEntity {
 
     private LocalDate dataInicio;
 
-    @FutureOrPresent
     private LocalDate dataFinal;
 
     private LocalDate dataCriacao;

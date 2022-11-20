@@ -18,9 +18,14 @@ public class TarefaAtualizacaoDto {
     @Size(max = 200)
     private String descricao;
 
+    @NotNull
+    private Boolean status;
+
     private LocalDate dataInicio;
 
     private LocalDate dataFinal;
+
+    private LocalDate dataConclusao;
 
     @NotNull
     private Boolean urgencia;
@@ -48,6 +53,14 @@ public class TarefaAtualizacaoDto {
         this.descricao = descricao;
     }
 
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
     public LocalDate getDataInicio() {
         return dataInicio;
     }
@@ -62,6 +75,14 @@ public class TarefaAtualizacaoDto {
 
     public void setDataFinal(LocalDate dataFinal) {
         this.dataFinal = dataFinal;
+    }
+
+    public LocalDate getDataConclusao() {
+        return dataConclusao;
+    }
+
+    public void setDataConclusao(LocalDate dataConclusao) {
+        this.dataConclusao = dataConclusao;
     }
 
     public Boolean getUrgencia() {

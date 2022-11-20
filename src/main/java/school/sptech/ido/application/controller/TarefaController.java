@@ -50,8 +50,6 @@ public class TarefaController {
     @Autowired
     UsuarioController usuarioController;
 
-    @Autowired
-    SubTarefaController subTarefaController;
 
     @ApiResponses({
             @ApiResponse(
@@ -214,6 +212,15 @@ public class TarefaController {
 
                 List<EtiquetaEntity> etiquetas = new ArrayList<>();
                 List<SubTarefaEntity> subTarefas = new ArrayList<>();
+
+                tarefaEncontrada.setTitulo(tarefaAtualizadaDto.getTitulo());
+                tarefaEncontrada.setDescricao(tarefaAtualizadaDto.getDescricao());
+                tarefaEncontrada.setStatus(tarefaAtualizadaDto.getStatus());
+                tarefaEncontrada.setDataInicio(tarefaAtualizadaDto.getDataInicio());
+                tarefaEncontrada.setDataFinal(tarefaAtualizadaDto.getDataFinal());
+                tarefaEncontrada.setDataConclusao(tarefaAtualizadaDto.getDataConclusao());
+                tarefaEncontrada.setUrgencia(tarefaAtualizadaDto.getUrgencia());
+                tarefaEncontrada.setImportancia(tarefaAtualizadaDto.getImportancia());
 
                 if (!tarefaAtualizadaDto.getEtiquetas().isEmpty()){
                     for (EtiquetaCadastroTarefaDto etiquetaDto: tarefaAtualizadaDto.getEtiquetas()) {
