@@ -2,7 +2,10 @@ package school.sptech.ido.resources.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import school.sptech.ido.application.controller.dto.EtiquetaExportacaoDto;
 import school.sptech.ido.application.controller.dto.Response.EtiquetaDto;
+import school.sptech.ido.application.controller.dto.Response.SubTarefaDto;
+import school.sptech.ido.application.controller.dto.SubTarefaExportacaoDto;
 import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
 import java.util.List;
 import java.util.Optional;
@@ -21,5 +24,9 @@ public interface EtiquetaRepository extends JpaRepository<EtiquetaEntity, Intege
 
     @Query("SELECT new school.sptech.ido.application.controller.dto.Response.EtiquetaDto(e) " +
             "FROM EtiquetaEntity e JOIN e.tarefa t WHERE t.idTarefa = ?1")
-    List<EtiquetaDto> getEtiquetasDto(int idTarefa);
+    List<EtiquetaDto> getEtiquetasDto(int idTarada);
+
+    @Query("SELECT new school.sptech.ido.application.controller.dto.EtiquetaExportacaoDto(e) " +
+            "FROM EtiquetaEntity e JOIN e.tarefa t WHERE t.idTarefa = ?1")
+    List<EtiquetaExportacaoDto> getEtiquestaExportacaoDto(int idTarefa);
 }
