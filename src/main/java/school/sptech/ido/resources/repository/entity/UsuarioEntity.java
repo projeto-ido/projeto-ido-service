@@ -89,13 +89,9 @@ public class UsuarioEntity {
         this.idUsuario = id;
         this.nome = usuarioAtualizadoDto.getNome();
         this.apelido = usuarioAtualizadoDto.getApelido();
-        this.email = usuarioAtualizadoDto.getEmail();
-        this.senha = usuarioAtualizadoDto.getSenha();
         this.biografia = usuarioAtualizadoDto.getBiografia();
-        this.nascimento = usuarioAtualizadoDto.getNascimento();
         this.imagemPerfil = usuarioAtualizadoDto.getImagemPerfil();
         this.imagemBiografia = usuarioAtualizadoDto.getImagemBiografia();
-        this.nivel = usuarioAtualizadoDto.getNivel();
         this.autenticado = true;
         this.notificacao = false;
     }

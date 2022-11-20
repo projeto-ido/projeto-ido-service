@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.ido.application.controller.dto.*;
+import school.sptech.ido.application.controller.dto.Response.UsuarioAtualizadoResDto;
 import school.sptech.ido.application.controller.dto.Response.UsuarioDto;
 import school.sptech.ido.resources.repository.UsuarioRepository;
 import school.sptech.ido.resources.repository.entity.UsuarioEntity;
@@ -56,14 +57,26 @@ public class UsuarioController {
     }
 
     @PutMapping("/{idUsuario}")
-    public ResponseEntity<UsuarioDto> atualizarUsuario(
+    public ResponseEntity<UsuarioAtualizadoResDto> atualizarUsuario(
         @PathVariable Integer idUsuario,
         @RequestBody @Valid UsuarioAtualizadoDto usuarioAtualizadoDto
     ) {
 
         if (usuarioRepository.existsById(idUsuario)){
-            UsuarioEntity usuarioAtualizado = new UsuarioEntity(idUsuario, usuarioAtualizadoDto);
-            return ResponseEntity.ok().body(new UsuarioDto(usuarioRepository.save(usuarioAtualizado)));
+            Optional<UsuarioEntity> usuarioOpt = this.getUsuarioEntity(idUsuario);
+
+            if(usuarioOpt.isPresent()){
+                UsuarioEntity usuarioEntity = usuarioOpt.get();
+
+                usuarioEntity.setNome(usuarioAtualizadoDto.getNome());
+                usuarioEntity.setApelido(usuarioAtualizadoDto.getApelido());
+                usuarioEntity.setBiografia(usuarioAtualizadoDto.getBiografia());
+                usuarioEntity.setImagemBiografia(usuarioAtualizadoDto.getImagemBiografia());
+                usuarioEntity.setImagemPerfil(usuarioAtualizadoDto.getImagemPerfil());
+
+                return ResponseEntity.ok().body(new UsuarioAtualizadoResDto(usuarioRepository.save(usuarioEntity)));
+            }
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.notFound().build();
@@ -165,6 +178,11 @@ public class UsuarioController {
             return ResponseEntity.ok().build();
 
         return ResponseEntity.notFound().build();
+    }
+
+
+    private Optional<UsuarioEntity> getUsuarioEntity(int idUsuario){
+        return usuarioRepository.findById(idUsuario);
     }
 
 //    @PostMapping("/notificacao/envio")
