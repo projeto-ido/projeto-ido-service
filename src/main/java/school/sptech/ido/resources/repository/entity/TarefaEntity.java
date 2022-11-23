@@ -30,8 +30,7 @@ public class TarefaEntity {
     private Boolean status;
 
     private LocalDateTime dataInicio;
-
-    @FutureOrPresent
+    
     private LocalDateTime dataFinal;
 
     private LocalDateTime dataCriacao;

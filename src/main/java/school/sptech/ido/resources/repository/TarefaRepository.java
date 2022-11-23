@@ -13,4 +13,5 @@ public interface TarefaRepository extends JpaRepository<TarefaEntity, Integer> {
 
     @Query(value = "SELECT t.* FROM tarefa AS t WHERE t.fk_usuario = ?1 AND t.id_tarefa = ?2", nativeQuery = true)
     Optional<TarefaEntity> findByFkUsuarioAndIdTarefa(Integer fkUsuario, Integer idTarefa);
+
 }
