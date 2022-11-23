@@ -28,6 +28,7 @@ import school.sptech.ido.service.UsuarioService;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -281,7 +282,7 @@ public class TarefaController {
             if (tarefaEntity.isPresent()){
                 TarefaEntity tarefaAtualizada = tarefaEntity.get();
                 tarefaAtualizada.setStatus(true);
-                tarefaAtualizada.setDataConclusao(LocalDate.now());
+                tarefaAtualizada.setDataConclusao(LocalDateTime.now());
                 tarefaRepository.save(tarefaAtualizada);
                 return ResponseEntity.ok().build();
             }

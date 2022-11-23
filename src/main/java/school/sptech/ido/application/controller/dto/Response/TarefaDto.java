@@ -4,6 +4,7 @@ import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
 import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class TarefaDto {
@@ -16,11 +17,11 @@ public class TarefaDto {
 
     private Boolean status;
 
-    private LocalDate dataInicio;
+    private LocalDateTime dataInicio;
 
-    private LocalDate dataFinal;
+    private LocalDateTime dataFinal;
 
-    private LocalDate dataCriacao;
+    private LocalDateTime dataCriacao;
 
     private Boolean urgencia;
 
@@ -81,27 +82,27 @@ public class TarefaDto {
         this.status = status;
     }
 
-    public LocalDate getDataInicio() {
+    public LocalDateTime getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDate dataInicio) {
+    public void setDataInicio(LocalDateTime dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public LocalDate getDataFinal() {
+    public LocalDateTime getDataFinal() {
         return dataFinal;
     }
 
-    public void setDataFinal(LocalDate dataFinal) {
+    public void setDataFinal(LocalDateTime dataFinal) {
         this.dataFinal = dataFinal;
     }
 
-    public LocalDate getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDate dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
