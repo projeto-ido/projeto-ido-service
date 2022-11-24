@@ -60,12 +60,12 @@ public class ExportacaoController {
                 List<SubTarefaExportacaoDto> subTarefaExportacaoDtos = subTarefaRepository.getSubTarefaExportacaoDto(tarefa.getIdTarefa());
                 List<EtiquetaExportacaoDto> etiquetasExportacao = etiquetaRepository.getEtiquestaExportacaoDto(tarefa.getIdTarefa());
 
-
                 tarefasExportacao.add(new TarefaExportacaoDto(
                         tarefa,
                         subTarefaExportacaoDtos,
-                        etiquetasExportacao.isEmpty() ? null : etiquetasExportacao.get(0),
-                        etiquetasExportacao.isEmpty() ? null : etiquetasExportacao.get(1)));
+                        etiquetasExportacao.size() == 1 ? etiquetasExportacao.get(0).getTitulo() : null,
+                        etiquetasExportacao.size() == 2 ? etiquetasExportacao.get(1).getTitulo() : null));
+
             }
 
             Exportacao.gravarCsv(tarefasExportacao, nomeArq);
@@ -103,8 +103,8 @@ public class ExportacaoController {
                 tarefasExportacao.add(new TarefaExportacaoDto(
                         tarefa,
                         subTarefaExportacaoDtos,
-                        etiquetasExportacao.isEmpty() ? null :  etiquetasExportacao.get(0),
-                        etiquetasExportacao.isEmpty() ? null :  etiquetasExportacao.get(1)));
+                        etiquetasExportacao.size() == 1 ? etiquetasExportacao.get(0).getTitulo() : null,
+                        etiquetasExportacao.size() == 2 ? etiquetasExportacao.get(1).getTitulo() : null));
             }
 
             Exportacao.gravaArquivoTxt(tarefasExportacao, usuario.getNome(), nomeArq);

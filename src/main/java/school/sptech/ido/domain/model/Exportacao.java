@@ -36,8 +36,8 @@ public class Exportacao {
                             tarefa.getDataFinal(),
                             tarefa.getStatus(),
                             tarefa.getSubTarefas(),
-                            tarefa.getEtiqueta1().getTitulo(),
-                            tarefa.getEtiqueta2().getTitulo());
+                            tarefa.getEtiqueta1(),
+                            tarefa.getEtiqueta2());
                 }
 
             } catch (FormatterClosedException e){

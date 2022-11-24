@@ -25,16 +25,16 @@ public class TarefaExportacaoDto {
 
     private List<SubTarefaExportacaoDto> subTarefas;
 
-    private EtiquetaExportacaoDto etiqueta1;
+    private String etiqueta1;
 
-    private EtiquetaExportacaoDto etiqueta2;
+    private String etiqueta2;
 
     public TarefaExportacaoDto() {}
 
     public TarefaExportacaoDto(TarefaEntity tarefaEntity,
                                List<SubTarefaExportacaoDto> subTarefas,
-                               EtiquetaExportacaoDto etiqueta1,
-                               EtiquetaExportacaoDto etiqueta2 )
+                               String etiqueta1,
+                               String etiqueta2 )
     {
         this.idTarefa = tarefaEntity.getIdTarefa();
         this.titulo = tarefaEntity.getTitulo();
@@ -132,19 +132,19 @@ public class TarefaExportacaoDto {
         this.subTarefas = subTarefas;
     }
 
-    public EtiquetaExportacaoDto getEtiqueta1() {
+    public String getEtiqueta1() {
         return etiqueta1;
     }
 
-    public void setEtiqueta1(EtiquetaExportacaoDto etiqueta1) {
+    public void setEtiqueta1(String etiqueta1) {
         this.etiqueta1 = etiqueta1;
     }
 
-    public EtiquetaExportacaoDto getEtiqueta2() {
+    public String getEtiqueta2() {
         return etiqueta2;
     }
 
-    public void setEtiqueta2(EtiquetaExportacaoDto etiqueta2) {
+    public void setEtiqueta2(String etiqueta2) {
         this.etiqueta2 = etiqueta2;
     }
 }
