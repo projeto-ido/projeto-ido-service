@@ -20,6 +20,7 @@ import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 import school.sptech.ido.service.subject.UsuarioSubject;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -104,7 +105,7 @@ public class UsuarioService {
     public void verificarData(){
         if (!subjects.isEmpty()){
             for (UsuarioSubject usuario : subjects) {
-               if (usuario.possuiTarefasProximas(LocalDate.now()))
+               if (usuario.possuiTarefasProximas(LocalDateTime.now()))
                    filaNotificacao.insert(usuario);
             }
 
