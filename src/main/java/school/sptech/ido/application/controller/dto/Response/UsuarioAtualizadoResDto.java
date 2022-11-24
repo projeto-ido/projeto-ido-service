@@ -1,33 +1,31 @@
-package school.sptech.ido.application.controller.dto;
+package school.sptech.ido.application.controller.dto.Response;
 
+import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 
-import org.springframework.format.annotation.NumberFormat;
-
-import javax.annotation.Nonnegative;
-import javax.persistence.*;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 
-public class UsuarioAtualizadoDto {
+public class UsuarioAtualizadoResDto {
 
-    @NotBlank
-    @Size(max = 45)
+
     private String nome;
 
-    @NotBlank
-    @Size(max = 45)
     private String apelido;
 
-    @Size(max = 200)
     private String biografia;
 
-    @Lob
     private Byte[] imagemPerfil;
 
     private String imagemBiografia;
+
+    public UsuarioAtualizadoResDto(UsuarioEntity usuarioEntity) {
+        this.nome = usuarioEntity.getNome();
+        this.apelido = usuarioEntity.getApelido();
+        this.biografia = usuarioEntity.getBiografia();
+        this.imagemPerfil = usuarioEntity.getImagemPerfil();
+        this.imagemBiografia = usuarioEntity.getImagemBiografia();
+    }
 
     public String getNome() {
         return nome;
