@@ -6,6 +6,7 @@ import school.sptech.ido.application.controller.dto.Response.UsuarioDto;
 import school.sptech.ido.service.observer.ApplicationObsever;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class UsuarioSubject {
@@ -22,7 +23,7 @@ public class UsuarioSubject {
         this.tarefas = tarefas;
     }
 
-    public Boolean possuiTarefasProximas(LocalDate dataAtual){
+    public Boolean possuiTarefasProximas(LocalDateTime dataAtual){
         Boolean hasAtividadesProximas = false;
 
         for (TarefaDto tarefa: tarefas) {
@@ -39,8 +40,8 @@ public class UsuarioSubject {
         observer.notificarPorEmail();
     }
 
-    private boolean datasProximas(LocalDate dataAtual, LocalDate dataTarefa){
-        LocalDate dataTarefaFinalMenos10Dias = dataTarefa.minusDays(10);
+    private boolean datasProximas(LocalDateTime dataAtual, LocalDateTime dataTarefa){
+        LocalDateTime dataTarefaFinalMenos10Dias = dataTarefa.minusDays(10);
 
         if ( dataAtual.isAfter(dataTarefaFinalMenos10Dias) && dataAtual.isBefore(dataTarefa) ){
             return true;
