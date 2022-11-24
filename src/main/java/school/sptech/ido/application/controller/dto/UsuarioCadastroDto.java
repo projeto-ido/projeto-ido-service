@@ -26,6 +26,11 @@ public class UsuarioCadastroDto {
     @Size(max = 45)
     private String senha;
 
+    @NotBlank
+    @Min(8)
+    @Max(11)
+    private String telefone;
+
     public UsuarioCadastroDto() {}
 
     public String getNome() {
@@ -66,5 +71,13 @@ public class UsuarioCadastroDto {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 }
