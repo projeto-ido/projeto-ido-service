@@ -174,6 +174,31 @@ public class EtiquetaController {
 
     }
 
+    @DeleteMapping("/usuarios/{idUsuario}/etiquetas/acoes")
+    public ResponseEntity<Void> limparAcoes(
+        @PathVariable Integer idUsuario
+    ) {
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+        if (isAutenticado) {
+
+            if (!acoesUsuarios.isEmpty()){
+                for ( AcoesUsuario acoes: acoesUsuarios) {
+                    if (acoes.getIdUsuario().equals(idUsuario)){
+                        while (!acoes.getAcoes().isEmpty()){
+                            acoes.getAcoes().pop();
+                        }
+                        return ResponseEntity.ok().build();
+                    }
+                }
+                return ResponseEntity.status(204).build();
+            }
+
+            return ResponseEntity.status(204).build();
+        } else {
+            return ResponseEntity.status(403).build();
+        }
+    }
+
     @GetMapping("/usuarios/{idUsuario}/etiquetas/acoes/desfazer")
     public ResponseEntity<Void> desfazerUltimaAcao(
         @PathVariable Integer idUsuario
