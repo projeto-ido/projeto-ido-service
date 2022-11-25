@@ -53,7 +53,10 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<UsuarioDto> cadastrarUsuario(@RequestBody @Valid UsuarioCadastroDto usuario) {
-        return ResponseEntity.status(201).body(new UsuarioDto(usuarioRepository.save(new UsuarioEntity(usuario))));
+        UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
+        usuarioRepository.save(usuarioEntity);
+        UsuarioDto usuarioDto = new UsuarioDto(usuarioEntity);
+        return ResponseEntity.status(201).body(usuarioDto);
     }
 
     @PutMapping("/{idUsuario}")
