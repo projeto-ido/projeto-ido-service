@@ -14,10 +14,7 @@ import school.sptech.ido.application.controller.dto.Response.UsuarioDto;
 import school.sptech.ido.resources.repository.UsuarioRepository;
 import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 import school.sptech.ido.service.UsuarioService;
-import school.sptech.ido.service.subject.UsuarioSubject;
-
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -54,8 +51,8 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<UsuarioDto> cadastrarUsuario(@RequestBody @Valid UsuarioCadastroDto usuario) {
         UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
-        usuarioRepository.save(usuarioEntity);
-        UsuarioDto usuarioDto = new UsuarioDto(usuarioEntity);
+        UsuarioEntity usuarioSalvo = usuarioRepository.save(usuarioEntity);
+        UsuarioDto usuarioDto = new UsuarioDto(usuarioSalvo);
         return ResponseEntity.status(201).body(usuarioDto);
     }
 

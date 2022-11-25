@@ -33,6 +33,15 @@ public class UsuarioCadastroDto {
 
     public UsuarioCadastroDto() {}
 
+    public UsuarioCadastroDto(String nome, String apelido, LocalDate nascimento, String email, String senha, String telefone) {
+        this.nome = nome;
+        this.apelido = apelido;
+        this.nascimento = nascimento;
+        this.email = email;
+        this.senha = senha;
+        this.telefone = telefone;
+    }
+
     public String getNome() {
         return nome;
     }
