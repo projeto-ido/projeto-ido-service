@@ -204,8 +204,8 @@ public class TarefaController {
 
     }
 
-    public ResponseEntity<Void> atualizarTarefasUsuariosSubject(int idUsuario, TarefaDto tarefaDto){
-        return usuarioService.atualizarTarefa(idUsuario ,tarefaDto);
+    private void atualizarTarefasUsuariosSubject(int idUsuario, TarefaDto tarefaDto){
+        usuarioService.atualizarTarefa(idUsuario, tarefaDto);
     }
 
     @PutMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}")
