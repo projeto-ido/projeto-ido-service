@@ -33,7 +33,6 @@ INSERT INTO sub_tarefa (titulo, status, fk_tarefa) VALUES
     ('Ossos do corpo', false, 1),
     ('Cérebro', false, 1),
     ('Prova de sutura', false, 2),
-    ('Blusa de frio', false, 6),
     ('Camisa social', false, 6),
     ('Calça social', false, 6),
     ('Meia', false, 6);
