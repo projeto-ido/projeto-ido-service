@@ -73,9 +73,11 @@ public class SubTarefaController {
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
         if (isAutenticado){
             Optional<TarefaEntity> tarefa = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
-            if (tarefa.isPresent()){
-                SubTarefaEntity subTarefaEntity = subTarefaRepository.save(new SubTarefaEntity(subTarefaCadastroDto, tarefa.get()));
-                return ResponseEntity.status(201).body(new SubTarefaDto(subTarefaEntity));
+            if (tarefa.isPresent()) {
+                SubTarefaEntity subTarefaEntity = new SubTarefaEntity(subTarefaCadastroDto, tarefa.get());
+                subTarefaRepository.save(subTarefaEntity);
+                SubTarefaDto subTarefaDto = new SubTarefaDto(subTarefaEntity);
+                return ResponseEntity.status(201).body(subTarefaDto);
             }
 
             return ResponseEntity.notFound().build();
