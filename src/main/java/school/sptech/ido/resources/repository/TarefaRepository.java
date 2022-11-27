@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import school.sptech.ido.application.controller.dto.Response.TarefaEtiquetasDto;
 import school.sptech.ido.application.controller.dto.Response.TarefaTimeLine;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,5 +25,9 @@ public interface TarefaRepository extends JpaRepository<TarefaEntity, Integer> {
     @Query(value = "SELECT new school.sptech.ido.application.controller.dto.Response.TarefaTimeLine(t) " +
             "FROM TarefaEntity t")
     List<TarefaTimeLine> getTarefasTimeLine();
+
+    @Query(value = "SELECT count(t) " +
+            "FROM TarefaEntity t JOIN t.usuario u WHERE t.dataConclusao = ?1 AND u.idUsuario = ?2")
+    Long getQtdTarefasConcluidas(LocalDate diaSemana,int id);
 
 }

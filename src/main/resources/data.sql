@@ -3,12 +3,12 @@ INSERT INTO usuario (nome, apelido, email, senha, biografia, nascimento, imagem_
 
 INSERT INTO tarefa (titulo, descricao, status, data_inicio, data_final, data_criacao, data_conclusao, urgencia, importancia, fk_usuario) VALUES
 	-- JULIA
-    ('Trabalho de anatomia', 'Realizar o trabalho de anatomia da faculdade', 1, '2022-09-01', '2022-09-10', '2022-09-09', null, 1, 1, 1),
-    ('Estudos', 'Estudar para a prova do semestre', 1, '2022-09-03', '2022-09-05', '2022-09-05', null, 1, 1, 1),
-    ('Limpeza', 'Limpar o salão da casa', 0, '2022-09-11', '2022-09-12', '2022-09-12', null, 0, 1, 1),
-    ('Trabalho de imunologia', 'Realizar o trabalho de imunologia da faculdade', 1, '2022-09-20', '2022-09-30', '2022-09-28', null, 0, 1, 1),
-    ('Buscar irmão', 'Buscar irmão na escola', 0, '2022-09-12', '2022-09-12', '2022-09-12', null, 0, 1, 1),
-    ('Comprar roupas', 'Comprar roupas para o final de ano', 0, '2022-09-25', '2022-10-05', '2022-10-01', null, 0, 0, 1),
+    ('Trabalho de anatomia', 'Realizar o trabalho de anatomia da faculdade', 1, '2022-09-01', '2022-09-10', '2022-09-09', '2022-11-24', 1, 1, 1),
+    ('Estudos', 'Estudar para a prova do semestre', 1, '2022-09-03', '2022-09-05', '2022-09-05', '2022-11-24', 1, 1, 1),
+    ('Limpeza', 'Limpar o salão da casa', 1, '2022-09-11', '2022-09-12', '2022-09-12', '2022-11-27', 0, 1, 1),
+    ('Trabalho de imunologia', 'Realizar o trabalho de imunologia da faculdade', 1, '2022-09-20', '2022-09-30', '2022-09-28', '2022-11-27', 0, 1, 1),
+    ('Buscar irmão', 'Buscar irmão na escola', 1, '2022-09-12', '2022-09-12', '2022-09-12', '2022-11-24', 0, 1, 1),
+    ('Comprar roupas', 'Comprar roupas para o final de ano', 0, '2022-09-25', '2022-10-05', '2022-10-01', '2022-11-24', 0, 0, 1),
     ('Cinema', 'Assistir Adão Negro nos cinemas', 0, '2022-10-10', '2022-10-12', '2022-10-11', null, 0, 0, 1),
     ('Atividade de biologia', 'Realizar a atividade de biologia molecular', 0, '2022-10-15', '2022-10-17', '2022-10-17', null, 0, 1, 1),
     ('Presente', 'Comprar presente para minha avó', 0, '2022-10-15', '2022-10-20', '2022-10-18', null, 1, 0, 1),

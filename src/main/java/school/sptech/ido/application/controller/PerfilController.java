@@ -6,14 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import school.sptech.ido.application.controller.dto.Response.EtiquetaDto;
-import school.sptech.ido.application.controller.dto.Response.QtdEtiquetasTarefaDto;
-import school.sptech.ido.application.controller.dto.Response.TarefaEtiquetasDto;
-import school.sptech.ido.application.controller.dto.Response.TarefaTimeLine;
+import school.sptech.ido.application.controller.dto.DiaSemana;
+import school.sptech.ido.application.controller.dto.Response.*;
 import school.sptech.ido.resources.repository.EtiquetaRepository;
 import school.sptech.ido.resources.repository.TarefaRepository;
-import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,6 +87,35 @@ public class PerfilController {
             return ResponseEntity.ok().body(tarefaTimeLines);
         }
 
+        return ResponseEntity.status(403).build();
+    }
+
+    @GetMapping("/usuarios/perfil/semanal/{idUsuario}")
+    public ResponseEntity<List<DiaSemana>> graficoSemanal(@PathVariable Integer idUsuario){
+
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+
+        if (isAutenticado){
+            LocalDate diaSemana = LocalDate.now();
+
+            Integer diasAnteriores = 0;
+
+            List<DiaSemana> semana = new ArrayList<>();
+
+            for (int i = 0; i < 7; i++) {
+                Long qtdTarefasConcluidas = tarefaRepository.getQtdTarefasConcluidas( diaSemana, idUsuario);
+
+                DiaSemana dia = new DiaSemana(diaSemana, qtdTarefasConcluidas);
+
+                semana.add(dia);
+
+                diaSemana = diaSemana.minusDays(++diasAnteriores);
+
+            }
+
+            return ResponseEntity.ok().body(semana);
+
+        }
         return ResponseEntity.status(403).build();
     }
 }
