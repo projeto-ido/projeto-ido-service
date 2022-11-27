@@ -21,6 +21,9 @@ public interface EtiquetaRepository extends JpaRepository<EtiquetaEntity, Intege
     @Query(value = "DELETE FROM tarefa_etiqueta AS te WHERE te.id_etiqueta = ?1 AND te.id_tarefa = ?2", nativeQuery = true)
     void deleteEtiquetaByIdAndIdTarefa(Integer idTarefa, Integer idEtiqueta);
 
+    @Query(value = "SELECT new school.sptech.ido.application.controller.dto.Response.EtiquetaDto(e) " +
+            "FROM EtiquetaEntity e")
+    List<EtiquetaDto> findAllEtiquetasDto();
 
     @Query("SELECT new school.sptech.ido.application.controller.dto.Response.EtiquetaDto(e) " +
             "FROM EtiquetaEntity e JOIN e.tarefa t WHERE t.idTarefa = ?1")
