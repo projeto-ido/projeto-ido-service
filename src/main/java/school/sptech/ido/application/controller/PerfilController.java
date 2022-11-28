@@ -103,7 +103,7 @@ public class PerfilController {
             List<DiaSemana> semana = new ArrayList<>();
 
             for (int i = 0; i < 7; i++) {
-                Long qtdTarefasConcluidas = tarefaRepository.getQtdTarefasConcluidas( diaSemana, idUsuario);
+                Long qtdTarefasConcluidas = tarefaRepository.getQtdTarefasConcluidasNoDia( diaSemana, idUsuario);
 
                 DiaSemana dia = new DiaSemana(diaSemana, qtdTarefasConcluidas);
 
@@ -117,5 +117,27 @@ public class PerfilController {
 
         }
         return ResponseEntity.status(403).build();
+    }
+
+    @GetMapping("/usuarios/perfil/info-adicionais/{idUsuario}")
+    public ResponseEntity<InfoAdicionaisPerfilDto> infoAdicionaisPerfil(@PathVariable Integer idUsuario){
+
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+
+        if (isAutenticado){
+            Long qtdTarefas = tarefaRepository.getTotalTarefasPorUsuario(idUsuario);
+
+            Long qtdTarefasPendentes = tarefaRepository.getQtdTarefasPendentesPorUsuario(idUsuario);
+
+            Long qtdTarefasConcluidas = tarefaRepository.getQtdTarefasConcluidasPorUsuario(idUsuario);
+
+            InfoAdicionaisPerfilDto infoAdicional = new InfoAdicionaisPerfilDto(
+                    qtdTarefas, qtdTarefasPendentes, qtdTarefasConcluidas);
+
+            return ResponseEntity.ok().body(infoAdicional);
+        }
+
+        return ResponseEntity.status(403).build();
+
     }
 }

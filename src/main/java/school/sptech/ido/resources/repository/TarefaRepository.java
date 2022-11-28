@@ -2,6 +2,7 @@ package school.sptech.ido.resources.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.web.bind.annotation.RequestParam;
 import school.sptech.ido.application.controller.dto.Response.TarefaEtiquetasDto;
 import school.sptech.ido.application.controller.dto.Response.TarefaTimeLine;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
@@ -27,7 +28,19 @@ public interface TarefaRepository extends JpaRepository<TarefaEntity, Integer> {
     List<TarefaTimeLine> getTarefasTimeLine();
 
     @Query(value = "SELECT count(t) " +
+            "FROM TarefaEntity t JOIN t.usuario u WHERE u.idUsuario = ?1")
+    Long getTotalTarefasPorUsuario(int id);
+
+    @Query(value = "SELECT count(t) " +
             "FROM TarefaEntity t JOIN t.usuario u WHERE t.dataConclusao = ?1 AND u.idUsuario = ?2")
-    Long getQtdTarefasConcluidas(LocalDate diaSemana,int id);
+    Long getQtdTarefasConcluidasNoDia(LocalDate diaSemana, int id);
+
+    @Query(value = "SELECT count(t) " +
+            "FROM TarefaEntity t JOIN t.usuario u WHERE t.dataConclusao IS NULL AND u.idUsuario = ?1")
+    Long getQtdTarefasPendentesPorUsuario(int id);
+
+    @Query(value = "SELECT count(t) " +
+            "FROM TarefaEntity t JOIN t.usuario u WHERE t.status = true AND u.idUsuario = :id")
+    Long getQtdTarefasConcluidasPorUsuario(int id);
 
 }
