@@ -1,5 +1,6 @@
 package school.sptech.ido.domain.model;
 import org.springframework.stereotype.Service;
+import school.sptech.ido.application.controller.dto.SubTarefaExportacaoDto;
 import school.sptech.ido.application.controller.dto.TarefaExportacaoDto;
 
 import java.io.*;
@@ -29,15 +30,15 @@ public class Exportacao {
                 for (int i = 0; i < lista.size(); i++) {
                     TarefaExportacaoDto tarefa = lista.get(i);
 
-                    saida.format("%s;%s;%s;%s;%b;%s;%s;s%\n",
+                    saida.format("%s;%s;%s;%s;%b;%s;%s;%s\n",
                             tarefa.getTitulo(),
                             tarefa.getDescricao(),
                             tarefa.getDataInicio(),
                             tarefa.getDataFinal(),
                             tarefa.getStatus(),
                             tarefa.getSubTarefas(),
-                            tarefa.getEtiqueta1().getTitulo(),
-                            tarefa.getEtiqueta2().getTitulo());
+                            tarefa.getEtiqueta1(),
+                            tarefa.getEtiqueta2());
                 }
 
             } catch (FormatterClosedException e){
@@ -160,7 +161,9 @@ public class Exportacao {
         gravaRegistro(header, nomeArq);
 
         String corpo;
-        for(TarefaExportacaoDto a : lista) {
+        for(int i = 0; i < lista.size(); i++) {
+            TarefaExportacaoDto a = lista.get(i);
+
             corpo = "02";
             corpo += String.format("%-50.50S", a.getTitulo()); //nome tarefa
             corpo += String.format("%10.10S", a.getDataInicio()); //data inicial
@@ -170,6 +173,16 @@ public class Exportacao {
             corpo += String.format("%-10.10S", a.getEtiqueta1()); //primeira etiqueta
             corpo += String.format("%-10.10S", a.getEtiqueta2()); //segunda etiqueta
             corpo += String.format("%2.2S", a.getIdTarefa()); //ID da tarefa
+
+            if (!a.getSubTarefas().isEmpty()){
+                for (SubTarefaExportacaoDto s : a.getSubTarefas()) {
+                    corpo = "03";
+                    corpo = String.format("%-50.50", s.getTitulo());
+                    corpo = String.format("%-12.12S", s.getStatus() ? "concluida" : "não concluida");
+                    corpo = String.format("%2.2", a.getIdTarefa());
+
+                }
+            }
 
             contaRegDdos++;
             gravaRegistro(corpo, nomeArq);
