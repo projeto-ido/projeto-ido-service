@@ -63,7 +63,8 @@ public class ExportacaoController {
                 tarefasExportacao.add(new TarefaExportacaoDto(
                         tarefa,
                         subTarefaExportacaoDtos,
-                        etiquetasExportacao.size() == 1 ? etiquetasExportacao.get(0).getTitulo() : null,
+                        etiquetasExportacao.size() == 1 || etiquetasExportacao.size() == 2 ?
+                                etiquetasExportacao.get(0).getTitulo() : null,
                         etiquetasExportacao.size() == 2 ? etiquetasExportacao.get(1).getTitulo() : null));
 
             }
@@ -103,7 +104,8 @@ public class ExportacaoController {
                 tarefasExportacao.add(new TarefaExportacaoDto(
                         tarefa,
                         subTarefaExportacaoDtos,
-                        etiquetasExportacao.size() == 1 ? etiquetasExportacao.get(0).getTitulo() : null,
+                        etiquetasExportacao.size() == 1 || etiquetasExportacao.size() == 2
+                                ? etiquetasExportacao.get(0).getTitulo() : null,
                         etiquetasExportacao.size() == 2 ? etiquetasExportacao.get(1).getTitulo() : null));
             }
 
