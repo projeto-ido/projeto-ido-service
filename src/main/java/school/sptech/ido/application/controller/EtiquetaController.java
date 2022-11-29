@@ -210,6 +210,9 @@ public class EtiquetaController {
                 Optional<UsuarioEntity> usuario = usuarioRepository.findById(idUsuario);
                 for ( AcoesUsuario acoesDoUsuario : acoesUsuarios) {
                     if (acoesDoUsuario.getIdUsuario().equals(idUsuario)){
+                        if (acoesDoUsuario.getAcoes().isEmpty()){
+                            return ResponseEntity.status(422).build();
+                        }
                         Acao ultimaAcao = acoesDoUsuario.getAcoes().pop();
 
                         if (ultimaAcao.getTipoAcao().equalsIgnoreCase("criar")){
@@ -259,7 +262,11 @@ public class EtiquetaController {
             if (!acoesUsuarios.isEmpty()){
                 for ( AcoesUsuario acoes : acoesUsuarios) {
                     if (acoes.getIdUsuario().equals(idUsuario)){
-                        acoes.getAcoes().push(acao);
+                        try{
+                            acoes.getAcoes().push(acao);
+                        } catch (IllegalStateException exception){
+                            return ResponseEntity.status(422).build();
+                        }
                         return ResponseEntity.ok().build();
                     }
                 }
