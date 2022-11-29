@@ -118,6 +118,22 @@ public class UsuarioService {
             System.out.println("Lista vazia!");
     }
 
+    public void verificarData(LocalDateTime data){
+        if (!subjects.isEmpty()){
+            for (UsuarioSubject usuario : subjects) {
+                if (usuario.possuiTarefasProximas(data))
+                    filaNotificacao.insert(usuario);
+            }
+
+            if (filaNotificacao.isEmpty())
+                System.out.println("Fila vazia");
+            else
+                this.notificarUsuario();
+        }
+        else
+            System.out.println("Lista vazia!");
+    }
+
     private void notificarUsuario() {
         for (int i = filaNotificacao.getTamanho(); i > 0; i--) {
             filaNotificacao.poll().notificar();

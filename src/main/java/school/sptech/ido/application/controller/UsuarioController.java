@@ -15,6 +15,7 @@ import school.sptech.ido.resources.repository.UsuarioRepository;
 import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 import school.sptech.ido.service.UsuarioService;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,10 +51,6 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<UsuarioDto> cadastrarUsuario(@RequestBody @Valid UsuarioCadastroDto usuario) {
-//        UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
-//        UsuarioEntity usuarioSalvo = usuarioRepository.save(usuarioEntity);
-//        UsuarioDto usuarioDto = new UsuarioDto(usuarioSalvo);
-//        return ResponseEntity.status(201).body(usuarioDto);
         return ResponseEntity.status(201).body(new UsuarioDto(usuarioRepository.save(new UsuarioEntity(usuario))));
     }
 
@@ -186,12 +183,11 @@ public class UsuarioController {
         return usuarioRepository.findById(idUsuario);
     }
 
-//    @PostMapping("/notificacao/envio")
-//    public ResponseEntity<Void> teste(){
-//        usuarioService.verificarData(LocalDate.now());
-//
-//        return ResponseEntity.status(200).build();
-//    }
+    @PostMapping("/notificacao/envio")
+    public ResponseEntity<Void> teste(){
+        usuarioService.verificarData(LocalDateTime.now());
 
+        return ResponseEntity.status(200).build();
+    }
 
 }

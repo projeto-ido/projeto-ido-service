@@ -1,15 +1,8 @@
 package school.sptech.ido.application.controller.dto;
 
-
-import org.springframework.format.annotation.NumberFormat;
-
-import javax.annotation.Nonnegative;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 
 public class UsuarioAtualizadoDto {
 
@@ -28,6 +21,20 @@ public class UsuarioAtualizadoDto {
     private Byte[] imagemPerfil;
 
     private String imagemBiografia;
+
+    public UsuarioAtualizadoDto(
+        String nome,
+        String apelido,
+        String biografia,
+        Byte[] imagemPerfil,
+        String imagemBiografia
+    ) {
+        this.nome = nome;
+        this.apelido = apelido;
+        this.biografia = biografia;
+        this.imagemPerfil = imagemPerfil;
+        this.imagemBiografia = imagemBiografia;
+    }
 
     public String getNome() {
         return nome;

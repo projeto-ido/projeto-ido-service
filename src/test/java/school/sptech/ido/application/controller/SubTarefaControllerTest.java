@@ -1,6 +1,5 @@
 package school.sptech.ido.application.controller;
 
-import org.apache.spark.internal.config.R;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +12,9 @@ import school.sptech.ido.resources.repository.SubTarefaRepository;
 import school.sptech.ido.resources.repository.TarefaRepository;
 import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyInt;
