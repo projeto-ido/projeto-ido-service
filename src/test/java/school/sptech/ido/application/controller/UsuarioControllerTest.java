@@ -1,6 +1,5 @@
 package school.sptech.ido.application.controller;
 
-import org.apache.hadoop.shaded.org.checkerframework.checker.nullness.Opt;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,8 +159,8 @@ class UsuarioControllerTest {
         UsuarioDto bodyResposta = resposta.getBody();
 
         assertEquals(200, resposta.getStatusCodeValue());
-        assertEquals(novoNivel, bodyResposta.getNivel());
         assertNotNull(bodyResposta);
+        assertEquals(novoNivel, bodyResposta.getNivel());
     }
 
     @Test
@@ -361,18 +360,56 @@ class UsuarioControllerTest {
         assertNull(resposta);
     }
 
-//    @Test
-//    @DisplayName("Quando acionado desabilitarNotificacao com id usuario valido devera retornar 200 sem corpo")
-//    void quandoAcionadoDesabilitarNotificacaoComIdUsuarioValidoDeveraRetornar200SemCorpo(){
-//        when(
-//            usuarioService.removerSubject(idUsuario)
-//        ).thenReturn()
-//
-//
-//
-//    }
-//
-//    @Test
-//    @DisplayName("Quando acionado desabilitarNotificacao com id usuario invalido devera 404 sem corpo")
+    @Test
+    @DisplayName("Quando acionado desabilitarNotificacao com id usuario valido devera retornar 200 sem corpo")
+    void quandoAcionadoDesabilitarNotificacaoComIdUsuarioValidoDeveraRetornar200SemCorpo(){
+        when(
+            usuarioService.removerSubject(idUsuario)
+        ).thenReturn(true);
+
+        ResponseEntity<UsuarioDto> resposta = usuarioController.desabilitarNotificacao(idUsuario);
+
+        assertEquals(200, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado desabilitarNotificacao com id usuario invalido devera retornar 404 sem corpo")
+    void quandoAcionadoDesabilitarNotificacaoComIdUsuarioInvalidoDeveraRetornar404SemCorpo(){
+        when(
+            usuarioService.removerSubject(idUsuario)
+        ).thenReturn(false);
+
+        ResponseEntity<UsuarioDto> resposta = usuarioController.desabilitarNotificacao(idUsuario);
+
+        assertEquals(404, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado habilitarNotificacao com id usuario valido devera retornar 200 sem corpo")
+    void quandoAcionadoHabilitarNotificacaoComIdUsuarioValidoDeveraRetornar200SemCorpo(){
+        when(
+            usuarioService.adicionarSubject(idUsuario)
+        ).thenReturn(true);
+
+        ResponseEntity<Void> resposta = usuarioController.habilitarNotificacao(idUsuario);
+
+        assertEquals(200, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado habilitarNotificacao com id usuario invalido devera retornar 404 sem corpo")
+    void quandoAcionadoHabilitarNotificacaoComIdUsuarioInvalidoDeveraRetornar404SemCorpo(){
+        when(
+            usuarioService.adicionarSubject(idUsuario)
+        ).thenReturn(false);
+
+        ResponseEntity<Void> resposta = usuarioController.habilitarNotificacao(idUsuario);
+
+        assertEquals(404, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
 
 }
