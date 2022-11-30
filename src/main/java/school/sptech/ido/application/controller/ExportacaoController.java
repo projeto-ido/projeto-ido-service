@@ -1,6 +1,9 @@
 package school.sptech.ido.application.controller;
+import org.sparkproject.jetty.http.HttpHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.ido.application.controller.dto.EtiquetaExportacaoDto;
@@ -11,19 +14,13 @@ import school.sptech.ido.domain.model.Exportacao;
 import school.sptech.ido.resources.repository.EtiquetaRepository;
 import school.sptech.ido.resources.repository.SubTarefaRepository;
 import school.sptech.ido.resources.repository.TarefaRepository;
-import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
-import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.InputStreamResource;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class ExportacaoController {
@@ -42,7 +39,7 @@ public class ExportacaoController {
 
 
 
-    @PostMapping("/usuarios/{idUsuario}/exportacao/grava/csv/{nomeArq}")
+    @PostMapping(value = "/usuarios/{idUsuario}/exportacao/grava/csv/{nomeArq}", produces = "application/csv")
     public ResponseEntity<Resource> gravar(@PathVariable Integer idUsuario, @PathVariable String nomeArq) throws IOException {
 
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
@@ -73,7 +70,18 @@ public class ExportacaoController {
 
             File path = new File(nomeArq + ".csv");
 
-            return ResponseEntity.status(200).body(new ByteArrayResource(Files.readAllBytes(path.toPath())));
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"relatoria-tarefas.csv\"");
+            headers.set(HttpHeaders.CONTENT_TYPE ,"application/csv");
+
+            ByteArrayResource bye = new ByteArrayResource(Files.readAllBytes(path.toPath()));
+
+            return new ResponseEntity<>(
+                    bye,
+                    headers,
+                    HttpStatus.OK
+                    );
 
         }
 
