@@ -16,6 +16,11 @@ public class UsuarioLoginDto {
     @Size(max = 45)
     private String senha;
 
+    public UsuarioLoginDto(String email, String senha) {
+        this.email = email;
+        this.senha = senha;
+    }
+
     public String getEmail() {
         return email;
     }

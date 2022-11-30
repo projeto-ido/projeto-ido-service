@@ -84,7 +84,7 @@ public class UsuarioService {
         return false;
     }
 
-    public boolean removerSubject(Integer id){
+    public Boolean removerSubject(Integer id){
         Optional<UsuarioSubject> usuarioSubjectOptional = subjects.stream().filter(usuarioSubject ->
                 usuarioSubject.getUsuario().getIdUsuario().equals(id)).findAny();
 

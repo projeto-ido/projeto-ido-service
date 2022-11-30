@@ -178,16 +178,15 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
 
-
-    private Optional<UsuarioEntity> getUsuarioEntity(int idUsuario){
-        return usuarioRepository.findById(idUsuario);
-    }
-
     @PostMapping("/notificacao/envio")
     public ResponseEntity<Void> teste(){
         usuarioService.verificarData(LocalDateTime.now());
 
         return ResponseEntity.status(200).build();
+    }
+
+    private Optional<UsuarioEntity> getUsuarioEntity(int idUsuario){
+        return usuarioRepository.findById(idUsuario);
     }
 
 }
