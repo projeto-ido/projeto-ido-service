@@ -13,6 +13,11 @@ public class EtiquetaCadastroDto {
     @Size(min = 7, max = 7)
     private String cor;
 
+    public EtiquetaCadastroDto(String titulo, String cor) {
+        this.titulo = titulo;
+        this.cor = cor;
+    }
+
     public String getTitulo() {
         return titulo;
     }

@@ -32,6 +32,20 @@ public class EtiquetaEntity {
 
     public EtiquetaEntity() {}
 
+    public EtiquetaEntity(
+        Integer idEtiqueta,
+        String titulo,
+        String cor,
+        UsuarioEntity usuario,
+        List<TarefaEntity> tarefa
+    ) {
+        this.idEtiqueta = idEtiqueta;
+        this.titulo = titulo;
+        this.cor = cor;
+        this.usuario = usuario;
+        this.tarefa = tarefa;
+    }
+
     public EtiquetaEntity(EtiquetaDto etiquetaDto, UsuarioEntity usuario) {
         this.idEtiqueta = etiquetaDto.getIdEtiqueta();
         this.titulo = etiquetaDto.getTitulo();
