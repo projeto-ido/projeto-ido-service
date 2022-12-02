@@ -34,6 +34,6 @@ public class SubTarefaExportacaoDto {
     @Override
     public String toString() {
         return String.format(
-                "Subtarefa - %s, %b");
+                "Subtarefa - %s, %s", this.titulo, this.status ? "Concluida" : "Não concluida");
     }
 }
