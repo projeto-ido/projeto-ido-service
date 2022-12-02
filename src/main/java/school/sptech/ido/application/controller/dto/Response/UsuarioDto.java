@@ -33,6 +33,34 @@ public class UsuarioDto {
 
     public UsuarioDto() {}
 
+    public UsuarioDto(
+        Integer idUsuario,
+        String nome,
+        String apelido,
+        String email,
+        String senha,
+        String biografia,
+        LocalDate nascimento,
+        Byte[] imagemPerfil,
+        String imagemBiografia,
+        Integer nivel,
+        Boolean autenticado,
+        Boolean notificacao
+    ) {
+        this.idUsuario = idUsuario;
+        this.nome = nome;
+        this.apelido = apelido;
+        this.email = email;
+        this.senha = senha;
+        this.biografia = biografia;
+        this.nascimento = nascimento;
+        this.imagemPerfil = imagemPerfil;
+        this.imagemBiografia = imagemBiografia;
+        this.nivel = nivel;
+        this.autenticado = autenticado;
+        this.notificacao = notificacao;
+    }
+
     public UsuarioDto(UsuarioEntity usuarioEntity) {
         this.idUsuario = usuarioEntity.getIdUsuario();
         this.nome = usuarioEntity.getNome();

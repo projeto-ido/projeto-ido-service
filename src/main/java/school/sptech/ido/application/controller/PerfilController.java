@@ -120,11 +120,13 @@ public class PerfilController {
     }
 
     @GetMapping("/usuarios/perfil/info-adicionais/{idUsuario}")
-    public ResponseEntity<InfoAdicionaisPerfilDto> infoAdicionaisPerfil(@PathVariable Integer idUsuario){
+    public ResponseEntity<List<InfoAdicionaisPerfilDto>> infoAdicionaisPerfil(@PathVariable Integer idUsuario){
 
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
 
         if (isAutenticado){
+            List<InfoAdicionaisPerfilDto> listaInfoAdicional = new ArrayList<>();
+
             Long qtdTarefas = tarefaRepository.getTotalTarefasPorUsuario(idUsuario);
 
             Long qtdTarefasPendentes = tarefaRepository.getQtdTarefasPendentesPorUsuario(idUsuario);
@@ -134,7 +136,9 @@ public class PerfilController {
             InfoAdicionaisPerfilDto infoAdicional = new InfoAdicionaisPerfilDto(
                     qtdTarefas, qtdTarefasPendentes, qtdTarefasConcluidas);
 
-            return ResponseEntity.ok().body(infoAdicional);
+            listaInfoAdicional.add(infoAdicional);
+
+            return ResponseEntity.ok().body(listaInfoAdicional);
         }
 
         return ResponseEntity.status(403).build();

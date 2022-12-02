@@ -35,6 +35,10 @@ public class UsuarioEntity {
     @Size(max = 45)
     private String senha;
 
+    @NotBlank
+    @Size(min = 8, max = 11)
+    private String telefone;
+
     @Size(max = 200)
     private String biografia;
 
@@ -67,12 +71,49 @@ public class UsuarioEntity {
 
     public UsuarioEntity() {}
 
+    public UsuarioEntity(
+        Integer idUsuario,
+        String nome,
+        String apelido,
+        String email,
+        String senha,
+        String telefone,
+        String biografia,
+        LocalDate nascimento,
+        Byte[] imagemPerfil,
+        String imagemBiografia,
+        Integer nivel,
+        Boolean autenticado,
+        Boolean notificacao,
+        List<TarefaEntity> tarefas,
+        List<ConquistaEntity> conquistas,
+        List<EtiquetaEntity> etiquetas
+    ) {
+        this.idUsuario = idUsuario;
+        this.nome = nome;
+        this.apelido = apelido;
+        this.email = email;
+        this.senha = senha;
+        this.telefone = telefone;
+        this.biografia = biografia;
+        this.nascimento = nascimento;
+        this.imagemPerfil = imagemPerfil;
+        this.imagemBiografia = imagemBiografia;
+        this.nivel = nivel;
+        this.autenticado = autenticado;
+        this.notificacao = notificacao;
+        this.tarefas = tarefas;
+        this.conquistas = conquistas;
+        this.etiquetas = etiquetas;
+    }
+
     public UsuarioEntity(UsuarioCadastroDto usuarioCadastroDto) {
         this.idUsuario = null;
         this.nome = usuarioCadastroDto.getNome();
         this.apelido = usuarioCadastroDto.getApelido();
         this.email = usuarioCadastroDto.getEmail();
         this.senha = usuarioCadastroDto.getSenha();
+        this.telefone = usuarioCadastroDto.getTelefone();
         this.biografia = "Bem vindo ao iDo! Você pode editar sua biografia se quiser!";
         this.nascimento = usuarioCadastroDto.getNascimento();
         this.imagemPerfil = null;
@@ -134,6 +175,14 @@ public class UsuarioEntity {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public String getBiografia() {

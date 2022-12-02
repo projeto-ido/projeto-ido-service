@@ -84,7 +84,7 @@ public class UsuarioService {
         return false;
     }
 
-    public boolean removerSubject(Integer id){
+    public Boolean removerSubject(Integer id){
         Optional<UsuarioSubject> usuarioSubjectOptional = subjects.stream().filter(usuarioSubject ->
                 usuarioSubject.getUsuario().getIdUsuario().equals(id)).findAny();
 
@@ -107,6 +107,22 @@ public class UsuarioService {
             for (UsuarioSubject usuario : subjects) {
                if (usuario.possuiTarefasProximas(LocalDateTime.now()))
                    filaNotificacao.insert(usuario);
+            }
+
+            if (filaNotificacao.isEmpty())
+                System.out.println("Fila vazia");
+            else
+                this.notificarUsuario();
+        }
+        else
+            System.out.println("Lista vazia!");
+    }
+
+    public void verificarData(LocalDateTime data){
+        if (!subjects.isEmpty()){
+            for (UsuarioSubject usuario : subjects) {
+                if (usuario.possuiTarefasProximas(data))
+                    filaNotificacao.insert(usuario);
             }
 
             if (filaNotificacao.isEmpty())

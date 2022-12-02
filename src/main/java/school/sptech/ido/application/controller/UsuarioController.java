@@ -14,10 +14,8 @@ import school.sptech.ido.application.controller.dto.Response.UsuarioDto;
 import school.sptech.ido.resources.repository.UsuarioRepository;
 import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 import school.sptech.ido.service.UsuarioService;
-import school.sptech.ido.service.subject.UsuarioSubject;
-
 import javax.validation.Valid;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -180,17 +178,15 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
 
+    @PostMapping("/notificacao/envio")
+    public ResponseEntity<Void> teste(){
+        usuarioService.verificarData(LocalDateTime.now());
+
+        return ResponseEntity.status(200).build();
+    }
 
     private Optional<UsuarioEntity> getUsuarioEntity(int idUsuario){
         return usuarioRepository.findById(idUsuario);
     }
-
-//    @PostMapping("/notificacao/envio")
-//    public ResponseEntity<Void> teste(){
-//        usuarioService.verificarData(LocalDate.now());
-//
-//        return ResponseEntity.status(200).build();
-//    }
-
 
 }
