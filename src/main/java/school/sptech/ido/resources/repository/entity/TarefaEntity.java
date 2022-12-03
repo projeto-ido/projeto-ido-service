@@ -2,11 +2,9 @@ package school.sptech.ido.resources.repository.entity;
 
 import school.sptech.ido.application.controller.dto.Request.TarefaCadastroDto;
 import javax.persistence.*;
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +57,36 @@ public class TarefaEntity {
     private List<EtiquetaEntity> etiquetasTarefa;
 
     public TarefaEntity() {}
+
+    public TarefaEntity(
+        Integer idTarefa,
+        String titulo,
+        String descricao,
+        Boolean status,
+        LocalDateTime dataInicio,
+        LocalDateTime dataFinal,
+        LocalDateTime dataCriacao,
+        LocalDateTime dataConclusao,
+        Boolean urgencia,
+        Boolean importancia,
+        List<SubTarefaEntity> subTarefas,
+        UsuarioEntity usuario,
+        List<EtiquetaEntity> etiquetasTarefa
+    ) {
+        this.idTarefa = idTarefa;
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.status = status;
+        this.dataInicio = dataInicio;
+        this.dataFinal = dataFinal;
+        this.dataCriacao = dataCriacao;
+        this.dataConclusao = dataConclusao;
+        this.urgencia = urgencia;
+        this.importancia = importancia;
+        this.subTarefas = subTarefas;
+        this.usuario = usuario;
+        this.etiquetasTarefa = etiquetasTarefa;
+    }
 
     public TarefaEntity(
         TarefaCadastroDto tarefaCadastroDto,
