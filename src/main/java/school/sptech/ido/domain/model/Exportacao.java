@@ -214,9 +214,8 @@ public class Exportacao {
     gravaRegistro(trailer, nomeArq);
 }
 
-    public void leArquivoTxt(String nomeArq, UsuarioEntity usuario){
+    public void leArquivoTxt(InputStream nomeArq, UsuarioEntity usuario){
         BufferedReader entrada = null;
-        nomeArq += ".txt";
         String registro, tipoRegistro;
         boolean hasErro = false;
 
@@ -225,13 +224,7 @@ public class Exportacao {
         SubTarefaEntity subTarefa;
         EtiquetaEntity etiquetaEntity;
 
-        try {
-            entrada = new BufferedReader(new FileReader(nomeArq));
-        }
-        catch (IOException e) {
-            System.out.println("Erro ao abrir o arquivo: " + nomeArq);
-            e.printStackTrace();
-        }
+        entrada = new BufferedReader(new InputStreamReader(nomeArq));
 
         try {
             registro = entrada.readLine();

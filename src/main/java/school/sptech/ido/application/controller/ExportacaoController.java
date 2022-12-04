@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import school.sptech.ido.application.controller.dto.EtiquetaExportacaoDto;
 import school.sptech.ido.application.controller.dto.Request.PathImportacao;
@@ -151,8 +153,11 @@ public class ExportacaoController {
         return ResponseEntity.status(FORBIDDEN).build();
     }
 
-    @PostMapping("/usuarios/{idUsuario}/exportacao/le/txt")
-    public ResponseEntity<String> lerTxt(@PathVariable Integer idUsuario, @RequestBody PathImportacao path){
+    @PostMapping(value = "/usuarios/{idUsuario}/exportacao/le/txt", consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.MULTIPART_FORM_DATA_VALUE
+    })
+    public ResponseEntity<String> lerTxt(@PathVariable Integer idUsuario, @RequestPart("file") MultipartFile file){
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
 
         if (isAutenticado){
@@ -161,7 +166,11 @@ public class ExportacaoController {
             if (!usuario.isPresent())
                    return ResponseEntity.status(NOT_FOUND).body("\"Usuario não encontrado\"");
 
-            exportacao.leArquivoTxt(path.getPath(), usuario.get());
+            try {
+                exportacao.leArquivoTxt(file.getInputStream(), usuario.get());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             return ResponseEntity.status(CREATED).build();
         }
