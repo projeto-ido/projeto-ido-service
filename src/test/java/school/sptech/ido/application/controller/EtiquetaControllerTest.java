@@ -8,6 +8,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import school.sptech.ido.application.controller.dto.Request.EtiquetaCadastroDto;
 import school.sptech.ido.application.controller.dto.Response.EtiquetaDto;
+import school.sptech.ido.domain.model.Acao;
+import school.sptech.ido.domain.model.AcoesUsuario;
 import school.sptech.ido.resources.repository.EtiquetaRepository;
 import school.sptech.ido.resources.repository.TarefaRepository;
 import school.sptech.ido.resources.repository.UsuarioRepository;
@@ -71,7 +73,7 @@ class EtiquetaControllerTest {
         "Trabalho",
         "#FAFAFA",
         usuario,
-        List.of(new TarefaEntity())
+        new ArrayList<>()
     );
     private final EtiquetaDto etiquetaDto = new EtiquetaDto(
         etiquetaEntity
@@ -326,22 +328,327 @@ class EtiquetaControllerTest {
     @Test
     @DisplayName("Quando acionado deletar etiqueta com id usuario nao autenticado devera retornar 403 sem corpo")
     void quandoAcionadoDeletarEtiquetaComIdUsuarioNaoAutenticadoDeveraRetornar403SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(false);
 
+        ResponseEntity<Void> resposta = etiquetaController.deletarEtiquetaPorId(idUsuario, idEtiqueta);
 
+        assertEquals(403, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
     }
 
     @Test
     @DisplayName("Quando acionado limpar acoes com id usuario autenticado e acao encontrada devera retornar 200 sem corpo")
     void quandoAcionadoLimparAcoesComIdUsuarioAutenticadoEAcaoEncontradaDeveraRetornar200SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(true);
 
+        etiquetaController.acoesUsuarios.add(new AcoesUsuario(idUsuario));
 
+        ResponseEntity<Void> resposta = etiquetaController.limparAcoes(idUsuario);
+
+        assertEquals(200, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
     }
 
     @Test
     @DisplayName("Quando acionado limpar acoes com id usuario autenticado e acao nao encontrada devera retornar 204 sem corpo")
     void quandoAcionadoLimparAcoesComIdUsuarioAutenticadoEAcaoNaoEncontradaDeveraRetornar204SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(true);
 
+        etiquetaController.acoesUsuarios.clear();
 
+        ResponseEntity<Void> resposta = etiquetaController.limparAcoes(idUsuario);
+
+        assertEquals(204, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado limpar acoes com id usuario nao autenticado devera retornar 403 sem corpo")
+    void quandoAcionadoLimparAcoesComIdUsuarioNaoAutenticadoDeveraRetornar403SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(false);
+
+        ResponseEntity<Void> resposta = etiquetaController.limparAcoes(idUsuario);
+
+        assertEquals(403, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado desfazer ultima acao com usuario autenticado e com acoes encontradas devera retornar 200 sem corpo")
+    void quandoAcionadoDesfazerUltimaAcaoComUsuarioAutenticadoEComAcoesEncontradaDeveraRetornar200SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(true);
+
+        when(
+            usuarioRepository.findById(idUsuario)
+        ).thenReturn(Optional.of(usuario));
+
+        etiquetaController.acoesUsuarios.add(new AcoesUsuario(idUsuario));
+        etiquetaController.acoesUsuarios.get(0).getAcoes().push(new Acao("criar", etiquetaDto));
+
+        ResponseEntity<Void> resposta = etiquetaController.desfazerUltimaAcao(idUsuario);
+
+        assertEquals(200, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado desfazer ultima acao com usuario autenticado e com acao invalida devera retornar 422 sem corpo")
+    void quandoAcionadoDesfazerUltimaAcaoComUsuarioAutenticadoEcomAcaoInvalidaDeveraRetornar422SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(true);
+
+        when(
+            usuarioRepository.findById(idUsuario)
+        ).thenReturn(Optional.of(usuario));
+
+        etiquetaController.acoesUsuarios.add(new AcoesUsuario(idUsuario));
+        etiquetaController.acoesUsuarios.get(0).getAcoes().push(new Acao("ACAOINVALIDA", etiquetaDto));
+
+        ResponseEntity<Void> resposta = etiquetaController.desfazerUltimaAcao(idUsuario);
+
+        assertEquals(422, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado desfazer ultima acao com usuario autenticado e sem acoes devera retornar 422 sem corpo")
+    void quandoAcionadoDesfazerUltimaAcaoComUsuarioAutenticadoESemAcoesDeveraRetornar422SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(true);
+
+        when(
+            usuarioRepository.findById(idUsuario)
+        ).thenReturn(Optional.of(usuario));
+
+        etiquetaController.acoesUsuarios.clear();
+        etiquetaController.acoesUsuarios.add(new AcoesUsuario(idUsuario));
+
+        ResponseEntity<Void> resposta = etiquetaController.desfazerUltimaAcao(idUsuario);
+
+        assertEquals(422, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado desfazer ultima acao com usuario autenticado e acoes nao encontradas do usuario devera retornar 204 sem corpo")
+    void quandoAcionadoDesfazerUltimaAcaoComUsuarioAutenticadoEAcoesNaoEncontradasDoUsuarioDeveraRetornar204SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(true);
+
+        when(
+            usuarioRepository.findById(idUsuario)
+        ).thenReturn(Optional.of(usuario));
+
+        etiquetaController.acoesUsuarios.clear();
+        etiquetaController.acoesUsuarios.add(new AcoesUsuario(2));
+
+        ResponseEntity<Void> resposta = etiquetaController.desfazerUltimaAcao(idUsuario);
+
+        assertEquals(204, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado desfazer ultima acao com usuario nao autenticado devera retornar 403 sem corpo")
+    void quandoAcionadoDesfazerUltimaAcaoComUsuarioNaoAutenticadoDeveraRetornar403SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(false);
+
+        ResponseEntity<Void> resposta = etiquetaController.desfazerUltimaAcao(idUsuario);
+
+        assertEquals(403, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado salvar acao do usuario com usuario autenticado deve adicionar a acao e devera retornar 200 sem corpo")
+    void quandoAcionadoSalvarAcaoDoUsuarioComUsuarioAutenticadoDeveAdicionarAcaoDeveraRetornar200SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(true);
+
+        etiquetaController.acoesUsuarios.clear();
+        etiquetaController.acoesUsuarios.add(new AcoesUsuario(idUsuario));
+
+        ResponseEntity<Void> resposta = etiquetaController.salvarAcaoDoUsuario(idUsuario, new Acao("criar", etiquetaDto));
+
+        assertEquals(200, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado salvar acao do usuario com usuario nao autenticado devera retornar 403 sem corpo")
+    void quandoAcionadoSalvarAcaoDoUsuarioNaoAutenticadoDeveraRetornar403SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(false);
+
+        ResponseEntity<Void> resposta = etiquetaController.salvarAcaoDoUsuario(idUsuario, new Acao("criar", etiquetaDto));
+
+        assertEquals(403, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado associar etiqueta por id tarefa com usuario autenticado, tarefa e etiqueta encontrada devera retornar 201 sem corpo")
+    void quandoAcionadoAssociarEtiquetaPorIdTarefaComUsuarioAutenticadoTarefaEEtiquetaEncontradaDeveraRetornar201SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(true);
+
+        when(
+            tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa)
+        ).thenReturn(Optional.of(tarefaEntity));
+
+        when(
+            etiquetaRepository.findByFkUsuarioAndIdEtiqueta(idUsuario, idEtiqueta)
+        ).thenReturn(Optional.of(etiquetaEntity));
+
+        when(
+            etiquetaRepository.save(any(EtiquetaEntity.class))
+        ).thenReturn(etiquetaEntity);
+
+        ResponseEntity<Void> resposta = etiquetaController.associarEtiquetaPorIdTarefa(idUsuario, idTarefa, idEtiqueta);
+
+        assertEquals(201, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado associar etiqueta por id tarefa com usuario autenticado, tarefa e etiqueta nao encontrada devera retornar 404 sem corpo")
+    void quandoAcionadoAssociarEtiquetaPorIdTarefaComUsuarioAutenticadoTarefaEEtiquetaNaoEncontradaDeveraRetornar404SemCorpo(){
+        when(
+                usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(true);
+
+        when(
+                tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa)
+        ).thenReturn(Optional.of(tarefaEntity));
+
+        when(
+                etiquetaRepository.findByFkUsuarioAndIdEtiqueta(idUsuario, idEtiqueta)
+        ).thenReturn(Optional.empty());
+
+        ResponseEntity<Void> resposta = etiquetaController.associarEtiquetaPorIdTarefa(idUsuario, idTarefa, idEtiqueta);
+
+        assertEquals(404, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado associar etiqueta por id tarefa com usuario autenticado, tarefa nao encontrada devera retornar 404 sem corpo")
+    void quandoAcionadoAssociarEtiquetaPorIdTarefaComUsuarioAutenticadoTarefaNaoEncontradaDeveraRetornar404SemCorpo(){
+        when(
+                usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(true);
+
+        when(
+                tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa)
+        ).thenReturn(Optional.empty());
+
+        ResponseEntity<Void> resposta = etiquetaController.associarEtiquetaPorIdTarefa(idUsuario, idTarefa, idEtiqueta);
+
+        assertEquals(404, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado associar etiqueta por id tarefa com usuario nao autenticado devera retornar 403 sem corpo")
+    void quandoAcionadoAssociarEtiquetaPorIdTarefaComUsuarioNaoAutenticadoDeveraRetornar403SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(false);
+
+        ResponseEntity<Void> resposta = etiquetaController.associarEtiquetaPorIdTarefa(idUsuario, idTarefa, idEtiqueta);
+
+        assertEquals(403, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado desassociar etiqueta com usuario autenticado com tarefa e etiqueta encontrada devera retornar 200 sem corpo")
+    void quandoAcionadoDesassociarEtiquetaComUsuarioAutenticadoComTarefaEEtiquetaEncontradaDeveraRetornar200SemCorpo(){
+        when(
+                usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(true);
+
+        when(
+                tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa)
+        ).thenReturn(Optional.of(tarefaEntity));
+
+        when(
+                etiquetaRepository.findByFkUsuarioAndIdEtiqueta(idUsuario, idEtiqueta)
+        ).thenReturn(Optional.of(etiquetaEntity));
+
+        ResponseEntity<Void> resposta = etiquetaController.desassociarEtiquetaPorIdTarefa(idUsuario, idTarefa, idEtiqueta);
+
+        assertEquals(200, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado desassociar etiqueta com usuario autenticado com a tarefa e etiqueta nao encontrada devera retornar 404 sem corpo")
+    void quandoAcionadoDesassociarEtiquetaComUsuarioAutenticadoComTarefaEncontradaEEtiquetaNaoEncontradaDeveraRetornar404SemCorpo(){
+        when(
+                usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(true);
+
+        when(
+                tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa)
+        ).thenReturn(Optional.of(tarefaEntity));
+
+        when(
+                etiquetaRepository.findByFkUsuarioAndIdEtiqueta(idUsuario, idEtiqueta)
+        ).thenReturn(Optional.empty());
+
+        ResponseEntity<Void> resposta = etiquetaController.desassociarEtiquetaPorIdTarefa(idUsuario, idTarefa, idEtiqueta);
+
+        assertEquals(404, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado desassociar etiqueta com usuario autenticado com a tarefa nao encontrada devera retornar 404 sem corpo")
+    void quandoAcionadoDesassociarEtiquetaComUsuarioAutenticadoComTarefaNaoEncontradaDeveraRetornar404SemCorpo(){
+        when(
+                usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(true);
+
+        when(
+                tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa)
+        ).thenReturn(Optional.empty());
+
+        ResponseEntity<Void> resposta = etiquetaController.desassociarEtiquetaPorIdTarefa(idUsuario, idTarefa, idEtiqueta);
+
+        assertEquals(404, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
+    }
+
+    @Test
+    @DisplayName("Quando acionado desassociar etiqueta com usuario nao autenticado devera retornar 403 sem corpo")
+    void quandoAcionadoDesassociarEtiquetaComUsuarioNaoAutenticadoDeveraRetornar403SemCorpo(){
+        when(
+            usuarioController.isUsuarioAutenticado(idUsuario)
+        ).thenReturn(false);
+
+        ResponseEntity<Void> resposta = etiquetaController.desassociarEtiquetaPorIdTarefa(idUsuario, idTarefa, idEtiqueta);
+
+        assertEquals(403, resposta.getStatusCodeValue());
+        assertNull(resposta.getBody());
     }
 
 }
