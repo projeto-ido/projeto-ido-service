@@ -53,7 +53,7 @@ public class ConquistaController {
 
             return ResponseEntity.ok(conquistas);
         } else {
-            return ResponseEntity.status(401).build();
+            return ResponseEntity.status(403).build();
         }
     }
 
@@ -70,7 +70,7 @@ public class ConquistaController {
                     conquistaRepository.save(new ConquistaEntity(conquistaDto, entity))
             )).orElseGet(() -> ResponseEntity.notFound().build());
         } else {
-            return ResponseEntity.status(401).build();
+            return ResponseEntity.status(403).build();
         }
     }
 }

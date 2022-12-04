@@ -86,7 +86,7 @@ public class ExportacaoController {
 
 
             HttpHeaders headers = new HttpHeaders();
-            headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"relatoria-tarefas.csv\"");
+            headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"relatorio-tarefas.csv\"");
             headers.set(HttpHeaders.CONTENT_TYPE ,"application/csv");
 
             ByteArrayResource by = new ByteArrayResource(Files.readAllBytes(path.toPath()));

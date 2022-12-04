@@ -40,7 +40,7 @@ public class EtiquetaController {
     @Autowired
     UsuarioController usuarioController;
 
-    private final List<AcoesUsuario> acoesUsuarios = new ArrayList<AcoesUsuario>();
+    protected final List<AcoesUsuario> acoesUsuarios = new ArrayList<AcoesUsuario>();
 
     @ApiResponses({
         @ApiResponse(
@@ -282,7 +282,7 @@ public class EtiquetaController {
     }
 
     @PostMapping("/usuarios/{idUsuario}/tarefas/{idTarefa}/etiquetas/{idEtiqueta}")
-    public ResponseEntity<List<EtiquetaDto>> associarEtiquetaPorIdTarefa(
+    public ResponseEntity<Void> associarEtiquetaPorIdTarefa(
             @PathVariable Integer idUsuario,
             @PathVariable Integer idTarefa,
             @PathVariable Integer idEtiqueta
