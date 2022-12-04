@@ -12,10 +12,10 @@ public class TwilioApi {
 
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
-                        new com.twilio.type.PhoneNumber("+5511989970024"),
-                        "MGe64e8c82b97affee4a8dfd95410cd73c",
-                        "")
-                .create();
+            new com.twilio.type.PhoneNumber("+5511989970024"),
+            "MGe64e8c82b97affee4a8dfd95410cd73c",
+            ""
+        ).create();
 
         System.out.println(message.getSid());
     }

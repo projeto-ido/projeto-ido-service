@@ -69,7 +69,6 @@ public class TarefaController {
             @ApiResponse(responseCode = "403", description = "O conteúdo dessa página é proibido.")
         })
 
-
         @GetMapping("/usuarios/{idUsuario}/tarefas")
         public ResponseEntity<List<TarefaDto>> listarTarefasPorIdUsuario(@PathVariable Integer idUsuario){
 
@@ -215,55 +214,56 @@ public class TarefaController {
         @RequestBody @Valid TarefaAtualizacaoDto tarefaAtualizadaDto
     ){
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+
         if (isAutenticado){
             Optional<TarefaEntity> tarefaEntity = this.getTarefaEntityOpt(idUsuario, idTarefa);
 
-            if (tarefaEntity.isPresent()){
-                TarefaEntity tarefaEncontrada = tarefaEntity.get();
-
-                List<EtiquetaEntity> etiquetas = new ArrayList<>();
-                List<SubTarefaEntity> subTarefas = new ArrayList<>();
-
-                tarefaEncontrada.setTitulo(tarefaAtualizadaDto.getTitulo());
-                tarefaEncontrada.setDescricao(tarefaAtualizadaDto.getDescricao());
-                tarefaEncontrada.setStatus(tarefaAtualizadaDto.getStatus());
-                tarefaEncontrada.setDataInicio(tarefaAtualizadaDto.getDataInicio());
-                tarefaEncontrada.setDataFinal(tarefaAtualizadaDto.getDataFinal());
-                tarefaEncontrada.setDataConclusao(tarefaAtualizadaDto.getDataConclusao());
-                tarefaEncontrada.setUrgencia(tarefaAtualizadaDto.getUrgencia());
-                tarefaEncontrada.setImportancia(tarefaAtualizadaDto.getImportancia());
-
-                if (!tarefaAtualizadaDto.getEtiquetas().isEmpty()){
-                    for (EtiquetaCadastroTarefaDto etiquetaDto: tarefaAtualizadaDto.getEtiquetas()) {
-                        Optional<EtiquetaEntity> etiqueta = etiquetaRepository
-                                .findById(etiquetaDto.getIdEtiqueta());
-
-                        if (etiqueta.isPresent()){
-                            EtiquetaEntity etiquetaEntity = etiqueta.get();
-                            etiquetas.add(etiquetaEntity);
-                        }
-                    }
-                }
-
-                tarefaEncontrada.setEtiquetasTarefa(etiquetas);
-
-                if(!tarefaAtualizadaDto.getSubTarefas().isEmpty()){
-                    for ( SubTarefaDto subTarefa: tarefaAtualizadaDto.getSubTarefas()) {
-                        SubTarefaEntity sub = subTarefaRepository.save(new SubTarefaEntity(subTarefa, tarefaEncontrada));
-                        subTarefas.add(sub);
-                    }
-                    tarefaEncontrada.setSubTarefas(subTarefas);
-                }
-
-                TarefaEntity tarefaAtualizada = tarefaRepository.save(tarefaEncontrada);
-
-                List<SubTarefaDto> subTarefaDtos = subTarefaRepository.getSubtarefasDto(idTarefa);
-                List<EtiquetaDto> etiquetaDtos = etiquetaRepository.getEtiquetasDto(idTarefa);
-
-                return ResponseEntity.ok().body(new TarefaDto(tarefaAtualizada, subTarefaDtos, etiquetaDtos));
+            if (tarefaEntity.isEmpty()) {
+                return ResponseEntity.notFound().build();
             }
 
-            return ResponseEntity.notFound().build();
+            TarefaEntity tarefaEncontrada = tarefaEntity.get();
+
+            List<EtiquetaEntity> etiquetas = new ArrayList<>();
+            List<SubTarefaEntity> subTarefas = new ArrayList<>();
+
+            tarefaEncontrada.setTitulo(tarefaAtualizadaDto.getTitulo());
+            tarefaEncontrada.setDescricao(tarefaAtualizadaDto.getDescricao());
+            tarefaEncontrada.setStatus(tarefaAtualizadaDto.getStatus());
+            tarefaEncontrada.setDataInicio(tarefaAtualizadaDto.getDataInicio());
+            tarefaEncontrada.setDataFinal(tarefaAtualizadaDto.getDataFinal());
+            tarefaEncontrada.setDataConclusao(tarefaAtualizadaDto.getDataConclusao());
+            tarefaEncontrada.setUrgencia(tarefaAtualizadaDto.getUrgencia());
+            tarefaEncontrada.setImportancia(tarefaAtualizadaDto.getImportancia());
+
+            if (!tarefaAtualizadaDto.getEtiquetas().isEmpty()){
+                for (EtiquetaCadastroTarefaDto etiquetaDto: tarefaAtualizadaDto.getEtiquetas()) {
+                    Optional<EtiquetaEntity> etiqueta = etiquetaRepository
+                            .findById(etiquetaDto.getIdEtiqueta());
+
+                    if (etiqueta.isPresent()){
+                        EtiquetaEntity etiquetaEntity = etiqueta.get();
+                        etiquetas.add(etiquetaEntity);
+                    }
+                }
+            }
+
+            tarefaEncontrada.setEtiquetasTarefa(etiquetas);
+
+            if(!tarefaAtualizadaDto.getSubTarefas().isEmpty()){
+                for ( SubTarefaDto subTarefa: tarefaAtualizadaDto.getSubTarefas()) {
+                    SubTarefaEntity sub = subTarefaRepository.save(new SubTarefaEntity(subTarefa, tarefaEncontrada));
+                    subTarefas.add(sub);
+                }
+                tarefaEncontrada.setSubTarefas(subTarefas);
+            }
+
+            TarefaEntity tarefaAtualizada = tarefaRepository.save(tarefaEncontrada);
+
+            List<SubTarefaDto> subTarefaDtos = subTarefaRepository.getSubtarefasDto(idTarefa);
+            List<EtiquetaDto> etiquetaDtos = etiquetaRepository.getEtiquetasDto(idTarefa);
+
+            return ResponseEntity.ok().body(new TarefaDto(tarefaAtualizada, subTarefaDtos, etiquetaDtos));
         } else {
             return ResponseEntity.status(403).build();
         }
@@ -276,7 +276,7 @@ public class TarefaController {
         @PathVariable Integer idTarefa
     ){
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
-        if (isAutenticado){
+        if (isAutenticado) {
             Optional<TarefaEntity> tarefaEntity = this.getTarefaEntityOpt(idUsuario, idTarefa);
 
             if (tarefaEntity.isPresent()){

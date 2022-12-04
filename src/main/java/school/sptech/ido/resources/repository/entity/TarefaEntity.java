@@ -61,6 +61,36 @@ public class TarefaEntity {
     public TarefaEntity() {}
 
     public TarefaEntity(
+        Integer idTarefa,
+        String titulo,
+        String descricao,
+        Boolean status,
+        LocalDateTime dataInicio,
+        LocalDateTime dataFinal,
+        LocalDateTime dataCriacao,
+        LocalDateTime dataConclusao,
+        Boolean urgencia,
+        Boolean importancia,
+        List<SubTarefaEntity> subTarefas,
+        UsuarioEntity usuario,
+        List<EtiquetaEntity> etiquetasTarefa
+    ) {
+        this.idTarefa = idTarefa;
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.status = status;
+        this.dataInicio = dataInicio;
+        this.dataFinal = dataFinal;
+        this.dataCriacao = dataCriacao;
+        this.dataConclusao = dataConclusao;
+        this.urgencia = urgencia;
+        this.importancia = importancia;
+        this.subTarefas = subTarefas;
+        this.usuario = usuario;
+        this.etiquetasTarefa = etiquetasTarefa;
+    }
+
+    public TarefaEntity(
         TarefaCadastroDto tarefaCadastroDto,
         UsuarioEntity usuario
     ) {
