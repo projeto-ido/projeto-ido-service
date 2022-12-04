@@ -13,6 +13,12 @@ public class EtiquetaDto {
 
     public EtiquetaDto() {}
 
+    public EtiquetaDto(Integer idEtiqueta, String titulo, String cor) {
+        this.idEtiqueta = idEtiqueta;
+        this.titulo = titulo;
+        this.cor = cor;
+    }
+
     public EtiquetaDto(EtiquetaEntity etiquetaEntity) {
         this.idEtiqueta = etiquetaEntity.getIdEtiqueta();
         this.titulo = etiquetaEntity.getTitulo();

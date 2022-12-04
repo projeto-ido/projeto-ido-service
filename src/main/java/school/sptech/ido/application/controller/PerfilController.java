@@ -29,8 +29,8 @@ public class PerfilController {
     @Autowired
     EtiquetaRepository etiquetaRepository;
 
-
-
+    @Autowired
+    Data data;
 
     @GetMapping("/usuarios/perfil/grafico-etiqueta/{idUsuario}")
     public ResponseEntity<List<QtdEtiquetasTarefaDto>> qtdEtiquetasUsadas(@PathVariable Integer idUsuario){
@@ -96,7 +96,7 @@ public class PerfilController {
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
 
         if (isAutenticado){
-            LocalDate diaSemana = LocalDate.now();
+            LocalDate diaSemana = data.obterDiaAtual();
 
             Integer diasAnteriores = 0;
 
@@ -143,5 +143,11 @@ public class PerfilController {
 
         return ResponseEntity.status(403).build();
 
+    }
+}
+
+class Data {
+    public LocalDate obterDiaAtual() {
+        return LocalDate.now();
     }
 }
