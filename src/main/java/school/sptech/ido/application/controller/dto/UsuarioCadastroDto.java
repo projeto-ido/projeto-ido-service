@@ -27,8 +27,7 @@ public class UsuarioCadastroDto {
     private String senha;
 
     @NotBlank
-    @Min(8)
-    @Max(11)
+    @Size(min = 8, max = 11)
     private String telefone;
 
     public UsuarioCadastroDto() {}
