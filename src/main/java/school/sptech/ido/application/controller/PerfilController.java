@@ -175,8 +175,3 @@ public class PerfilController {
 
 }
 
-class Data {
-    public LocalDate obterDiaAtual() {
-        return LocalDate.now();
-    }
-}
