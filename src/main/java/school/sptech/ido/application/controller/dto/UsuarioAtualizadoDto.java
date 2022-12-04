@@ -26,7 +26,7 @@ public class UsuarioAtualizadoDto {
     private String biografia;
 
     @Lob
-    private Byte[] imagemPerfil;
+    private String imagemPerfil;
 
     private String imagemBiografia;
 
@@ -36,7 +36,7 @@ public class UsuarioAtualizadoDto {
             String email,
             String telefone,
             String biografia,
-            Byte[] imagemPerfil,
+            String imagemPerfil,
             String imagemBiografia
     ) {
         this.nome = nome;
@@ -88,11 +88,11 @@ public class UsuarioAtualizadoDto {
         this.biografia = biografia;
     }
 
-    public Byte[] getImagemPerfil() {
+    public String getImagemPerfil() {
         return imagemPerfil;
     }
 
-    public void setImagemPerfil(Byte[] imagemPerfil) {
+    public void setImagemPerfil(String imagemPerfil) {
         this.imagemPerfil = imagemPerfil;
     }
 

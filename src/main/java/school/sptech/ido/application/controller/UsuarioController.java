@@ -17,6 +17,7 @@ import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 import school.sptech.ido.service.UsuarioService;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -75,8 +76,8 @@ public class UsuarioController {
                 usuarioEntity.setEmail(usuarioAtualizadoDto.getEmail());
                 usuarioEntity.setTelefone(usuarioAtualizadoDto.getTelefone());
                 usuarioEntity.setBiografia(usuarioAtualizadoDto.getBiografia());
-                usuarioEntity.setImagemBiografia(usuarioAtualizadoDto.getImagemBiografia());
-                usuarioEntity.setImagemPerfil(usuarioAtualizadoDto.getImagemPerfil());
+                usuarioEntity.setImagemBiografia(Base64.getDecoder().decode(usuarioAtualizadoDto.getImagemBiografia()));
+                usuarioEntity.setImagemPerfil(Base64.getDecoder().decode(usuarioAtualizadoDto.getImagemPerfil()));
 
                 return ResponseEntity.ok().body(new UsuarioAtualizadoResDto(usuarioRepository.save(usuarioEntity)));
             }

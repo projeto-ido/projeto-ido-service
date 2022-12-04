@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import school.sptech.ido.application.controller.dto.EtiquetaExportacaoDto;
+import school.sptech.ido.application.controller.dto.Request.PathImportacao;
 import school.sptech.ido.application.controller.dto.Response.UsuarioDto;
 import school.sptech.ido.application.controller.dto.SubTarefaExportacaoDto;
 import school.sptech.ido.application.controller.dto.TarefaExportacaoDto;
@@ -150,8 +151,8 @@ public class ExportacaoController {
         return ResponseEntity.status(FORBIDDEN).build();
     }
 
-    @PostMapping("/usuarios/{idUsuario}/exportacao/le/txt/{nomeArq}")
-    public ResponseEntity<String> lerTxt(@PathVariable Integer idUsuario, @PathVariable String nomeArq){
+    @PostMapping("/usuarios/{idUsuario}/exportacao/le/txt")
+    public ResponseEntity<String> lerTxt(@PathVariable Integer idUsuario, @RequestBody PathImportacao path){
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
 
         if (isAutenticado){
@@ -160,7 +161,7 @@ public class ExportacaoController {
             if (!usuario.isPresent())
                    return ResponseEntity.status(NOT_FOUND).body("\"Usuario não encontrado\"");
 
-            exportacao.leArquivoTxt(nomeArq, usuario.get());
+            exportacao.leArquivoTxt(path.getPath(), usuario.get());
 
             return ResponseEntity.status(CREATED).build();
         }

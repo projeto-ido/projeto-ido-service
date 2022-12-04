@@ -5,9 +5,9 @@ import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Base64;
 
 public class UsuarioAtualizadoResDto {
-
 
     private String nome;
 
@@ -15,7 +15,7 @@ public class UsuarioAtualizadoResDto {
 
     private String biografia;
 
-    private Byte[] imagemPerfil;
+    private String imagemPerfil;
 
     private String imagemBiografia;
 
@@ -23,8 +23,8 @@ public class UsuarioAtualizadoResDto {
         this.nome = usuarioEntity.getNome();
         this.apelido = usuarioEntity.getApelido();
         this.biografia = usuarioEntity.getBiografia();
-        this.imagemPerfil = usuarioEntity.getImagemPerfil();
-        this.imagemBiografia = usuarioEntity.getImagemBiografia();
+        this.imagemPerfil = Base64.getEncoder().encodeToString(usuarioEntity.getImagemPerfil());
+        this.imagemBiografia = Base64.getEncoder().encodeToString(usuarioEntity.getImagemBiografia());
     }
 
     public String getNome() {
@@ -51,11 +51,11 @@ public class UsuarioAtualizadoResDto {
         this.biografia = biografia;
     }
 
-    public Byte[] getImagemPerfil() {
+    public String getImagemPerfil() {
         return imagemPerfil;
     }
 
-    public void setImagemPerfil(Byte[] imagemPerfil) {
+    public void setImagemPerfil(String imagemPerfil) {
         this.imagemPerfil = imagemPerfil;
     }
 
