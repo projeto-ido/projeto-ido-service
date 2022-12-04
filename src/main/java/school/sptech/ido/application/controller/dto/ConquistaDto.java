@@ -1,6 +1,8 @@
 package school.sptech.ido.application.controller.dto;
 
 
+import school.sptech.ido.resources.repository.entity.ConquistaEntity;
+
 import javax.validation.constraints.NotBlank;
 
 public class ConquistaDto {
@@ -10,6 +12,13 @@ public class ConquistaDto {
 
     @NotBlank
     private String descricao;
+
+    public ConquistaDto(ConquistaEntity conquistaEntity) {
+        this.nome = conquistaEntity.getNome();
+        this.descricao = conquistaEntity.getDescricao();
+    }
+
+
 
     public String getNome() {
         return nome;
