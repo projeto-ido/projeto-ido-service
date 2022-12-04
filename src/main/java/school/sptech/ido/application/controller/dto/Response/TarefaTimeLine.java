@@ -1,8 +1,6 @@
 package school.sptech.ido.application.controller.dto.Response;
 
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class TarefaTimeLine {
@@ -19,8 +17,8 @@ public class TarefaTimeLine {
     public TarefaTimeLine(TarefaEntity tarefa) {
         this.importancia = tarefa.getImportancia();
         this.urgencia = tarefa.getUrgencia();
-        this.dataInicio = LocalDate.from(tarefa.getDataInicio());
-        this.dataFinal = LocalDate.from(tarefa.getDataFinal());
+        this.dataInicio = LocalDateTime.from(tarefa.getDataInicio());
+        this.dataFinal = LocalDateTime.from(tarefa.getDataFinal());
     }
 
     public String getPrioridade(){
