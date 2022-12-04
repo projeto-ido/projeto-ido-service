@@ -3,22 +3,26 @@ package school.sptech.ido.application.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import school.sptech.ido.application.controller.dto.DiaSemana;
+import school.sptech.ido.application.controller.dto.Request.AtualizacaoSenhaDto;
 import school.sptech.ido.application.controller.dto.Response.*;
 import school.sptech.ido.resources.repository.EtiquetaRepository;
 import school.sptech.ido.resources.repository.TarefaRepository;
+import school.sptech.ido.resources.repository.UsuarioRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.*;
+
 @Tag(name = "Perfil", description = "Responsavel por administrar a pagina de perfil")
 @RestController
 public class PerfilController {
 
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @Autowired
     UsuarioController usuarioController;
@@ -144,10 +148,30 @@ public class PerfilController {
         return ResponseEntity.status(403).build();
 
     }
+
+    @PatchMapping("/usuarios/{idUsuario}/perfil/atualizar-senha")
+    public ResponseEntity<Void> atualizarSenha(@PathVariable Integer idUsuario,
+                                               @RequestBody AtualizacaoSenhaDto atualizacaoSenha){
+
+        Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
+
+        if (isAutenticado){
+            Integer isSenhaValida = usuarioRepository.isSenhaValida(atualizacaoSenha.getSenhaAnterior(), idUsuario);
+
+            if (!(isSenhaValida == 1))
+                return ResponseEntity.status(BAD_REQUEST).build();
+
+            Integer atualizarSenha = usuarioRepository.updateSenha(atualizacaoSenha.getSenhaNova(), idUsuario);
+
+            if (atualizarSenha == 1)
+                return ResponseEntity.ok().build();
+
+            return ResponseEntity.badRequest().build();
+
+        }
+
+        return ResponseEntity.status(FORBIDDEN).build();
+    }
+
 }
 
-class Data {
-    public LocalDate obterDiaAtual() {
-        return LocalDate.now();
-    }
-}

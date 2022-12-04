@@ -14,23 +14,35 @@ public class UsuarioAtualizadoDto {
     @Size(max = 45)
     private String apelido;
 
+    @NotBlank
+    @Size(min = 10, max = 100)
+    private String email;
+
+    @NotBlank
+    @Size(min = 10, max = 11)
+    private String telefone;
+
     @Size(max = 200)
     private String biografia;
 
     @Lob
-    private Byte[] imagemPerfil;
+    private String imagemPerfil;
 
     private String imagemBiografia;
 
     public UsuarioAtualizadoDto(
-        String nome,
-        String apelido,
-        String biografia,
-        Byte[] imagemPerfil,
-        String imagemBiografia
+            String nome,
+            String apelido,
+            String email,
+            String telefone,
+            String biografia,
+            String imagemPerfil,
+            String imagemBiografia
     ) {
         this.nome = nome;
         this.apelido = apelido;
+        this.email = email;
+        this.telefone = telefone;
         this.biografia = biografia;
         this.imagemPerfil = imagemPerfil;
         this.imagemBiografia = imagemBiografia;
@@ -52,6 +64,22 @@ public class UsuarioAtualizadoDto {
         this.apelido = apelido;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
     public String getBiografia() {
         return biografia;
     }
@@ -60,11 +88,11 @@ public class UsuarioAtualizadoDto {
         this.biografia = biografia;
     }
 
-    public Byte[] getImagemPerfil() {
+    public String getImagemPerfil() {
         return imagemPerfil;
     }
 
-    public void setImagemPerfil(Byte[] imagemPerfil) {
+    public void setImagemPerfil(String imagemPerfil) {
         this.imagemPerfil = imagemPerfil;
     }
 

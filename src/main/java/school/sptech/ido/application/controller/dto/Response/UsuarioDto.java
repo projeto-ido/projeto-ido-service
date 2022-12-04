@@ -21,9 +21,9 @@ public class UsuarioDto {
 
     private LocalDate nascimento;
 
-    private Byte[] imagemPerfil;
+    private byte[] imagemPerfil;
 
-    private String imagemBiografia;
+    private byte[] imagemBiografia;
 
     private Integer nivel;
 
@@ -41,8 +41,8 @@ public class UsuarioDto {
         String senha,
         String biografia,
         LocalDate nascimento,
-        Byte[] imagemPerfil,
-        String imagemBiografia,
+        byte[] imagemPerfil,
+        byte[] imagemBiografia,
         Integer nivel,
         Boolean autenticado,
         Boolean notificacao
@@ -132,19 +132,19 @@ public class UsuarioDto {
         this.nascimento = nascimento;
     }
 
-    public Byte[] getImagemPerfil() {
+    public byte[] getImagemPerfil() {
         return imagemPerfil;
     }
 
-    public void setImagemPerfil(Byte[] imagemPerfil) {
+    public void setImagemPerfil(byte[] imagemPerfil) {
         this.imagemPerfil = imagemPerfil;
     }
 
-    public String getImagemBiografia() {
+    public byte[] getImagemBiografia() {
         return imagemBiografia;
     }
 
-    public void setImagemBiografia(String imagemBiografia) {
+    public void setImagemBiografia(byte[] imagemBiografia) {
         this.imagemBiografia = imagemBiografia;
     }
 

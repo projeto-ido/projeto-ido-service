@@ -1,8 +1,6 @@
 package school.sptech.ido.application.controller.dto.Response;
 
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class TarefaTimeLine {
