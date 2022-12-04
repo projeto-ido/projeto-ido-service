@@ -34,6 +34,7 @@ public class SubTarefaExportacaoDto {
     @Override
     public String toString() {
         return String.format(
-                "Subtarefa - %s, %b");
+                "Subtarefa - %s, %b",
+                titulo, status);
     }
 }
