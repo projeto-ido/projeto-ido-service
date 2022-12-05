@@ -80,16 +80,19 @@ public class ExportacaoController {
 
             }
 
-            exportacao.gravarCsv(tarefasExportacao, nomeArq);
+            File arquivo = new File(nomeArq + ".csv");
 
-            File path = new File(nomeArq + ".csv");
+            if (arquivo.exists() && !arquivo.isFile())
+                arquivo.delete();
+
+            exportacao.gravarCsv(tarefasExportacao, nomeArq);
 
 
             HttpHeaders headers = new HttpHeaders();
             headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"relatorio-tarefas.csv\"");
             headers.set(HttpHeaders.CONTENT_TYPE ,"application/csv");
 
-            ByteArrayResource by = new ByteArrayResource(Files.readAllBytes(path.toPath()));
+            ByteArrayResource by = new ByteArrayResource(Files.readAllBytes(arquivo.toPath()));
 
             return new ResponseEntity<>(
                     by,
@@ -131,16 +134,18 @@ public class ExportacaoController {
                         etiquetasExportacao.size() == 2 ? etiquetasExportacao.get(1).getTitulo() : null));
             }
 
+            File arquivo = new File(nomeArq + ".txt");
+
+            if (arquivo.exists())
+
             exportacao.gravaArquivoTxt(tarefasExportacao, usuario.getNome(), nomeArq);
 
-
-            File path = new File(nomeArq + ".txt");
 
             HttpHeaders headers = new HttpHeaders();
             headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"relatoria-tarefas.txt\"");
             headers.set(HttpHeaders.CONTENT_TYPE ,"application/txt");
 
-            ByteArrayResource by = new ByteArrayResource(Files.readAllBytes(path.toPath()));
+            ByteArrayResource by = new ByteArrayResource(Files.readAllBytes(arquivo.toPath()));
 
             return new ResponseEntity<>(
                     by,
