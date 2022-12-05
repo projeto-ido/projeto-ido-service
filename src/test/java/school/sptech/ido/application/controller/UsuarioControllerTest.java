@@ -329,7 +329,7 @@ class UsuarioControllerTest {
                 "NOME",
                 "APELIDO",
                 "EMAIL",
-                "SENHA",
+                "telefone",
                 "BIO",
                 LocalDate.of(2001, Month.JANUARY,10),
                 new byte[1],
