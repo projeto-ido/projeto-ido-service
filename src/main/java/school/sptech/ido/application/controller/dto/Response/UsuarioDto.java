@@ -14,9 +14,7 @@ public class UsuarioDto {
     private String apelido;
 
     private String email;
-
-    private String senha;
-
+    private String telefone;
     private String biografia;
 
     private LocalDate nascimento;
@@ -38,7 +36,7 @@ public class UsuarioDto {
         String nome,
         String apelido,
         String email,
-        String senha,
+        String telefone,
         String biografia,
         LocalDate nascimento,
         byte[] imagemPerfil,
@@ -51,7 +49,7 @@ public class UsuarioDto {
         this.nome = nome;
         this.apelido = apelido;
         this.email = email;
-        this.senha = senha;
+        this.telefone = telefone;
         this.biografia = biografia;
         this.nascimento = nascimento;
         this.imagemPerfil = imagemPerfil;
@@ -66,7 +64,7 @@ public class UsuarioDto {
         this.nome = usuarioEntity.getNome();
         this.apelido = usuarioEntity.getApelido();
         this.email = usuarioEntity.getEmail();
-        this.senha = usuarioEntity.getSenha();
+        this.telefone = usuarioEntity.getTelefone();
         this.biografia = usuarioEntity.getBiografia();
         this.nascimento = usuarioEntity.getNascimento();
         this.imagemPerfil = usuarioEntity.getImagemPerfil();
@@ -108,12 +106,12 @@ public class UsuarioDto {
         this.email = email;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getTelefone() {
+        return telefone;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setSenha(String telefone) {
+        this.telefone = telefone;
     }
 
     public String getBiografia() {

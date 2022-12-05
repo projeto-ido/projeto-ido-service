@@ -13,6 +13,10 @@ public class UsuarioAtualizadoResDto {
 
     private String apelido;
 
+    private String email;
+
+    private String telefone;
+
     private String biografia;
 
     private String imagemPerfil;
@@ -22,6 +26,8 @@ public class UsuarioAtualizadoResDto {
     public UsuarioAtualizadoResDto(UsuarioEntity usuarioEntity) {
         this.nome = usuarioEntity.getNome();
         this.apelido = usuarioEntity.getApelido();
+        this.email = usuarioEntity.getEmail();
+        this.telefone = usuarioEntity.getTelefone();
         this.biografia = usuarioEntity.getBiografia();
         this.imagemPerfil = Base64.getEncoder().encodeToString(usuarioEntity.getImagemPerfil());
         this.imagemBiografia = Base64.getEncoder().encodeToString(usuarioEntity.getImagemBiografia());
@@ -41,6 +47,22 @@ public class UsuarioAtualizadoResDto {
 
     public void setApelido(String apelido) {
         this.apelido = apelido;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public String getBiografia() {
