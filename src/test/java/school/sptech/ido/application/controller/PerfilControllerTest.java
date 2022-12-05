@@ -112,7 +112,7 @@ class PerfilControllerTest {
         ).thenReturn(listaEtiquetasDto);
 
         when(
-                tarefaRepository.getTarefaEtiquetaDto()
+                tarefaRepository.getTarefaEtiquetaDto(idUsuario)
         ).thenReturn(listaTarefaEtiquetasDto);
 
         ResponseEntity<List<QtdEtiquetasTarefaDto>> resposta = perfilController.qtdEtiquetasUsadas(idUsuario);
@@ -133,7 +133,7 @@ class PerfilControllerTest {
         ).thenReturn(listaEtiquetasDto);
 
         when(
-                tarefaRepository.getTarefaEtiquetaDto()
+                tarefaRepository.getTarefaEtiquetaDto(idUsuario)
         ).thenReturn(new ArrayList<>());
 
         ResponseEntity<List<QtdEtiquetasTarefaDto>> resposta = perfilController.qtdEtiquetasUsadas(idUsuario);
@@ -163,7 +163,7 @@ class PerfilControllerTest {
         ).thenReturn(true);
 
         when(
-                tarefaRepository.getTarefasTimeLine()
+                tarefaRepository.getTarefasTimeLine(idUsuario)
         ).thenReturn(listaTarefaTimeline);
 
         ResponseEntity<List<TarefaTimeLine>> resposta = perfilController.listaTarefasTimeLine(idUsuario);
@@ -180,7 +180,7 @@ class PerfilControllerTest {
         ).thenReturn(true);
 
         when(
-                tarefaRepository.getTarefasTimeLine()
+                tarefaRepository.getTarefasTimeLine(idUsuario)
         ).thenReturn(new ArrayList<>());
 
         ResponseEntity<List<TarefaTimeLine>> resposta = perfilController.listaTarefasTimeLine(idUsuario);
