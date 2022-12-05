@@ -43,4 +43,6 @@ public interface TarefaRepository extends JpaRepository<TarefaEntity, Integer> {
             "FROM TarefaEntity t JOIN t.usuario u WHERE t.status = true AND u.idUsuario = :id")
     Long getQtdTarefasConcluidasPorUsuario(int id);
 
+    @Query(value = "SELECT t.* FROM tarefa AS t WHERE t.data_final = ?1", nativeQuery = true)
+    List<TarefaEntity> getQtdTarefasComDataFinal(LocalDate dataFinal);
 }
