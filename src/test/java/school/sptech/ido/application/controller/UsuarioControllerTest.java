@@ -45,8 +45,8 @@ class UsuarioControllerTest {
             "88888888",
             "Bem vindo ao iDo! Você pode editar sua biografia se quiser!",
             LocalDate.MAX,
-            new Byte[1],
-            "",
+            new byte[1],
+            new byte[1],
             0,
             false,
             false,
@@ -108,7 +108,7 @@ class UsuarioControllerTest {
     @Test
     @DisplayName("Quando acionado atualizar usuario com Id Usuario inválido deverá retornar 404 sem corpo")
     void quandoAcionadoAtualizarUsuarioComIdUsuarioInvalidoDeveraRetornar404SemCorpo(){
-        UsuarioAtualizadoDto usuarioAtualizadoDto = new UsuarioAtualizadoDto("NOME", "APELIDO", "BIO", null, "");
+        UsuarioAtualizadoDto usuarioAtualizadoDto = new UsuarioAtualizadoDto("NOME", "APELIDO", "EMAIL", "TELEFONE", "BRIOGRAFIA", "", "");
 
         when(
             usuarioRepository.existsById(idUsuario)
@@ -123,7 +123,7 @@ class UsuarioControllerTest {
     @Test
     @DisplayName("Quando acionado atualizar usuario com Id Usuario válido deverá retornar 200 com corpo")
     void quandoAcionadoAtualizarUsuarioComIdUsuarioValidoDeveraRetornar200ComCorpo(){
-        UsuarioAtualizadoDto usuarioAtualizadoDto = new UsuarioAtualizadoDto("NOME", "APELIDO", "BIO", null, "");
+        UsuarioAtualizadoDto usuarioAtualizadoDto = new UsuarioAtualizadoDto("NOME", "APELIDO", "EMAIL", "TELEFONE", "BRIOGRAFIA", "", "");
 
         when(
             usuarioRepository.existsById(idUsuario)
@@ -332,8 +332,8 @@ class UsuarioControllerTest {
                 "SENHA",
                 "BIO",
                 LocalDate.of(2001, Month.JANUARY,10),
-                new Byte[1],
-                "img",
+                new byte[1],
+                new byte[1],
                 0,
                 false,
                 false

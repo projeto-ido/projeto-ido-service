@@ -1,5 +1,5 @@
-INSERT INTO usuario (nome, apelido, email, senha, telefone, biografia, nascimento, imagem_perfil, imagem_biografia, nivel, autenticado, notificacao) VALUES
-	('Julia Veloso Santos', 'juvelososant', 'julia.santos@gmail.com', 'julia123', '11993322113', 'Sou uma universitária e estagiária de medicina, ficando grande parte do tempo fora de casa e não consigo me organizar e gerenciar meu tempo devido a minha rotina puxada','2000-02-11', 'https://i.imgur.com/nr8MEmx.jpg', 'https://i.imgur.com/Y8xZ6yJ.jpg', 6, 0, 0);
+INSERT INTO usuario (nome, apelido, email, senha, telefone, biografia, nascimento, nivel, autenticado, notificacao) VALUES
+	('Julia Veloso Santos', 'juvelososant', 'julia.santos@gmail.com', 'julia123', '11993322113', 'Sou uma universitária e estagiária de medicina, ficando grande parte do tempo fora de casa e não consigo me organizar e gerenciar meu tempo devido a minha rotina puxada','2000-02-11', 6, 0, 0);
 
 INSERT INTO tarefa (titulo, descricao, status, data_inicio, data_final, data_criacao, data_conclusao, urgencia, importancia, fk_usuario) VALUES
 	-- JULIA

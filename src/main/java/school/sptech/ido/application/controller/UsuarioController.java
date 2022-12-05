@@ -54,6 +54,10 @@ public class UsuarioController {
         return usuarios.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.ok().body(usuarios);
     }
 
+    @GetMapping("/{idUsuario}")
+    public ResponseEntity<UsuarioDto> buscarUsuario(@PathVariable Integer idUsuario){
+        return ResponseEntity.of(usuarioRepository.getusuarioDto(idUsuario));
+    }
     @PostMapping
     public ResponseEntity<UsuarioDto> cadastrarUsuario(@RequestBody @Valid UsuarioCadastroDto usuario) {
         return ResponseEntity.status(201).body(new UsuarioDto(usuarioRepository.save(new UsuarioEntity(usuario))));
