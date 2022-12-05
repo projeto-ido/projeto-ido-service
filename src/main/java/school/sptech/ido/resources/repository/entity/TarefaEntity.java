@@ -2,11 +2,9 @@ package school.sptech.ido.resources.repository.entity;
 
 import school.sptech.ido.application.controller.dto.Request.TarefaCadastroDto;
 import javax.persistence.*;
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

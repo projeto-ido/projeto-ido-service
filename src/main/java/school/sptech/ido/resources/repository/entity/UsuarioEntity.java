@@ -47,9 +47,11 @@ public class UsuarioEntity {
 
     @Lob
     @Column(name = "imagem_perfil", columnDefinition="BLOB")
-    private Byte[] imagemPerfil;
+    private byte[] imagemPerfil;
 
-    private String imagemBiografia;
+    @Lob
+    @Column(name = "imagem_biografia", columnDefinition="BLOB")
+    private byte[] imagemBiografia;
 
     @NotNull
     private Integer nivel;
@@ -80,8 +82,8 @@ public class UsuarioEntity {
         String telefone,
         String biografia,
         LocalDate nascimento,
-        Byte[] imagemPerfil,
-        String imagemBiografia,
+        byte[] imagemPerfil,
+        byte[] imagemBiografia,
         Integer nivel,
         Boolean autenticado,
         Boolean notificacao,
@@ -131,8 +133,8 @@ public class UsuarioEntity {
         this.nome = usuarioAtualizadoDto.getNome();
         this.apelido = usuarioAtualizadoDto.getApelido();
         this.biografia = usuarioAtualizadoDto.getBiografia();
-        this.imagemPerfil = usuarioAtualizadoDto.getImagemPerfil();
-        this.imagemBiografia = usuarioAtualizadoDto.getImagemBiografia();
+        this.imagemPerfil = usuarioAtualizadoDto.getImagemPerfil().getBytes();
+        this.imagemBiografia = usuarioAtualizadoDto.getImagemBiografia().getBytes();
         this.autenticado = true;
         this.notificacao = false;
     }
@@ -201,19 +203,19 @@ public class UsuarioEntity {
         this.nascimento = nascimento;
     }
 
-    public Byte[] getImagemPerfil() {
+    public byte[] getImagemPerfil() {
         return imagemPerfil;
     }
 
-    public void setImagemPerfil(Byte[] imagemPerfil) {
+    public void setImagemPerfil(byte[] imagemPerfil) {
         this.imagemPerfil = imagemPerfil;
     }
 
-    public String getImagemBiografia() {
+    public byte[] getImagemBiografia() {
         return imagemBiografia;
     }
 
-    public void setImagemBiografia(String imagemBiografia) {
+    public void setImagemBiografia(byte[] imagemBiografia) {
         this.imagemBiografia = imagemBiografia;
     }
 

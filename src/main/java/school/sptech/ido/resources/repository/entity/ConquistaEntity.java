@@ -27,6 +27,13 @@ public class ConquistaEntity {
 
     public ConquistaEntity() {}
 
+    public ConquistaEntity(Integer idConquista, String nome, String descricao, UsuarioEntity usuario) {
+        this.idConquista = idConquista;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.usuario = usuario;
+    }
+
     public ConquistaEntity(ConquistaDto conquistaDto, UsuarioEntity usuario) {
         this.idConquista = null;
         this.nome = conquistaDto.getNome();

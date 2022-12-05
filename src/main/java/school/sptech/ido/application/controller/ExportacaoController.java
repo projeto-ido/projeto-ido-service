@@ -1,9 +1,16 @@
 package school.sptech.ido.application.controller;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import school.sptech.ido.application.controller.dto.EtiquetaExportacaoDto;
+import school.sptech.ido.application.controller.dto.Request.PathImportacao;
 import school.sptech.ido.application.controller.dto.Response.UsuarioDto;
 import school.sptech.ido.application.controller.dto.SubTarefaExportacaoDto;
 import school.sptech.ido.application.controller.dto.TarefaExportacaoDto;
@@ -11,23 +18,24 @@ import school.sptech.ido.domain.model.Exportacao;
 import school.sptech.ido.resources.repository.EtiquetaRepository;
 import school.sptech.ido.resources.repository.SubTarefaRepository;
 import school.sptech.ido.resources.repository.TarefaRepository;
-import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
-import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
+import school.sptech.ido.resources.repository.UsuarioRepository;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.InputStreamResource;
+import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 public class ExportacaoController {
 
+    @Autowired
+    UsuarioRepository usuarioRepository;
     @Autowired
     UsuarioController usuarioController;
 
@@ -40,9 +48,12 @@ public class ExportacaoController {
     @Autowired
     EtiquetaRepository etiquetaRepository;
 
+    @Autowired
+    Exportacao exportacao;
 
 
-    @PostMapping("/usuarios/{idUsuario}/exportacao/grava/csv/{nomeArq}")
+
+    @PostMapping(value = "/usuarios/{idUsuario}/exportacao/grava/csv/{nomeArq}", produces = "application/csv")
     public ResponseEntity<Resource> gravar(@PathVariable Integer idUsuario, @PathVariable String nomeArq) throws IOException {
 
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
@@ -69,15 +80,26 @@ public class ExportacaoController {
 
             }
 
-            Exportacao.gravarCsv(tarefasExportacao, nomeArq);
+            exportacao.gravarCsv(tarefasExportacao, nomeArq);
 
             File path = new File(nomeArq + ".csv");
 
-            return ResponseEntity.status(200).body(new ByteArrayResource(Files.readAllBytes(path.toPath())));
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"relatorio-tarefas.csv\"");
+            headers.set(HttpHeaders.CONTENT_TYPE ,"application/csv");
+
+            ByteArrayResource by = new ByteArrayResource(Files.readAllBytes(path.toPath()));
+
+            return new ResponseEntity<>(
+                    by,
+                    headers,
+                    CREATED
+                    );
 
         }
 
-        return ResponseEntity.status(403).build();
+        return ResponseEntity.status(FORBIDDEN).build();
     }
 
     @PostMapping("/usuarios/{idUsuario}/exportacao/grava/txt/{nomeArq}")
@@ -109,29 +131,51 @@ public class ExportacaoController {
                         etiquetasExportacao.size() == 2 ? etiquetasExportacao.get(1).getTitulo() : null));
             }
 
-            Exportacao.gravaArquivoTxt(tarefasExportacao, usuario.getNome(), nomeArq);
+            exportacao.gravaArquivoTxt(tarefasExportacao, usuario.getNome(), nomeArq);
 
 
             File path = new File(nomeArq + ".txt");
 
-            return ResponseEntity.status(200).body(new ByteArrayResource(Files.readAllBytes(path.toPath())));
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"relatoria-tarefas.txt\"");
+            headers.set(HttpHeaders.CONTENT_TYPE ,"application/txt");
+
+            ByteArrayResource by = new ByteArrayResource(Files.readAllBytes(path.toPath()));
+
+            return new ResponseEntity<>(
+                    by,
+                    headers,
+                    CREATED
+                    );
 
 
         }
-        return ResponseEntity.status(403).build();
+        return ResponseEntity.status(FORBIDDEN).build();
     }
 
-    @PostMapping("/usuarios/{idUsuario}/exportacao/le/txt/{nomeArq}")
-    public ResponseEntity<Void> lerTxt(@PathVariable Integer idUsuario, @PathVariable String nomeArq){
+    @PostMapping(value = "/usuarios/{idUsuario}/exportacao/le/txt", consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.MULTIPART_FORM_DATA_VALUE
+    })
+    public ResponseEntity<String> lerTxt(@PathVariable Integer idUsuario, @RequestPart("file") MultipartFile file){
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
 
         if (isAutenticado){
-            Exportacao.leArquivoTxt(nomeArq);
+            Optional<UsuarioEntity> usuario = usuarioRepository.findById(idUsuario);
 
-            return ResponseEntity.ok().build();
+            if (!usuario.isPresent())
+                   return ResponseEntity.status(NOT_FOUND).body("\"Usuario não encontrado\"");
+
+            try {
+                exportacao.leArquivoTxt(file.getInputStream(), usuario.get());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            return ResponseEntity.status(CREATED).build();
         }
 
-        return ResponseEntity.status(403).build();
+        return ResponseEntity.status(FORBIDDEN).build();
     }
 
 

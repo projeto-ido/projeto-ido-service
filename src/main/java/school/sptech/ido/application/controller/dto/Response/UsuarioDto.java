@@ -14,16 +14,14 @@ public class UsuarioDto {
     private String apelido;
 
     private String email;
-
-    private String senha;
-
+    private String telefone;
     private String biografia;
 
     private LocalDate nascimento;
 
-    private Byte[] imagemPerfil;
+    private byte[] imagemPerfil;
 
-    private String imagemBiografia;
+    private byte[] imagemBiografia;
 
     private Integer nivel;
 
@@ -38,11 +36,11 @@ public class UsuarioDto {
         String nome,
         String apelido,
         String email,
-        String senha,
+        String telefone,
         String biografia,
         LocalDate nascimento,
-        Byte[] imagemPerfil,
-        String imagemBiografia,
+        byte[] imagemPerfil,
+        byte[] imagemBiografia,
         Integer nivel,
         Boolean autenticado,
         Boolean notificacao
@@ -51,7 +49,7 @@ public class UsuarioDto {
         this.nome = nome;
         this.apelido = apelido;
         this.email = email;
-        this.senha = senha;
+        this.telefone = telefone;
         this.biografia = biografia;
         this.nascimento = nascimento;
         this.imagemPerfil = imagemPerfil;
@@ -66,7 +64,7 @@ public class UsuarioDto {
         this.nome = usuarioEntity.getNome();
         this.apelido = usuarioEntity.getApelido();
         this.email = usuarioEntity.getEmail();
-        this.senha = usuarioEntity.getSenha();
+        this.telefone = usuarioEntity.getTelefone();
         this.biografia = usuarioEntity.getBiografia();
         this.nascimento = usuarioEntity.getNascimento();
         this.imagemPerfil = usuarioEntity.getImagemPerfil();
@@ -108,12 +106,12 @@ public class UsuarioDto {
         this.email = email;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getTelefone() {
+        return telefone;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setSenha(String telefone) {
+        this.telefone = telefone;
     }
 
     public String getBiografia() {
@@ -132,19 +130,19 @@ public class UsuarioDto {
         this.nascimento = nascimento;
     }
 
-    public Byte[] getImagemPerfil() {
+    public byte[] getImagemPerfil() {
         return imagemPerfil;
     }
 
-    public void setImagemPerfil(Byte[] imagemPerfil) {
+    public void setImagemPerfil(byte[] imagemPerfil) {
         this.imagemPerfil = imagemPerfil;
     }
 
-    public String getImagemBiografia() {
+    public byte[] getImagemBiografia() {
         return imagemBiografia;
     }
 
-    public void setImagemBiografia(String imagemBiografia) {
+    public void setImagemBiografia(byte[] imagemBiografia) {
         this.imagemBiografia = imagemBiografia;
     }
 

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.sptech.ido.application.controller.dto.*;
+import school.sptech.ido.application.controller.dto.Request.AtualizacaoSenhaDto;
 import school.sptech.ido.application.controller.dto.Response.UsuarioAtualizadoResDto;
 import school.sptech.ido.application.controller.dto.Response.UsuarioDto;
 import school.sptech.ido.resources.repository.UsuarioRepository;
@@ -16,9 +17,13 @@ import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 import school.sptech.ido.service.UsuarioService;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 
 @Tag(name = "Usuário", description = "Responsável por gerir os usuários dessa aplicação.")
@@ -49,6 +54,10 @@ public class UsuarioController {
         return usuarios.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.ok().body(usuarios);
     }
 
+    @GetMapping("/{idUsuario}")
+    public ResponseEntity<UsuarioDto> buscarUsuario(@PathVariable Integer idUsuario){
+        return ResponseEntity.of(usuarioRepository.getusuarioDto(idUsuario));
+    }
     @PostMapping
     public ResponseEntity<UsuarioDto> cadastrarUsuario(@RequestBody @Valid UsuarioCadastroDto usuario) {
         return ResponseEntity.status(201).body(new UsuarioDto(usuarioRepository.save(new UsuarioEntity(usuario))));
@@ -68,9 +77,11 @@ public class UsuarioController {
 
                 usuarioEntity.setNome(usuarioAtualizadoDto.getNome());
                 usuarioEntity.setApelido(usuarioAtualizadoDto.getApelido());
+                usuarioEntity.setEmail(usuarioAtualizadoDto.getEmail());
+                usuarioEntity.setTelefone(usuarioAtualizadoDto.getTelefone());
                 usuarioEntity.setBiografia(usuarioAtualizadoDto.getBiografia());
-                usuarioEntity.setImagemBiografia(usuarioAtualizadoDto.getImagemBiografia());
-                usuarioEntity.setImagemPerfil(usuarioAtualizadoDto.getImagemPerfil());
+                usuarioEntity.setImagemBiografia(Base64.getDecoder().decode(usuarioAtualizadoDto.getImagemBiografia()));
+                usuarioEntity.setImagemPerfil(Base64.getDecoder().decode(usuarioAtualizadoDto.getImagemPerfil()));
 
                 return ResponseEntity.ok().body(new UsuarioAtualizadoResDto(usuarioRepository.save(usuarioEntity)));
             }
