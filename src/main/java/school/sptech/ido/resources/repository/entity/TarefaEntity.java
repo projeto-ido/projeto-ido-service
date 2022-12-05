@@ -59,6 +59,26 @@ public class TarefaEntity {
     public TarefaEntity() {}
 
     public TarefaEntity(
+        String titulo,
+        Boolean status,
+        LocalDateTime dataInicio,
+        LocalDateTime dataFinal,
+        LocalDateTime dataCriacao,
+        Boolean urgencia,
+        Boolean importancia,
+        UsuarioEntity usuario
+    ){
+        this.titulo = titulo;
+        this.status = status;
+        this.dataInicio = dataInicio;
+        this.dataFinal = dataFinal;
+        this.dataCriacao = dataCriacao;
+        this.urgencia = urgencia;
+        this.importancia = importancia;
+        this.usuario = usuario;
+    }
+
+    public TarefaEntity(
         Integer idTarefa,
         String titulo,
         String descricao,
@@ -86,28 +106,6 @@ public class TarefaEntity {
         this.subTarefas = subTarefas;
         this.usuario = usuario;
         this.etiquetasTarefa = etiquetasTarefa;
-    }
-
-    public TarefaEntity
-    (
-            String titulo,
-            Boolean status,
-            LocalDateTime dataInicio,
-            LocalDateTime dataFinal,
-            LocalDateTime dataCriacao,
-            Boolean urgencia,
-            Boolean importancia,
-            UsuarioEntity usuario
-    )
-    {
-        this.titulo = titulo;
-        this.status = status;
-        this.dataInicio = dataInicio;
-        this.dataFinal = dataFinal;
-        this.dataCriacao = dataCriacao;
-        this.urgencia = urgencia;
-        this.importancia = importancia;
-        this.usuario = usuario;
     }
 
     public TarefaEntity(

@@ -34,6 +34,30 @@ public class TarefaAtualizacaoDto {
     @NotNull
     private Boolean importancia;
 
+    public TarefaAtualizacaoDto(
+        String titulo,
+        String descricao,
+        Boolean status,
+        LocalDateTime dataInicio,
+        LocalDateTime dataFinal,
+        LocalDateTime dataConclusao,
+        Boolean urgencia,
+        Boolean importancia,
+        List<SubTarefaDto> subTarefas,
+        List<EtiquetaCadastroTarefaDto> etiquetas
+    ) {
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.status = status;
+        this.dataInicio = dataInicio;
+        this.dataFinal = dataFinal;
+        this.dataConclusao = dataConclusao;
+        this.urgencia = urgencia;
+        this.importancia = importancia;
+        this.subTarefas = subTarefas;
+        this.etiquetas = etiquetas;
+    }
+
     private List<SubTarefaDto> subTarefas = new ArrayList<>();
 
     private List<EtiquetaCadastroTarefaDto> etiquetas = new ArrayList<>();
