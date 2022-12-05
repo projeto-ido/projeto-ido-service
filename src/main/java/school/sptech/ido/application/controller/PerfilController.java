@@ -45,7 +45,7 @@ public class PerfilController {
 
             List<EtiquetaDto> etiquetaDtos = etiquetaRepository.findAllEtiquetasDto();
 
-            List<TarefaEtiquetasDto> tarefaEtiquetaDto = tarefaRepository.getTarefaEtiquetaDto();
+            List<TarefaEtiquetasDto> tarefaEtiquetaDto = tarefaRepository.getTarefaEtiquetaDto(idUsuario);
 
             if (tarefaEtiquetaDto.isEmpty() || etiquetaDtos.isEmpty())
                 return ResponseEntity.noContent().build();
@@ -83,7 +83,7 @@ public class PerfilController {
 
         if (isAutentico){
 
-            List<TarefaTimeLine> tarefaTimeLines = tarefaRepository.getTarefasTimeLine();
+            List<TarefaTimeLine> tarefaTimeLines = tarefaRepository.getTarefasTimeLine(idUsuario);
 
             if (tarefaTimeLines.isEmpty())
                 return ResponseEntity.noContent().build();

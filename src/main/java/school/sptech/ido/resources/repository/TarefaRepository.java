@@ -20,12 +20,12 @@ public interface TarefaRepository extends JpaRepository<TarefaEntity, Integer> {
     Optional<TarefaEntity> findByFkUsuarioAndIdTarefa(Integer fkUsuario, Integer idTarefa);
 
     @Query(value = "SELECT new school.sptech.ido.application.controller.dto.Response.TarefaEtiquetasDto(t) " +
-            "FROM TarefaEntity t")
-    List<TarefaEtiquetasDto> getTarefaEtiquetaDto();
+            "FROM TarefaEntity t JOIN t.usuario u WHERE u.idUsuario = :id")
+    List<TarefaEtiquetasDto> getTarefaEtiquetaDto(int id);
 
     @Query(value = "SELECT new school.sptech.ido.application.controller.dto.Response.TarefaTimeLine(t) " +
-            "FROM TarefaEntity t")
-    List<TarefaTimeLine> getTarefasTimeLine();
+            "FROM TarefaEntity t JOIN t.usuario u WHERE u.idUsuario = :id")
+    List<TarefaTimeLine> getTarefasTimeLine(int id);
 
     @Query(value = "SELECT count(t) " +
             "FROM TarefaEntity t JOIN t.usuario u WHERE u.idUsuario = ?1")
