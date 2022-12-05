@@ -88,7 +88,8 @@ public class TarefaEntity {
         this.etiquetasTarefa = etiquetasTarefa;
     }
 
-    public TarefaEntity(
+    public TarefaEntity
+    (
             String titulo,
             Boolean status,
             LocalDateTime dataInicio,
@@ -97,7 +98,8 @@ public class TarefaEntity {
             Boolean urgencia,
             Boolean importancia,
             UsuarioEntity usuario
-    ) {
+    )
+    {
         this.titulo = titulo;
         this.status = status;
         this.dataInicio = dataInicio;
