@@ -8,18 +8,22 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import school.sptech.ido.application.controller.dto.Request.TarefaAtualizacaoDto;
 import school.sptech.ido.application.controller.dto.Request.TarefaCadastroDto;
+import school.sptech.ido.application.controller.dto.Response.EtiquetaDto;
 import school.sptech.ido.application.controller.dto.Response.SubTarefaDto;
 import school.sptech.ido.application.controller.dto.Response.TarefaDto;
 import school.sptech.ido.resources.repository.EtiquetaRepository;
 import school.sptech.ido.resources.repository.SubTarefaRepository;
 import school.sptech.ido.resources.repository.TarefaRepository;
 import school.sptech.ido.resources.repository.UsuarioRepository;
+import school.sptech.ido.resources.repository.entity.EtiquetaEntity;
+import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
 import school.sptech.ido.resources.repository.entity.UsuarioEntity;
 import school.sptech.ido.service.UsuarioService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +31,7 @@ import java.util.Optional;
 
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -56,6 +61,69 @@ class TarefaControllerTest {
 
     @MockBean
     SubTarefaController subTarefaController;
+
+    private final UsuarioEntity usuario = new UsuarioEntity(
+            1,
+            "NOME",
+            "APELIDO",
+            "EMAIL",
+            "123",
+            "88888888",
+            "Bem vindo ao iDo! Você pode editar sua biografia se quiser!",
+            LocalDate.MAX,
+            new byte[1],
+            new byte[1],
+            0,
+            false,
+            false,
+            new ArrayList<>(),
+            new ArrayList<>(),
+            new ArrayList<>()
+    );
+
+    private final EtiquetaEntity etiquetaEntity = new EtiquetaEntity(
+            10,
+            "Trabalho",
+            "#FAFAFA",
+            usuario,
+            new ArrayList<>()
+    );
+
+    private final TarefaEntity tarefaEntity = new TarefaEntity(
+            123,
+            "Ir as compras",
+            "Preciso comprar novas roupas",
+            false,
+            LocalDateTime.of(2022, Month.DECEMBER, 1, 14,54),
+            LocalDateTime.of(2022, Month.DECEMBER, 3, 14,54),
+            LocalDateTime.of(2022, Month.DECEMBER, 1, 14,35),
+            LocalDateTime.now(),
+            true,
+            true,
+            List.of(),
+            usuario,
+            List.of(etiquetaEntity)
+    );
+
+    private final TarefaAtualizacaoDto tarefaAtualizacaoDto = new TarefaAtualizacaoDto(
+            "Ir as compras",
+            "Preciso comprar novas roupas",
+            false,
+            LocalDateTime.of(2022, Month.DECEMBER, 1, 14,54),
+            LocalDateTime.of(2022, Month.DECEMBER, 3, 14,54),
+            LocalDateTime.of(2022, Month.DECEMBER, 1, 14,35),
+            true,
+            true,
+            List.of(),
+            List.of()
+    );
+
+    private final SubTarefaEntity subTarefaEntity = new SubTarefaEntity(
+        10,
+        "SUB",
+        false,
+        tarefaEntity
+    );
 
 
     @Test
@@ -268,7 +336,7 @@ class TarefaControllerTest {
         "Dado um usuário que não é nulo e está autenticado, " +
         "quando chamar salvarTarefaPorIdUsuario, entao deve retornar 201"
     )
-    void salvarTarefaPorIdUsuarioAutenticadoRetorna201()//verificar
+    void salvarTarefaPorIdUsuarioAutenticadoRetorna201()
      {
         TarefaCadastroDto tarefaCadastroDto = new TarefaCadastroDto();
         UsuarioEntity usuario = new UsuarioEntity();
@@ -297,7 +365,7 @@ class TarefaControllerTest {
         ).thenReturn(Optional.of(usuario));
 
         when(
-            tarefaRepository.save(new TarefaEntity(tarefaCadastroDto, usuario))
+            tarefaRepository.save(any(TarefaEntity.class))
         ).thenReturn(tarefaSalva);
 
         ResponseEntity<TarefaDto> response = tarefaController.salvarTarefaPorIdUsuario(1,tarefaCadastroDto);
@@ -307,7 +375,6 @@ class TarefaControllerTest {
     @Test
     @DisplayName("Verificar se no metodo atualizarTarefaPorIdTarefa o usuario não está autenticado e deve retornar 403")
     void atualizarTarefaPorIdTarefaUsuarioNaoAuntenticado() {
-        TarefaAtualizacaoDto tarefaAtualizacaoDto = new TarefaAtualizacaoDto();
 
         when(
                 usuarioController.isUsuarioAutenticado(anyInt())
@@ -322,7 +389,6 @@ class TarefaControllerTest {
     @DisplayName("Verificar se no metodo atualizarTarefaPorIdTarefa o usuario está autenticado e tarefaEntity" +
             " não está presente deve retornar 404")
     void atualizarTarefaPorIdTarefaUsuarioAutenticadoETarefaEntityExiste() {
-        TarefaAtualizacaoDto tarefaAtualizacaoDto = new TarefaAtualizacaoDto();
 
         when(
                 usuarioController.isUsuarioAutenticado(anyInt())
@@ -338,9 +404,8 @@ class TarefaControllerTest {
         "Dado um usuario autenticado e uma tarefa existente, " +
         "quando chamar atualizarTarefaPorIdTarefa, deve retornar 200"
     )
-    void atualizarTarefaPorIdTarefaUsuarioAutenticadoETarefaExiste() //Verificar
+    void atualizarTarefaPorIdTarefaUsuarioAutenticadoETarefaExiste()
     {
-        TarefaAtualizacaoDto tarefaAtualizacaoDto = new TarefaAtualizacaoDto();
 
         when(
             usuarioController.isUsuarioAutenticado(anyInt())
@@ -348,15 +413,33 @@ class TarefaControllerTest {
 
         when(
             tarefaRepository.findByFkUsuarioAndIdTarefa(anyInt(), anyInt())
-        ).thenReturn(Optional.of(new TarefaEntity()));
+        ).thenReturn(Optional.of(tarefaEntity));
 
         when(
             subTarefaRepository.getSubtarefasDto(anyInt())
-        ).thenReturn(emptyList());
+        ).thenReturn(List.of(new SubTarefaDto(
+                subTarefaEntity
+        )));
 
         when(
             etiquetaRepository.getEtiquetasDto(anyInt())
-        ).thenReturn(emptyList());
+        ).thenReturn(List.of(
+                new EtiquetaDto(
+                    etiquetaEntity
+                )
+        ));
+
+        when(
+                etiquetaRepository.findById(anyInt())
+        ).thenReturn(Optional.of(etiquetaEntity));
+
+        when(
+                subTarefaRepository.save(any(SubTarefaEntity.class))
+        ).thenReturn(subTarefaEntity);
+
+        when(
+                tarefaRepository.save(any(TarefaEntity.class))
+        ).thenReturn(tarefaEntity);
 
         ResponseEntity<TarefaDto> response = tarefaController.atualizarTarefaPorIdTarefa(
             1,

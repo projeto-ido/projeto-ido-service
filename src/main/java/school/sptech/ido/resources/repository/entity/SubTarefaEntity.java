@@ -28,6 +28,13 @@ public class SubTarefaEntity {
 
     public SubTarefaEntity() {}
 
+    public SubTarefaEntity(Integer idSubTarefa, String titulo, Boolean status, TarefaEntity tarefa) {
+        this.idSubTarefa = idSubTarefa;
+        this.titulo = titulo;
+        this.status = status;
+        this.tarefa = tarefa;
+    }
+
     public SubTarefaEntity(String titulo , Boolean status, TarefaEntity tarefa) {
         this.titulo = titulo;
         this.status = status;
