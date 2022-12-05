@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.Base64;
 
 public class UsuarioAtualizadoResDto {
-
+ 
     private String nome;
 
     private String apelido;
