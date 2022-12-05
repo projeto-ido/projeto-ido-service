@@ -171,42 +171,42 @@ public class Exportacao {
         nomeArq += ".txt";
         int contaRegDdos = 0;
 
-    String header = "00TAREFA";
-    header += LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
-    header += "01";
-    header += String.format("%-50.50S", nomeUsuario);
-    gravaRegistro(header, nomeArq);
+        String header = "00TAREFA";
+        header += LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
+        header += "01";
+        header += String.format("%-50.50S", nomeUsuario);
+        gravaRegistro(header, nomeArq);
 
-    String corpo;
-    String corpo2;
-    for(int i = 0; i < lista.size(); i++) {
-        TarefaExportacaoDto a = lista.get(i);
+        String corpo;
+        String corpo2;
+        for(int i = 0; i < lista.size(); i++) {
+            TarefaExportacaoDto a = lista.get(i);
 
-        corpo = "02";
-        corpo += String.format("%-50.50S", a.getTitulo()); //nome tarefa
-        corpo += String.format("%16.16S", a.getDataInicio()); //data inicial
-        corpo += String.format("%-12.12S", a.getPrioridade()); //prioridade atual
-        corpo += String.format("%-13.13S", a.getStatus() ? "concluida" : "nao concluida"); //tarefa concluida ou não
-        corpo += String.format("%16.16S", a.getDataFinal()); //data final
-        corpo += String.format("%-10.10S", a.getEtiqueta1()); //primeira etiqueta
-        corpo += String.format("%-10.10S", a.getEtiqueta2()); //segunda etiqueta
-        corpo += String.format("%2.2S", a.getIdTarefa()); //ID da tarefa
+            corpo = "02";
+            corpo += String.format("%-50.50S", a.getTitulo()); //nome tarefa
+            corpo += String.format("%16.16S", a.getDataInicio()); //data inicial
+            corpo += String.format("%-12.12S", a.getPrioridade()); //prioridade atual
+            corpo += String.format("%-13.13S", a.getStatus() ? "concluida" : "nao concluida"); //tarefa concluida ou não
+            corpo += String.format("%16.16S", a.getDataFinal()); //data final
+            corpo += String.format("%-10.10S", a.getEtiqueta1()); //primeira etiqueta
+            corpo += String.format("%-10.10S", a.getEtiqueta2()); //segunda etiqueta
+            corpo += String.format("%2.2S", a.getIdTarefa()); //ID da tarefa
 
-        gravaRegistro(corpo, nomeArq);
+            gravaRegistro(corpo, nomeArq);
 
-        if (!a.getSubTarefas().isEmpty()){
-            for (SubTarefaExportacaoDto s : a.getSubTarefas()) {
-                corpo2 = "03";
-                corpo2 += String.format("%-50.50S", s.getTitulo());
-                corpo2 += String.format("%-13.13S", s.getStatus() ? "concluida" : "não concluida");
-                corpo2 += String.format("%2.2S", a.getIdTarefa());
+            if (!a.getSubTarefas().isEmpty()){
+                for (SubTarefaExportacaoDto s : a.getSubTarefas()) {
+                    corpo2 = "03";
+                    corpo2 += String.format("%-50.50S", s.getTitulo());
+                    corpo2 += String.format("%-13.13S", s.getStatus() ? "concluida" : "não concluida");
+                    corpo2 += String.format("%2.2S", a.getIdTarefa());
 
-                contaRegDdos++;
-                gravaRegistro(corpo2, nomeArq);
+                    contaRegDdos++;
+                    gravaRegistro(corpo2, nomeArq);
+                }
             }
-        }
 
-        contaRegDdos++;
+            contaRegDdos++;
     }
 
     String trailer = "01";
