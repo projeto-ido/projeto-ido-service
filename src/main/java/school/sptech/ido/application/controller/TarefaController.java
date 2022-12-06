@@ -315,14 +315,21 @@ public class TarefaController {
                         }
 
                         tarefaEntity.setSubTarefas(new ArrayList<>());
-                        tarefaRepository.save(tarefaEntity);
+                        TarefaEntity tarefaSalva = tarefaRepository.save(tarefaEntity);
 
                         for ( SubTarefaEntity sub: tarefaEntity.getSubTarefas()) {
                             subTarefaRepository.deleteById(sub.getIdSubTarefa());
                         }
+
+                        if(tarefaRepository.existsById(tarefaSalva.getIdTarefa())){
+                            tarefaRepository.deleteById(tarefaSalva.getIdTarefa());
+                        }
                     }
 
-                    tarefaRepository.deleteById(idTarefa);
+                    if(tarefaRepository.existsById(idTarefa)){
+                        tarefaRepository.deleteById(idTarefa);
+                    }
+
                     return ResponseEntity.ok().build();
                 }
 
