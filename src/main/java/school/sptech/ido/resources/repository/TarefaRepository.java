@@ -37,7 +37,7 @@ public interface TarefaRepository extends JpaRepository<TarefaEntity, Integer> {
     Long getQtdTarefasConcluidasNoDia(LocalDateTime diaSemana, int id);
 
     @Query(value = "SELECT count(t) " +
-            "FROM TarefaEntity t JOIN t.usuario u WHERE t.dataConclusao IS NULL AND u.idUsuario = ?1")
+            "FROM TarefaEntity t JOIN t.usuario u WHERE t.status = false AND u.idUsuario = ?1")
     Long getQtdTarefasPendentesPorUsuario(int id);
 
     @Query(value = "SELECT count(t) " +
