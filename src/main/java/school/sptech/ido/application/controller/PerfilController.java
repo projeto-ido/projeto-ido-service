@@ -12,6 +12,7 @@ import school.sptech.ido.resources.repository.TarefaRepository;
 import school.sptech.ido.resources.repository.UsuarioRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class PerfilController {
 
         if (isAutentico){
 
-            List<EtiquetaDto> etiquetaDtos = etiquetaRepository.findAllEtiquetasDto();
+            List<EtiquetaDto> etiquetaDtos = etiquetaRepository.findAllEtiquetasDto(idUsuario);
 
             List<TarefaEtiquetasDto> tarefaEtiquetaDto = tarefaRepository.getTarefaEtiquetaDto(idUsuario);
 
@@ -100,7 +101,7 @@ public class PerfilController {
         Boolean isAutenticado = usuarioController.isUsuarioAutenticado(idUsuario);
 
         if (isAutenticado){
-            LocalDate diaSemana = data.obterDiaAtual();
+            LocalDateTime diaSemana = data.obterDiaAtual();
 
             Integer diasAnteriores = 0;
 

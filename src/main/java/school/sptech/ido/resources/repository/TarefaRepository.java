@@ -8,6 +8,7 @@ import school.sptech.ido.application.controller.dto.Response.TarefaTimeLine;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,10 +34,10 @@ public interface TarefaRepository extends JpaRepository<TarefaEntity, Integer> {
 
     @Query(value = "SELECT count(t) " +
             "FROM TarefaEntity t JOIN t.usuario u WHERE t.dataConclusao = ?1 AND u.idUsuario = ?2")
-    Long getQtdTarefasConcluidasNoDia(LocalDate diaSemana, int id);
+    Long getQtdTarefasConcluidasNoDia(LocalDateTime diaSemana, int id);
 
     @Query(value = "SELECT count(t) " +
-            "FROM TarefaEntity t JOIN t.usuario u WHERE t.dataConclusao IS NULL AND u.idUsuario = ?1")
+            "FROM TarefaEntity t JOIN t.usuario u WHERE t.status = false AND u.idUsuario = ?1")
     Long getQtdTarefasPendentesPorUsuario(int id);
 
     @Query(value = "SELECT count(t) " +
