@@ -108,7 +108,7 @@ class PerfilControllerTest {
         ).thenReturn(true);
 
         when(
-                etiquetaRepository.findAllEtiquetasDto()
+                etiquetaRepository.findAllEtiquetasDto(idUsuario)
         ).thenReturn(listaEtiquetasDto);
 
         when(
@@ -129,7 +129,7 @@ class PerfilControllerTest {
         ).thenReturn(true);
 
         when(
-                etiquetaRepository.findAllEtiquetasDto()
+                etiquetaRepository.findAllEtiquetasDto(idUsuario)
         ).thenReturn(listaEtiquetasDto);
 
         when(
@@ -209,7 +209,7 @@ class PerfilControllerTest {
                 usuarioController.isUsuarioAutenticado(idUsuario)
         ).thenReturn(true);
 
-        LocalDate diaSemana = LocalDate.of(2022, Month.DECEMBER, 10);
+        LocalDateTime diaSemana = LocalDateTime.of(2022, Month.DECEMBER, 10, 10, 22, 00 );
 
 
         when(

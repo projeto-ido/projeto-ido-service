@@ -1,23 +1,24 @@
 package school.sptech.ido.application.controller.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class DiaSemana {
 
-    LocalDate diaDaSemana;
+    LocalDateTime diaDaSemana;
 
     Long qtdConcluidas;
 
-    public DiaSemana(LocalDate diaDaSemana, Long qtdConcluidas) {
+    public DiaSemana(LocalDateTime diaDaSemana, Long qtdConcluidas) {
         this.diaDaSemana = diaDaSemana;
         this.qtdConcluidas = qtdConcluidas;
     }
 
-    public LocalDate getDiaDaSemana() {
+    public LocalDateTime getDiaDaSemana() {
         return diaDaSemana;
     }
 
-    public void setDiaDaSemana(LocalDate diaDaSemana) {
+    public void setDiaDaSemana(LocalDateTime diaDaSemana) {
         this.diaDaSemana = diaDaSemana;
     }
 

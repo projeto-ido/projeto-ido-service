@@ -3,10 +3,11 @@ package school.sptech.ido.application.controller;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 class Data {
-    public LocalDate obterDiaAtual() {
-        return LocalDate.now();
+    public LocalDateTime obterDiaAtual() {
+        return LocalDateTime.now();
     }
 }

@@ -17,8 +17,8 @@ public class TarefaTimeLine {
     public TarefaTimeLine(TarefaEntity tarefa) {
         this.importancia = tarefa.getImportancia();
         this.urgencia = tarefa.getUrgencia();
-        this.dataInicio = LocalDateTime.from(tarefa.getDataInicio());
-        this.dataFinal = LocalDateTime.from(tarefa.getDataFinal());
+        this.dataInicio = tarefa.getDataInicio();
+        this.dataFinal = tarefa.getDataFinal();
     }
 
     public String getPrioridade(){
