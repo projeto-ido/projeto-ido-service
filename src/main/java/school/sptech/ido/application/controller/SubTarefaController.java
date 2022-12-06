@@ -16,6 +16,7 @@ import school.sptech.ido.resources.repository.entity.SubTarefaEntity;
 import school.sptech.ido.resources.repository.entity.TarefaEntity;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -124,6 +125,28 @@ public class SubTarefaController {
             Optional<TarefaEntity> tarefa = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
             if (tarefa.isPresent()){
                 if (subTarefaRepository.existsById(idSubTarefa)){
+
+                    Optional<SubTarefaEntity> sub = subTarefaRepository.findById(idSubTarefa);
+
+                    if (sub.isPresent()){
+                        SubTarefaEntity subTarefaEntity = sub.get();
+                        TarefaEntity tarefaEntity = subTarefaEntity.getTarefa();
+
+                        subTarefaEntity.setTarefa(null);
+                        subTarefaRepository.save(subTarefaEntity);
+
+                        List<SubTarefaEntity> subTarefas = new ArrayList<>();
+
+                        for ( SubTarefaEntity subTarefa: tarefaEntity.getSubTarefas()) {
+                            if (!subTarefa.getIdSubTarefa().equals(idSubTarefa)){
+                                subTarefas.add(subTarefa);
+                            }
+                        }
+
+                        tarefaEntity.setSubTarefas(subTarefas);
+                        tarefaRepository.save(tarefaEntity);
+                    }
+
                     subTarefaRepository.deleteById(idSubTarefa);
                     return ResponseEntity.status(200).build();
                 }

@@ -58,6 +58,10 @@ public class TarefaEntity {
 
     public TarefaEntity() {}
 
+    public TarefaEntity(Integer idTarefa){
+        this.idTarefa = idTarefa;
+    }
+
     public TarefaEntity(
         String titulo,
         Boolean status,

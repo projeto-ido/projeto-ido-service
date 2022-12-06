@@ -23,7 +23,7 @@ public class SubTarefaEntity {
     private Boolean status;
 
     @ManyToOne
-    @JoinColumn(name="fk_tarefa", nullable=false)
+    @JoinColumn(name="fk_tarefa")
     private TarefaEntity tarefa;
 
     public SubTarefaEntity() {}
@@ -59,6 +59,12 @@ public class SubTarefaEntity {
         this.idSubTarefa = null;
         this.titulo = subTarefaCadastroDto.getTitulo();
         this.status = subTarefaCadastroDto.isStatus();
+    }
+
+    public SubTarefaEntity(SubTarefaDto subTarefa) {
+        this.idSubTarefa = null;
+        this.titulo = subTarefa.getTitulo();
+        this.status = subTarefa.getStatus();
     }
 
     public Integer getIdSubTarefa() {

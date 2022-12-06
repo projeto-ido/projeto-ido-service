@@ -252,7 +252,8 @@ public class TarefaController {
 
             if(!tarefaAtualizadaDto.getSubTarefas().isEmpty()){
                 for ( SubTarefaDto subTarefa: tarefaAtualizadaDto.getSubTarefas()) {
-                    SubTarefaEntity sub = subTarefaRepository.save(new SubTarefaEntity(subTarefa, tarefaEncontrada));
+                    SubTarefaEntity sub;
+                    sub = subTarefaRepository.save(new SubTarefaEntity(subTarefa));
                     subTarefas.add(sub);
                 }
                 tarefaEncontrada.setSubTarefas(subTarefas);
@@ -302,8 +303,30 @@ public class TarefaController {
         if (isAutenticado){
 
             if (tarefaRepository.existsById(idTarefa)){
-                tarefaRepository.deleteById(idTarefa);
-                return ResponseEntity.ok().build();
+                Optional<TarefaEntity> tarefa = tarefaRepository.findByFkUsuarioAndIdTarefa(idUsuario, idTarefa);
+
+                if (tarefa.isPresent()){
+                    TarefaEntity tarefaEntity = tarefa.get();
+
+                    if (!tarefaEntity.getSubTarefas().isEmpty()){
+                        for ( SubTarefaEntity sub: tarefaEntity.getSubTarefas()) {
+                            sub.setTarefa(null);
+                            subTarefaRepository.save(sub);
+                        }
+
+                        tarefaEntity.setSubTarefas(new ArrayList<>());
+                        tarefaRepository.save(tarefaEntity);
+
+                        for ( SubTarefaEntity sub: tarefaEntity.getSubTarefas()) {
+                            subTarefaRepository.deleteById(sub.getIdSubTarefa());
+                        }
+                    }
+
+                    tarefaRepository.deleteById(idTarefa);
+                    return ResponseEntity.ok().build();
+                }
+
+                return ResponseEntity.notFound().build();
             }
 
             return ResponseEntity.notFound().build();
