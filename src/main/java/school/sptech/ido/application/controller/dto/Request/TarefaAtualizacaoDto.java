@@ -34,6 +34,10 @@ public class TarefaAtualizacaoDto {
     @NotNull
     private Boolean importancia;
 
+    private List<SubTarefaDto> subTarefas;
+
+    private List<EtiquetaCadastroTarefaDto> etiquetas;
+
     public TarefaAtualizacaoDto(
         String titulo,
         String descricao,
@@ -57,10 +61,6 @@ public class TarefaAtualizacaoDto {
         this.subTarefas = subTarefas;
         this.etiquetas = etiquetas;
     }
-
-    private List<SubTarefaDto> subTarefas = new ArrayList<>();
-
-    private List<EtiquetaCadastroTarefaDto> etiquetas = new ArrayList<>();
 
     public String getTitulo() {
         return titulo;
