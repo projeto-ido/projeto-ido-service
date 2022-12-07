@@ -213,7 +213,7 @@ class PerfilControllerTest {
 
 
         when(
-                tarefaRepository.getQtdTarefasConcluidasNoDia(diaSemana, idUsuario)
+                tarefaRepository.getQtdTarefasConcluidasNoDia(idUsuario)
         ).thenReturn(1L);
 
         when(
