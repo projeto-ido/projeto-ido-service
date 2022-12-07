@@ -176,7 +176,7 @@ public class UsuarioController {
     }
 
 
-    @PostMapping("/notificacao/desabilita/{id}")
+    @DeleteMapping("/notificacao/desabilita/{id}")
     public ResponseEntity<UsuarioDto> desabilitarNotificacao(@PathVariable Integer id){
         return usuarioService.removerSubject(id) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }

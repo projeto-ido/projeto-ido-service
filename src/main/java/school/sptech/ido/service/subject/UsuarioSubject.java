@@ -14,7 +14,6 @@ public class UsuarioSubject {
     private UsuarioDto usuario;
     private List<TarefaDto> tarefas;
 
-
     private ApplicationObsever observer = new ApplicationObsever();
 
 
@@ -37,7 +36,7 @@ public class UsuarioSubject {
     }
 
     public void notificar(){
-        observer.notificarPorEmail();
+        observer.notificarPorEmail(usuario.getNome(), usuario.getEmail());
     }
 
     private boolean datasProximas(LocalDateTime dataAtual, LocalDateTime dataTarefa){

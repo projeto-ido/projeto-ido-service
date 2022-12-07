@@ -15,8 +15,8 @@ import java.time.LocalDate;
 //@Component
 public class ApplicationObsever {
 
-    public void notificarPorEmail(){
-        EmailService.enviarEmail();
+    public void notificarPorEmail(String nome, String email ){
+        EmailService.enviarEmail(nome, email);
 
     };
 }
