@@ -108,7 +108,7 @@ public class PerfilController {
             List<DiaSemana> semana = new ArrayList<>();
 
             for (int i = 0; i < 7; i++) {
-                Long qtdTarefasConcluidas = tarefaRepository.getQtdTarefasConcluidasNoDia(idUsuario);
+                Long qtdTarefasConcluidas = tarefaRepository.getQtdTarefasConcluidasNoDia( diaSemana, idUsuario);
 
                 DiaSemana dia = new DiaSemana(diaSemana, qtdTarefasConcluidas);
 
