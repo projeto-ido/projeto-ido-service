@@ -10,9 +10,11 @@ import school.sptech.ido.application.controller.dto.Response.*;
 import school.sptech.ido.resources.repository.EtiquetaRepository;
 import school.sptech.ido.resources.repository.TarefaRepository;
 import school.sptech.ido.resources.repository.UsuarioRepository;
+import school.sptech.ido.resources.repository.entity.TarefaEntity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,16 +107,30 @@ public class PerfilController {
 
             Integer diasAnteriores = 0;
 
+            Long qtdTarefasConcluidas;
+
             List<DiaSemana> semana = new ArrayList<>();
 
+            List<TarefaEntity> tarefas = tarefaRepository.getTarefasConcluidas(idUsuario);
+
             for (int i = 0; i < 7; i++) {
-                Long qtdTarefasConcluidas = tarefaRepository.getQtdTarefasConcluidasNoDia( diaSemana, idUsuario);
+                qtdTarefasConcluidas = Long.valueOf(0);
+
+                LocalDate diaSemanaLocalDate = LocalDate.from(diaSemana);
+
+                for (TarefaEntity tarefa: tarefas) {
+                    LocalDate diaConclusaoTarefa = LocalDate.from(tarefa.getDataConclusao());
+
+                    if (diaSemanaLocalDate.equals(diaConclusaoTarefa)){
+                        qtdTarefasConcluidas += 1;
+                    }
+                }
 
                 DiaSemana dia = new DiaSemana(diaSemana, qtdTarefasConcluidas);
 
                 semana.add(dia);
 
-                diaSemana = diaSemana.minusDays(++diasAnteriores);
+                diaSemana = diaSemana.minusDays(1);
 
             }
 
