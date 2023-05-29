@@ -23,6 +23,8 @@ public class TarefaDto {
 
     private LocalDateTime dataCriacao;
 
+    private LocalDateTime dataConclusao;
+
     private Boolean urgencia;
 
     private Boolean importancia;
@@ -43,6 +45,7 @@ public class TarefaDto {
         this.dataInicio = tarefaEntity.getDataInicio();
         this.dataFinal = tarefaEntity.getDataFinal();
         this.dataCriacao = tarefaEntity.getDataCriacao();
+        this.dataConclusao = tarefaEntity.getDataConclusao();
         this.urgencia = tarefaEntity.getUrgencia();
         this.importancia = tarefaEntity.getImportancia();
         this.subTarefas = subTarefaDto;
@@ -104,6 +107,14 @@ public class TarefaDto {
 
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public LocalDateTime getDataConclusao() {
+        return dataConclusao;
+    }
+
+    public void setDataConclusao(LocalDateTime dataConclusao) {
+        this.dataConclusao = dataConclusao;
     }
 
     public Boolean getUrgencia() {
