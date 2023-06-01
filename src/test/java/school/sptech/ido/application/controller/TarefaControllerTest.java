@@ -25,7 +25,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -541,6 +540,10 @@ class TarefaControllerTest {
         when(
                 tarefaRepository.existsById(anyInt())
         ).thenReturn(true);
+
+        when(
+                tarefaRepository.findByFkUsuarioAndIdTarefa(anyInt(), anyInt())
+        ).thenReturn(Optional.of(tarefaEntity));
 
         ResponseEntity<Void> response = tarefaController.deletarTarefaPorIdTarefa(1,1);
 
